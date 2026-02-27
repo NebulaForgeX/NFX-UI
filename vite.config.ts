@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname);
@@ -10,7 +11,13 @@ const root = path.resolve(__dirname);
 export default defineConfig({
   plugins: [
     react(),
-    dts({ include: ["src"], outDir: "dist" }),
+    dts({
+      include: ["src"],
+      outDir: "dist",
+      tsconfigPath: "./tsconfig.app.json",
+      rollupTypes: true,
+    }),
+    cssInjectedByJsPlugin(),
   ],
   resolve: {
     alias: {
@@ -29,10 +36,31 @@ export default defineConfig({
     lib: {
       entry: path.resolve(root, "src/index.ts"),
       name: "NfxUi",
-      fileName: (format) => (format === "es" ? "index.mjs" : "index.cjs"),
+      fileName: (format, entryName) =>
+        entryName + (format === "es" ? ".mjs" : ".cjs"),
       formats: ["es", "cjs"],
     },
     rollupOptions: {
+      output: [
+        {
+          format: "es",
+          preserveModules: true,
+          preserveModulesRoot: "src",
+          entryFileNames: "[name].mjs",
+          chunkFileNames: "[name].mjs",
+          assetFileNames: "[name][extname]",
+          globals: { react: "React", "react-dom": "ReactDOM" },
+        },
+        {
+          format: "cjs",
+          preserveModules: true,
+          preserveModulesRoot: "src",
+          entryFileNames: "[name].cjs",
+          chunkFileNames: "[name].cjs",
+          assetFileNames: "[name][extname]",
+          globals: { react: "React", "react-dom": "ReactDOM" },
+        },
+      ],
       external: [
         "react",
         "react-dom",
@@ -79,12 +107,6 @@ export default defineConfig({
         "axios-case-converter",
         "async-retry",
       ],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
     },
   },
 });
