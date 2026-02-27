@@ -39,6 +39,7 @@ export default defineConfig({
         "react/jsx-runtime",
         /^react\//,
         /^react-dom\//,
+        "google-libphonenumber", // 含 eval，不打包可避免 Rolldown 警告；依赖由 npm 安装
       ],
       output: {
         globals: {
