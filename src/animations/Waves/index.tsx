@@ -1,4 +1,5 @@
-import React, { CSSProperties, useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
+import type { CSSProperties } from "react";
 
 import { useTheme } from "@/themes/hooks/useTheme";
 

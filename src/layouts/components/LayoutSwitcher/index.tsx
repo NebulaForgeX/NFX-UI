@@ -2,7 +2,7 @@ import type { LayoutSwitcherProps } from "../../types";
 
 import { memo, useEffect, useRef, useState } from "react";
 
-import { useLayout } from "../../hooks/useLayout";
+import useLayout from "../../hooks/useLayout";
 import { LAYOUT_MODE_VALUES, LayoutModeEnum } from "../../types";
 import styles from "./styles.module.css";
 

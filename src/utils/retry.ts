@@ -1,6 +1,8 @@
-import retry, { Options as RetryOptions } from "async-retry";
+import retry from "async-retry";
+import type { Options as RetryOptions } from "async-retry";
 
-import { err, ok, Result } from "./result";
+import { err, ok } from "./result";
+import type { Result } from "./result";
 
 export type WithRetryOptions = RetryOptions & {
   /** 若返回 true 则不再重试，直接 bail。If true, do not retry and bail. */
@@ -17,7 +19,7 @@ export type WithRetryOptions = RetryOptions & {
  */
 export async function withRetryResult<T>(fn: (bail: (e: Error) => void, attempt: number) => Promise<T>, opts?: WithRetryOptions): Promise<Result<T>> {
   try {
-    const value = await retry(async (bail, attempt) => {
+    const value = await retry(async (bail: (e: Error) => void, attempt: number) => {
       try {
         return await fn(bail, attempt);
       } catch (e) {
