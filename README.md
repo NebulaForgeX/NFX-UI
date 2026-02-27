@@ -1,48 +1,60 @@
-# NFX-UI
+# NFX-UI — Unified Frontend UI Library  
+# NFX-UI — 统一前端 UI 库
 
-Unified frontend UI library for the NFX product family: shared React components, design tokens, theme variables, and layout primitives for a consistent look and behavior across NFX console and other apps.
+**NFX-UI = NebulaForgeX UI Library**  
+**NFX-UI = NebulaForgeX 前端 UI 库**
 
-**Tech:** React 18/19 · TypeScript · Vite (library build)
+<div align="center">
+  <img src="./docs/image1.png" alt="NFX-UI Logo" width="200">
+</div>
+
+**English:**  
+**NFX-UI** is the shared frontend UI library of the NebulaForgeX ecosystem. It provides React components, design tokens, theme system, layout primitives, i18n, and utilities for a consistent look and behavior across NFX Console and other applications. Built with **React 18/19**, **TypeScript**, and **Vite** (library mode), NFX-UI is distributed as ESM/CJS with inlined styles and full type definitions—no separate CSS import required.
+
+**中文：**  
+**NFX-UI** 是 NebulaForgeX 生态的统一前端 UI 库，提供 React 组件、设计令牌、主题系统、布局基元、多语言与工具函数，为 NFX 控制台及其他应用提供一致的外观与交互。基于 **React 18/19**、**TypeScript** 与 **Vite**（库模式）构建，以 ESM/CJS 发布，样式内联、类型完整，使用方无需单独引入 CSS。
 
 ---
 
 ## 外部项目如何使用 / How to use in your app
 
-### 1. 安装 Install
+### 1. 安装 / Install
 
-**方式 A：发布到 npm 后**
+**中文：**  
+- **方式 A**：发布到 npm 后，在业务项目中执行 `npm install nfx-ui`。  
+- **方式 B**：未发布时，在 NFX-UI 目录执行 `npm run build` 与 `npm link`，在业务项目目录执行 `npm link nfx-ui`。
+
+**English:**  
+- **Option A:** After publishing to npm, run `npm install nfx-ui` in your app.  
+- **Option B:** When unpublished, run `npm run build` and `npm link` in NFX-UI, then `npm link nfx-ui` in your app.
 
 ```bash
+# 方式 A / Option A
 npm install nfx-ui
-```
 
-**方式 B：本地开发调试（未发布时）**
-
-```bash
-# 在 NFX-UI 目录
-cd /path/to/NFX-UI
-npm run build
-npm link
-
-# 在你的项目目录
-cd /path/to/your-app
+# 方式 B / Option B（在 NFX-UI 目录 / in NFX-UI）
+npm run build && npm link
+# 在业务项目 / in your app
 npm link nfx-ui
 ```
 
-### 2. 依赖要求 Peer dependencies
+### 2. 依赖要求 / Peer dependencies
 
-你的项目里需要已安装：
+**中文：**  
+你的项目需已安装 `react`、`react-dom`（^18.0.0 或 ^19.0.0）。若使用主题、图表等，可能还需按需安装 `lucide-react`、`recharts`、`@tanstack/react-query` 等（见 `package.json`）。
 
-- `react`、`react-dom`（^18.0.0 或 ^19.0.0）
+**English:**  
+Your project must have `react` and `react-dom` (^18.0.0 or ^19.0.0). For themes, charts, etc., you may need `lucide-react`, `recharts`, `@tanstack/react-query` (see `package.json`).
 
-若用到了主题/图表等，可能还需要按需安装：`lucide-react`、`recharts`、`@tanstack/react-query` 等（见 NFX-UI 的 `package.json` dependencies）。
+### 3. 在代码里使用 / Usage
 
-### 3. 在代码里使用 Usage
+**中文：**  
+只需从 `nfx-ui` 引入组件或类型，无需单独引入 CSS。组件直接使用即有 props 类型提示；类型通过 `import type { ... } from "nfx-ui"` 获取；样式已内联，无需 `import "nfx-ui/dist/xxx.css"`。
 
-**只需从 `nfx-ui` 引入组件或类型，无需单独引入 CSS**（样式已内联进库）：
+**English:**  
+Import components or types from `nfx-ui`; no separate CSS import. Components have typed props; use `import type { ... } from "nfx-ui"` for types; styles are inlined.
 
 ```tsx
-// 组件 + 类型，一次 import 即可，自带类型提示
 import {
   Button,
   Input,
@@ -56,139 +68,122 @@ export function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <Button>确定</Button>
-        <Input placeholder="请输入" />
+        <Button>确定 / Confirm</Button>
+        <Input placeholder="请输入 / Enter" />
       </LanguageProvider>
     </ThemeProvider>
   );
 }
 ```
 
-- **组件**：直接使用，有 props 类型提示。  
-- **类型**：`import type { ... } from "nfx-ui"` 即可。  
-- **样式**：不用再写 `import "nfx-ui/dist/xxx.css"`。
+---
+
+## 包含模块 / What’s included
+
+**中文：**  
+下表为包内主要模块与内容；完整组件与 API 见 [docs/](./docs/)。
+
+**English:**  
+Main modules and contents below; full component and API docs: [docs/](./docs/).
+
+| 模块 Module   | 内容 Contents |
+|---------------|----------------|
+| **themes**    | ThemeProvider、ThemeSwitcher、主题变量 / Theme vars |
+| **languages** | LanguageProvider、i18n、LanguageSwitcher |
+| **layouts**   | LayoutProvider、Sidebar、Header、Footer、Background |
+| **components**| Button、Input、Dropdown、Slider、VirtualList 等 / etc. |
+| **animations**| WaveBackground、ECGLoading、TruckLoading、BounceLoading 等 / etc. |
+| **hooks**     | makeUnifiedQuery、makeUnifiedInfiniteQuery、makeCursorFetchFunction |
+| **preference**| 用户偏好 / User preference (e.g. profile.preference) |
+| **types**     | 共享 TypeScript 类型 / Shared types |
+| **utils**     | 地址、电话、价格、时间、Result、retry 等 / Helpers |
+| **constants** | Query key 工厂、defineEnum 等 / Query keys, defineEnum |
 
 ---
 
-## Install (summary)
+## 本仓库开发 / Development (this repo)
 
-In your app (NFX Console, Sjgz-Admin, etc.):
+### 安装依赖 / Setup
 
-```bash
-npm install nfx-ui
-```
+**中文：**  
+本仓库为纯库，无 dev 服务器或 demo，需在真实应用中通过 `npm link` 测试。克隆后执行 `npm install` 安装依赖。
 
-**Peer dependencies:** `react` and `react-dom` (^18.0.0 or ^19.0.0). Your project must have them installed.
-
----
-
-## Usage (examples)
-
-```ts
-// Single entry
-import {
-  Button,
-  ThemeProvider,
-  LayoutFrame,
-  LanguageProvider,
-  LanguageEnum,
-  WaveBackground,
-} from "nfx-ui";
-
-// Or named imports (tree-shaking friendly)
-import { ThemeProvider } from "nfx-ui";
-import { LayoutFrame } from "nfx-ui";
-import { LanguageProvider, getLocalLanguage } from "nfx-ui";
-```
-
-Wrap your app with providers as needed:
-
-```tsx
-<ThemeProvider>
-  <LanguageProvider>
-    <LayoutFrame>
-      {/* your app */}
-    </LayoutFrame>
-  </LanguageProvider>
-</ThemeProvider>
-```
-
----
-
-## What’s included
-
-| Module       | Contents                                      |
-|-------------|-----------------------------------------------|
-| **themes**  | ThemeProvider, theme switcher, theme vars     |
-| **languages** | LanguageProvider, i18n, language switcher   |
-| **layouts** | LayoutFrame, sidebar, header, footer          |
-| **components** | Button, Input, Dropdown, etc.              |
-| **animations** | WaveBackground, loaders, motion helpers   |
-| **hooks**   | Query, form, layout hooks                     |
-| **preference** | User preference (e.g. profile.preference) |
-| **types**   | Shared TypeScript types                       |
-| **utils**   | Helpers (phone, retry, etc.)                  |
-| **constants** | Query keys, shared constants               |
-
----
-
-## Development (this repo)
-
-This repo is **library-only**: no dev server or demo app. Build and test via link in a real app.
-
-### Setup
+**English:**  
+This repo is library-only: no dev server or demo; test via `npm link` in a real app. Run `npm install` after clone.
 
 ```bash
 npm install
 ```
 
-### Build
+### 构建 / Build
+
+**中文：**  
+执行 `npm run build`，产物在 `dist/`：ESM（index.mjs）、CJS（index.cjs）、类型（index.d.ts），样式已内联。
+
+**English:**  
+Run `npm run build`. Output in `dist/`: ESM, CJS, and `.d.ts`; styles inlined.
 
 ```bash
 npm run build
 ```
 
-Output: `dist/` (ESM `index.mjs`, CJS `index.cjs`, and `.d.ts`).
+### 本地联调 / Test locally (npm link)
 
-### Test locally (npm link)
+**中文：**  
+1. 在 NFX-UI 目录执行 `npm run link`。  
+2. 在消费项目中执行 `npm link nfx-ui`。  
+3. 修改 NFX-UI 后需在 NFX-UI 目录再次执行 `npm run build` 才能生效。
 
-1. In **NFX-UI**:  
-   `npm run link`
-2. In your **consumer app**:  
-   `npm link nfx-ui`
-3. Run the app’s dev server; changes in NFX-UI need `npm run build` in NFX-UI to be reflected.
+**English:**  
+1. In NFX-UI: `npm run link`.  
+2. In your app: `npm link nfx-ui`.  
+3. After changing NFX-UI, run `npm run build` in NFX-UI again.
 
-### Lint & format
+### 代码检查与格式化 / Lint & format
+
+**中文：**  
+`npm run lint` 运行 ESLint；`npm run lint:code-format` 检查 Prettier；`npm run format` 执行 Prettier 格式化。
+
+**English:**  
+`npm run lint` for ESLint; `npm run lint:code-format` for Prettier check; `npm run format` for Prettier write.
 
 ```bash
-npm run lint             # ESLint
-npm run lint:code-format  # Prettier check
-npm run format           # Prettier write
+npm run lint
+npm run lint:code-format
+npm run format
 ```
 
 ---
 
-## Project structure
+## 项目结构 / Project structure
+
+**中文：**  
+`src/` 下为入口与各模块；本仓库内使用路径别名 `@/`（指向 `src/`）。
+
+**English:**  
+`src/` contains entry and modules; path alias `@/` (points to `src/`) is used in this repo.
 
 ```
 src/
-├── index.ts        # Package entry (re-exports below)
-├── languages/      # i18n, LanguageProvider, LanguageSwitcher
-├── themes/         # ThemeProvider, ThemeSwitcher, theme data
-├── layouts/        # LayoutFrame, Sidebar, Header, Footer
-├── components/     # Button, Input, Dropdown, …
-├── animations/     # WaveBackground, loaders
-├── hooks/          # Query, form, layout hooks
-├── preference/     # User preference
-├── types/          # Shared types
-├── utils/          # Helpers
-└── constants/      # Query keys, etc.
+├── index.ts        # 包入口 / Package entry
+├── languages/      # i18n、LanguageProvider、LanguageSwitcher
+├── themes/         # ThemeProvider、ThemeSwitcher、主题数据 / theme data
+├── layouts/        # LayoutProvider、Sidebar、Header、Footer
+├── components/     # Button、Input、Dropdown、…
+├── animations/     # WaveBackground、loaders
+├── hooks/          # Query、form、layout hooks
+├── preference/     # 用户偏好 / User preference
+├── types/          # 共享类型 / Shared types
+├── utils/          # 工具函数 / Helpers
+└── constants/      # Query keys、枚举等 / Query keys, enums
 ```
-
-Inside this repo, use path alias `@/` (points to `src/`) for imports.
 
 ---
 
-## License
+## License 许可证
 
-UNLICENSED (private use). Change in `package.json` if you publish under a different license.
+**中文：**  
+UNLICENSED（仅内部使用）。若对外发布请在 `package.json` 中修改许可证。
+
+**English:**  
+UNLICENSED (private use). Change the license in `package.json` if you publish.
