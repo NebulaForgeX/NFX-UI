@@ -1,0 +1,41 @@
+# 每次 push 到 main 时，将 NFX-UI/docs 同步到 NFX-Documentation 的 public/docs/nfx-ui
+# 两个仓库均为组织 (NebulaForgeX) 下时，在 NFX-UI 仓库 Settings → Secrets and variables → Actions 中添加：
+#   DOC_REPO_TOKEN: 对组织内 NFX-Documentation 有 push 权限的 PAT（Classic 需勾选 repo；Fine-grained 需勾选 Contents: Read and write）
+
+name: Sync docs to NFX-Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout NFX-UI
+        uses: actions/checkout@v4
+        with:
+          path: nfx-ui
+
+      - name: Checkout NFX-Documentation
+        uses: actions/checkout@v4
+        with:
+          repository: NebulaForgeX/NFX-Documentation
+          token: ${{ secrets.DOC_REPO_TOKEN }}
+          path: nfx-doc
+
+      - name: Copy docs to NFX-Documentation
+        run: |
+          rm -rf nfx-doc/servers/frontend/public/docs/nfx-ui
+          mkdir -p nfx-doc/servers/frontend/public/docs/nfx-ui
+          cp -r nfx-ui/docs/. nfx-doc/servers/frontend/public/docs/nfx-ui/
+
+      - name: Commit and push to NFX-Documentation
+        run: |
+          cd nfx-doc
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add servers/frontend/public/docs/nfx-ui
+          git diff --staged --quiet || (git commit -m "chore(docs): sync NFX-UI docs from NFX-UI repo [skip ci]" && git push)
