@@ -1,0 +1,175 @@
+/* Base: pure button, no dependency on Button component */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  outline: none;
+  position: relative;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Size */
+.button.small {
+  padding: 0.5rem;
+  font-size: 0.8125rem;
+  min-height: 2rem;
+}
+
+.button.medium {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  min-height: 2.5rem;
+}
+
+.button.large {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  min-height: 3rem;
+}
+
+/* Variants */
+.button.primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-fg, #fff);
+}
+
+.button.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.button.secondary {
+  background: var(--color-bg-2);
+  border-color: var(--color-border-4);
+  color: var(--color-fg-text);
+}
+
+.button.secondary:hover:not(:disabled) {
+  background: var(--color-bg-3);
+  border-color: var(--color-primary);
+}
+
+.button.outline {
+  background: transparent;
+  border-color: var(--color-border-4);
+  color: var(--color-fg-text);
+}
+
+.button.outline:hover:not(:disabled) {
+  background: var(--color-bg-2);
+  border-color: var(--color-primary);
+}
+
+.button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-fg-text);
+}
+
+.button.ghost:hover:not(:disabled) {
+  background: var(--color-bg-2);
+}
+
+.button.danger {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.button.danger:hover:not(:disabled) {
+  background: var(--color-danger-light, var(--color-danger));
+  border-color: var(--color-danger-light, var(--color-danger));
+}
+
+/* Icon-only (square) */
+.button.iconOnly {
+  aspect-ratio: 1;
+  padding: 0;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+.button.iconOnly.small {
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.button.iconOnly.large {
+  min-width: 3rem;
+  min-height: 3rem;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Full layout with icons and content */
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.topIcon,
+.rightIcon,
+.bottomIcon,
+.leftIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.leftIcon {
+  margin-right: -0.25rem;
+}
+
+.rightIcon {
+  margin-left: -0.25rem;
+}
+
+/* Icon-only: single icon centered */
+.iconOnly .iconContainer .leftIcon {
+  margin: 0;
+}
+
+.iconOnly .iconContainer .rightIcon {
+  margin: 0;
+}

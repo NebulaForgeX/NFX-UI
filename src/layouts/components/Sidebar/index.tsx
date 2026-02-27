@@ -1,0 +1,128 @@
+import type { SidebarMenuItem, SidebarProps } from "../../types";
+
+import { memo, useCallback } from "react";
+import { Menu, MenuItem, Sidebar as ProSidebar, SubMenu } from "react-pro-sidebar";
+
+import { LogOut } from "@/icons/lucide";
+
+import styles from "./styles.module.css";
+
+function isPathActive(current: string, path: string): boolean {
+  return current === path || current.startsWith(path + "/");
+}
+
+function isSubMenuActive(current: string, item: SidebarMenuItem): boolean {
+  if (isPathActive(current, item.path)) return true;
+  if (!item.children) return false;
+  return item.children.some((child) => isPathActive(current, child.path) || isSubMenuActive(current, child));
+}
+
+const Sidebar = memo(
+  ({
+    children,
+    collapsed = false,
+    toggled = false,
+    onBackdropClick,
+    breakPoint = "all",
+    className,
+    items = [],
+    currentPathname = "",
+    onNavigate,
+    logoutLabel = "Logout",
+    handleLogout,
+  }: SidebarProps) => {
+    const handleItemClick = useCallback(
+      (path: string) => {
+        onNavigate?.(path);
+      },
+      [onNavigate],
+    );
+
+    const renderItem = useCallback(
+      (item: SidebarMenuItem) => {
+        const active = isPathActive(currentPathname, item.path);
+        if (item.children?.length) {
+          const subActive = isSubMenuActive(currentPathname, item);
+          return (
+            <SubMenu key={item.path} label={item.label} icon={item.icon} active={subActive}>
+              {item.children.map((child) => renderItem(child))}
+            </SubMenu>
+          );
+        }
+        return (
+          <MenuItem key={item.path} icon={item.icon} onClick={() => handleItemClick(item.path)} active={active}>
+            {item.label}
+          </MenuItem>
+        );
+      },
+      [currentPathname, handleItemClick],
+    );
+
+    const menuContent =
+      items.length > 0 ? (
+        <Menu
+          key={`${collapsed}-${toggled}`}
+          transitionDuration={300}
+          closeOnClick
+          menuItemStyles={{
+            button: {
+              color: "var(--color-fg-text)",
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: "var(--color-bg-3)",
+                color: "var(--color-fg-text)",
+              },
+              "&.active": {
+                backgroundColor: "var(--color-primary)",
+                color: "#ffffff",
+              },
+            },
+            icon: {
+              color: "var(--color-fg-text)",
+              "&.active": {
+                color: "#ffffff",
+              },
+            },
+            label: {
+              color: "var(--color-fg-text)",
+              "&.active": {
+                color: "#ffffff",
+              },
+            },
+          }}
+        >
+          {items.map((item) => renderItem(item))}
+        </Menu>
+      ) : null;
+
+    return (
+      <ProSidebar
+        collapsed={collapsed}
+        toggled={toggled}
+        onBackdropClick={onBackdropClick}
+        breakPoint={breakPoint}
+        backgroundColor="var(--color-bg-2)"
+        rootStyles={{
+          border: "none",
+          borderRight: "1px solid var(--color-separator)",
+        }}
+        className={`${styles.sidebar} ${className || ""}`}
+      >
+        <div className={styles.sidebarContent} onWheel={(e) => e.stopPropagation()}>
+          <div className={styles.menuWrapper}>{children ?? menuContent}</div>
+          {handleLogout != null && (
+            <div className={styles.logoutContainer}>
+              <button type="button" className={styles.logoutButton} onClick={handleLogout} title={logoutLabel}>
+                <LogOut size={20} />
+                <span className={collapsed ? styles.hiddenText : styles.visibleText}>{logoutLabel}</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </ProSidebar>
+    );
+  },
+);
+
+Sidebar.displayName = "Sidebar";
+export default Sidebar;
