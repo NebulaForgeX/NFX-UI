@@ -22,29 +22,35 @@
 
 **中文：**  
 - **方式 A**：发布到 npm 后，在业务项目中执行 `npm install nfx-ui`。  
-- **方式 B**：未发布时，在 NFX-UI 目录执行 `npm run build` 与 `npm link`，在业务项目目录执行 `npm link nfx-ui`。
+- **方式 B**：未发布时，在 NFX-UI 目录执行 `npm run build` 与 `npm link`，在业务项目目录执行 `npm link nfx-ui`。  
+- 若本机约定先加载环境（如 `source /volume1/use-menv.sh`），请在执行任何 npm 命令前先执行。
 
 **English:**  
 - **Option A:** After publishing to npm, run `npm install nfx-ui` in your app.  
-- **Option B:** When unpublished, run `npm run build` and `npm link` in NFX-UI, then `npm link nfx-ui` in your app.
+- **Option B:** When unpublished, run `npm run build` and `npm link` in NFX-UI, then `npm link nfx-ui` in your app.  
+- If your environment requires a script (e.g. `source /volume1/use-menv.sh`) before npm, run it first.
 
 ```bash
-# 方式 A / Option A
+# 方式 A / Option A（在业务项目 / in your app）
 npm install nfx-ui
 
-# 方式 B / Option B（在 NFX-UI 目录 / in NFX-UI）
-npm run build && npm link
-# 在业务项目 / in your app
+# 方式 B / Option B
+# 步骤 1：在 NFX-UI 仓库 / Step 1: in NFX-UI repo
+cd /path/to/NFX-UI
+npm run link
+
+# 步骤 2：在要使用 NFX-UI 的项目 / Step 2: in your app
+cd /path/to/your-app
 npm link nfx-ui
 ```
 
 ### 2. 依赖要求 / Peer dependencies
 
 **中文：**  
-你的项目需已安装 `react`、`react-dom`（^18.0.0 或 ^19.0.0）。若使用主题、图表等，可能还需按需安装 `lucide-react`、`recharts`、`@tanstack/react-query` 等（见 `package.json`）。
+你的项目需已安装 `react`、`react-dom`（^18.0.0 或 ^19.0.0）。若使用主题、图表等，可能还需按需安装 `lucide-react`、`recharts`、`@tanstack/react-query` 等（见 NFX-UI 的 `package.json`）。
 
 **English:**  
-Your project must have `react` and `react-dom` (^18.0.0 or ^19.0.0). For themes, charts, etc., you may need `lucide-react`, `recharts`, `@tanstack/react-query` (see `package.json`).
+Your project must have `react` and `react-dom` (^18.0.0 or ^19.0.0). For themes, charts, etc., you may need `lucide-react`, `recharts`, `@tanstack/react-query` (see NFX-UI `package.json`).
 
 ### 3. 在代码里使用 / Usage
 
@@ -75,6 +81,34 @@ export function App() {
   );
 }
 ```
+
+### 4. 其他项目中的完整步骤示例 / Full steps in another project
+
+**中文：**  
+在「别的项目」里从零用上 NFX-UI 的推荐顺序：
+
+1. **确保环境**：若团队要求，先执行 `source /volume1/use-menv.sh`（或你本机的等价命令）。  
+2. **安装或链接**：  
+   - 已发布：`npm install nfx-ui`  
+   - 未发布：在 NFX-UI 里执行 `npm run link`，再在本项目执行 `npm link nfx-ui`  
+3. **确认 peer**：项目里已有 `react`、`react-dom`（版本 18 或 19）。  
+4. **按需装运行时依赖**：用到主题/图标/图表等时，在业务项目安装 `lucide-react`、`@tanstack/react-query`、`recharts` 等（与 NFX-UI 的 `package.json` 一致或兼容）。  
+5. **在入口外包一层 Provider**：在根组件外包上 `ThemeProvider`、`LanguageProvider` 等（见上面代码）。  
+6. **按需按名引入**：`import { Button, Input, ... } from "nfx-ui"`；类型用 `import type { ... } from "nfx-ui"`。  
+7. **构建与运行**：按你项目原有方式（如 `npm run dev` / `npm run build`）即可，打包器会从 `nfx-ui` 的 `main`/`module` 解析，并做 tree-shaking。
+
+**English:**  
+Recommended order to use NFX-UI in “another project” from scratch:
+
+1. **Environment:** If required, run `source /volume1/use-menv.sh` (or your local equivalent) before any npm commands.  
+2. **Install or link:**  
+   - Published: `npm install nfx-ui`  
+   - Unpublished: run `npm run link` in NFX-UI, then `npm link nfx-ui` in this project  
+3. **Peer deps:** Ensure `react` and `react-dom` (v18 or v19) are in your project.  
+4. **Optional runtime deps:** When using themes, icons, charts, etc., install `lucide-react`, `@tanstack/react-query`, `recharts` in your app (versions compatible with NFX-UI’s `package.json`).  
+5. **Wrap with Providers:** Wrap your root with `ThemeProvider`, `LanguageProvider`, etc. (see code above).  
+6. **Import by name:** `import { Button, Input, ... } from "nfx-ui"`; use `import type { ... } from "nfx-ui"` for types.  
+7. **Build & run:** Use your usual scripts (`npm run dev` / `npm run build`); the bundler will resolve `nfx-ui` and tree-shake unused exports.
 
 ---
 
