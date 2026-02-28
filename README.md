@@ -127,6 +127,18 @@ Run `npm run build`. Output in `dist/`: ESM, CJS, and `.d.ts`; styles inlined.
 npm run build
 ```
 
+### 构建时的提示与警告 / Build messages and warnings
+
+**中文：**  
+构建过程中可能出现以下提示，均可忽略，不影响产物：  
+1. **TypeScript 版本提示**：vite-plugin-dts 内置的 API Extractor 使用较旧 TS 版本，项目使用 5.9.x 时会提示 “consider upgrading API Extractor”，类型仍会正确生成。  
+2. **PLUGIN_TIMINGS**：Vite 输出的插件耗时统计（如 vite:dts 占 47%），仅作参考，无需处理。
+
+**English:**  
+You may see these during build; both are safe to ignore:  
+1. **TypeScript version**: vite-plugin-dts uses an older TS in API Extractor; the “consider upgrading API Extractor” message does not affect type output.  
+2. **PLUGIN_TIMINGS**: Plugin timing breakdown (e.g. vite:dts 47%); informational only.
+
 ### 本地联调 / Test locally (npm link)
 
 **中文：**  

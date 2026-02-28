@@ -38,7 +38,8 @@ export default defineConfig({
       name: "NfxUi",
       fileName: (format, entryName) =>
         entryName + (format === "es" ? ".mjs" : ".cjs"),
-      formats: ["es", "cjs"],
+      // 使用 rollupOptions.output 数组时不要设置 formats，否则会报警告
+      // Do not set formats when using rollupOptions.output array
     },
     rollupOptions: {
       output: [
