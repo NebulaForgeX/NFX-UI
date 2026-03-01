@@ -3,6 +3,8 @@
  * Preference-related constants: dashboard background, etc.
  */
 
+import type { Array } from "@/types";
+
 /** 仪表盘背景枚举。Dashboard background enum. */
 export enum DashboardBackgroundEnum {
   NONE = "none",
@@ -15,4 +17,4 @@ export enum DashboardBackgroundEnum {
 export const DEFAULT_DASHBOARD_BACKGROUND = DashboardBackgroundEnum.NONE;
 
 /** 仪表盘背景可选值列表。Dashboard background values list. */
-export const DASHBOARD_BACKGROUND_VALUES = Object.values(DashboardBackgroundEnum) as DashboardBackgroundEnum[];
+export const DASHBOARD_BACKGROUND_VALUES: Array<DashboardBackgroundEnum> = Object.values(DashboardBackgroundEnum);

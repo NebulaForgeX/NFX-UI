@@ -1,3 +1,5 @@
+import type { Array } from "./utils";
+
 /** 基础响应（status、errCode、message）。Base response (status, errCode, message). */
 interface BaseResponse {
   /** 状态码。Status code. */
@@ -41,7 +43,7 @@ interface OffsetLimitString {
 /** 列表 + 总数：items + total（用于 offset/limit 分页的返回）。List with total count; used as offset/limit response. */
 interface ListDTOWithTotalNumber<T> {
   /** 列表项。Items. */
-  items: T[];
+  items: Array<T>;
   /** 总数。Total count. */
   total: number;
 }
@@ -49,7 +51,7 @@ interface ListDTOWithTotalNumber<T> {
 /** 字符串游标列表：items + nextCursor（用于 nextCursor 为 string 的 API）。List with string nextCursor. */
 interface ListDTOWithNextCursor<T> {
   /** 列表项。Items. */
-  items: T[];
+  items: Array<T>;
   /** 下一页游标。Next cursor. */
   nextCursor: string;
 }
@@ -57,7 +59,7 @@ interface ListDTOWithNextCursor<T> {
 /** 分页响应（data、total、page、pageSize）。Paginated response (data, total, page, pageSize). */
 interface PaginatedResponse<T> {
   /** 数据列表。Data array. */
-  data: T[];
+  data: Array<T>;
   /** 总数。Total count. */
   total: number;
   /** 当前页。Current page. */
