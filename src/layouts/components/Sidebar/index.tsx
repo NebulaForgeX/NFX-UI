@@ -7,14 +7,24 @@ import { LogOut } from "@/icons/lucide";
 
 import styles from "./styles.module.css";
 
-function isPathActive(current: string, path: string): boolean {
-  return current === path || current.startsWith(path + "/");
+/**
+ * 当前路径是否命中该菜单项。
+ * 若有 siblingPaths（同组子项路径），则只有当前路径精确等于 path 或匹配 path 下的详情（非其它子项）时才命中，避免 /categories 与 /categories/add 同时高亮。
+ */
+function isPathActive(current: string, path: string, siblingPaths?: string[]): boolean {
+  if (current === path) return true;
+  if (!current.startsWith(path + "/")) return false;
+  if (siblingPaths?.length) {
+    const matchedSibling = siblingPaths.some((s) => s !== path && (current === s || current.startsWith(s + "/")));
+    if (matchedSibling) return false;
+  }
+  return true;
 }
 
 function isSubMenuActive(current: string, item: SidebarMenuItem): boolean {
-  if (isPathActive(current, item.path)) return true;
+  if (isPathActive(current, item.path, item.children?.map((c) => c.path))) return true;
   if (!item.children) return false;
-  return item.children.some((child) => isPathActive(current, child.path) || isSubMenuActive(current, child));
+  return item.children.some((child) => isPathActive(current, child.path, item.children?.map((c) => c.path)) || isSubMenuActive(current, child));
 }
 
 const Sidebar = memo(
@@ -40,13 +50,13 @@ const Sidebar = memo(
     );
 
     const renderItem = useCallback(
-      (item: SidebarMenuItem) => {
-        const active = isPathActive(currentPathname, item.path);
+      (item: SidebarMenuItem, siblingPaths?: string[]) => {
+        const active = isPathActive(currentPathname, item.path, siblingPaths);
         if (item.children?.length) {
           const subActive = isSubMenuActive(currentPathname, item);
           return (
             <SubMenu key={item.path} label={item.label} icon={item.icon} active={subActive}>
-              {item.children.map((child) => renderItem(child))}
+              {item.children.map((child) => renderItem(child, item.children!.map((c) => c.path)))}
             </SubMenu>
           );
         }
