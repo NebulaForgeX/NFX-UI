@@ -47,4 +47,16 @@ type Defined<T, Tag extends string> = T & { readonly __defineBrand?: Tag };
  */
 type isOK<T> = [T, true] | [null, false];
 
-export type { Nullable, Maybe, Nilable, ExistenceResult, ValueOf, Defined, KeyOf, isOK };
+/**
+ * 数组类型。Array type.
+ * @example Array<string> => string[]
+ */
+type Array<T> = T[];
+
+/**
+ * 数组或单个元素类型。Array or single element type.
+ * @example ArrayOrSingle<string> => string[] | string
+ */
+type ArrayOrSingle<T> = T[] | T;
+
+export type { Nullable, Maybe, Nilable, ExistenceResult, ValueOf, Defined, KeyOf, isOK, Array, ArrayOrSingle };

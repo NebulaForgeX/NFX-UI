@@ -7,11 +7,13 @@ import type { QueryKey } from "@tanstack/react-query";
 import { CACHE_LIST } from "./caches";
 
 /**
- * 链式列表 key 类型：本身即 QueryKey（数组），且带 withPrefix 方法可继续链式加前缀。
- * Chainable list key type: is a QueryKey (array) and has withPrefix() for chaining.
+ * 链式列表 key 类型：本身即 QueryKey（数组），且带 withPrefix、getPrefix。
+ * Chainable list key type: is a QueryKey (array) and has withPrefix(), getPrefix.
  */
 type ListKeyChainable = QueryKey & {
   withPrefix(...prefix: unknown[]): ListKeyChainable;
+  /** 列表 key 的前缀（即完整 list key，用于 invalidation 等）。Prefix (full list key) for invalidation. */
+  getPrefix: QueryKey;
 };
 
 function buildListKeyChainable(prefix: unknown[], domain: string, subDomain: string): ListKeyChainable {
@@ -19,6 +21,9 @@ function buildListKeyChainable(prefix: unknown[], domain: string, subDomain: str
   return Object.assign([...key], {
     withPrefix(...more: unknown[]): ListKeyChainable {
       return buildListKeyChainable([...more, ...prefix], domain, subDomain);
+    },
+    get getPrefix(): QueryKey {
+      return [...key];
     },
   }) as ListKeyChainable;
 }
@@ -34,7 +39,9 @@ function buildListKeyChainable(prefix: unknown[], domain: string, subDomain: str
  * ```ts
  * const key = createListKey("catalog", "category");
  * * key => ["catalog", "list", "category"]
- * createListKey("catalog", "category").withPrefix("api").withPrefix("v1");
+ * key.getPrefix
+ * * => ["catalog", "list", "category"]
+ * createListKey("catalog", "category").withPrefix("api").withPrefix("v1").getPrefix;
  * * => ["v1", "api", "catalog", "list", "category"]
  * ```
  */

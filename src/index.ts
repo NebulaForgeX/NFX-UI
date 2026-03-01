@@ -10,6 +10,7 @@ export * from "./components";
 export * from "./animations";
 export * from "./hooks";
 export * from "./preference";
+export * from "./stores";
 
 export * from "./types";
 export * from "./utils";

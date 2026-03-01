@@ -7,18 +7,24 @@ import type { QueryKey } from "@tanstack/react-query";
 import { CACHE_ITEM } from "./caches";
 
 /**
- * 链式单条 key 类型：可调用 (...ids) => QueryKey，且带 withPrefix 方法可继续链式加前缀。
- * Chainable item key type: callable (...ids) => QueryKey, with withPrefix() for chaining.
+ * 链式单条 key 类型：可调用 (...ids) => QueryKey，且带 withPrefix、getPrefix。
+ * Chainable item key type: callable (...ids) => QueryKey, with withPrefix() and getPrefix.
  */
 type ItemKeyChainable = ((...ids: string[]) => QueryKey) & {
   withPrefix(...prefix: unknown[]): ItemKeyChainable;
+  /** 不含 id 的前缀，用于 invalidation 等。Prefix without ids, e.g. for invalidation. */
+  getPrefix: QueryKey;
 };
 
 function buildItemKeyChainable(prefix: unknown[], domain: string, subDomain: string): ItemKeyChainable {
-  const fn = (...ids: string[]): QueryKey => [...prefix, domain, CACHE_ITEM, subDomain, ...ids];
+  const base: QueryKey = [...prefix, domain, CACHE_ITEM, subDomain];
+  const fn = (...ids: string[]): QueryKey => [...base, ...ids];
   return Object.assign(fn, {
     withPrefix(...more: unknown[]): ItemKeyChainable {
       return buildItemKeyChainable([...more, ...prefix], domain, subDomain);
+    },
+    get getPrefix(): QueryKey {
+      return [...base];
     },
   }) as ItemKeyChainable;
 }
@@ -35,8 +41,10 @@ function buildItemKeyChainable(prefix: unknown[], domain: string, subDomain: str
  * const getKey = createItemKey("catalog", "category");
  * getKey("abc");
  * * => ["catalog", "item", "category", "abc"]
- * createItemKey("catalog", "category").withPrefix("api").withPrefix("v1")("abc");
- * * => ["v1", "api", "catalog", "item", "category", "abc"]
+ * getKey.getPrefix
+ * * => ["catalog", "item", "category"]
+ * createItemKey("catalog", "category").withPrefix("api").withPrefix("v1").getPrefix;
+ * * => ["v1", "api", "catalog", "item", "category"]
  * ```
  */
 function createItemKey(domain: string, subDomain: string): ItemKeyChainable {
