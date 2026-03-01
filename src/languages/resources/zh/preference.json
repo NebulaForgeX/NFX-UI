@@ -1,0 +1,15 @@
+{
+  "baseSwitcher": {
+    "default": "默认",
+    "ios": "iOS",
+    "android": "Android",
+    "windows": "Windows",
+    "linux": "Linux"
+  },
+  "preference": {
+    "theme": "主题",
+    "language": "语言",
+    "layout": "布局",
+    "preferences": "偏好设置"
+  }
+}

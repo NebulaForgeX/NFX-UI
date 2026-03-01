@@ -1,0 +1,12 @@
+{
+  "themeSwitcher": {
+    "default": "默认",
+    "light": "浅色",
+    "dark": "深色",
+    "cosmic": "宇宙",
+    "corporate": "企业",
+    "forest": "森林",
+    "coffee": "咖啡",
+    "wine": "酒红"
+  }
+}

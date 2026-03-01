@@ -1,0 +1,15 @@
+{
+  "baseSwitcher": {
+    "default": "Default",
+    "ios": "iOS",
+    "android": "Android",
+    "windows": "Windows",
+    "linux": "Linux"
+  },
+  "preference": {
+    "theme": "Theme",
+    "language": "Language",
+    "layout": "Layout",
+    "preferences": "Preferences"
+  }
+}

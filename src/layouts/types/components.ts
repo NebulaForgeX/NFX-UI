@@ -26,10 +26,12 @@ export interface LayoutProviderProps {
 export interface LayoutSwitcherProps {
   /** 样式状态。Visual status. */
   status?: "primary" | "default";
-  /** 显示模式标签。Show mode label. */
+  /** 显示模式标签（未传 getLayoutDisplayName 且无内置翻译时使用）。Show mode label. */
   showLabel?: string;
-  /** 隐藏模式标签。Hide mode label. */
+  /** 隐藏模式标签（未传 getLayoutDisplayName 且无内置翻译时使用）。Hide mode label. */
   hideLabel?: string;
+  /** 根据布局模式返回展示名；未传则使用 i18n 键 layoutSwitcher.show / layoutSwitcher.hide。Display name for layout mode; default uses i18n. */
+  getLayoutDisplayName?: (mode: LayoutModeEnum) => string;
   /** 处理布局模式改变。Handle layout mode change. */
   handleChangeLayoutMode?: (mode: LayoutModeEnum) => void;
 }
