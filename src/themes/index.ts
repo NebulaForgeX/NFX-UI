@@ -3,6 +3,6 @@
  */
 export * from "./types";
 export * from "./utils";
-export * from "./components";
+export { default as ThemeProvider } from "./providers";    
 export * from "./hooks";
 export * from "./themes";

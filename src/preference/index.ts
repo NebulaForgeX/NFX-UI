@@ -2,9 +2,10 @@
  * 用户偏好模块：类型、解析/序列化、默认值（与后端 profile.preference JSON 约定）
  * User preference: types, parse/serialize, defaults (backend profile.preference JSON contract).
  */
-import { LANGUAGE_VALUES, LanguageEnum } from "../languages/types";
-import { LayoutModeEnum } from "../layouts/types";
-import { BASE_VALUES, BaseEnum, THEME_VALUES, ThemeEnum } from "../themes/types";
+import { LayoutModeEnum } from "@/designs/layouts/types";
+import { LANGUAGE_VALUES, LanguageEnum } from "@/languages/types";
+import { BASE_VALUES, BaseEnum, THEME_VALUES, ThemeEnum } from "@/themes/types";
+
 import { DASHBOARD_BACKGROUND_VALUES, DashboardBackgroundEnum, DEFAULT_DASHBOARD_BACKGROUND } from "./constants";
 
 export { DashboardBackgroundEnum, DEFAULT_DASHBOARD_BACKGROUND, DASHBOARD_BACKGROUND_VALUES } from "./constants";

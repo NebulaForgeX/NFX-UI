@@ -1,5 +1,5 @@
 import type { Theme, ThemeEnum } from "../types";
-
+import { setThemeColorStorage } from "../utils";
 import { useEffect } from "react";
 
 /**
@@ -109,7 +109,7 @@ const useThemeVariables = (currentTheme: Theme, themeName: ThemeEnum) => {
     root.style.setProperty("--chartjs-axis-line-color", vars.chartjs.axisLineColor);
     root.style.setProperty("--chartjs-text-color", vars.chartjs.textColor);
 
-    localStorage.setItem("theme", themeName);
+    setThemeColorStorage(themeName);
   }, [themeName, currentTheme]);
 };
 

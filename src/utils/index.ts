@@ -5,6 +5,7 @@
  */
 
 export * from "./address";
+export * from "./lstorage";
 export * from "./apiError";
 export * from "./array";
 export * from "./colors";
