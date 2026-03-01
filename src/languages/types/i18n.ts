@@ -20,12 +20,20 @@ export interface CreateI18nResourcesResult {
   NAME_SPACES: string[];
 }
 
+/** 单条额外 bundle：命名空间 + 文案对象，由 initI18n 注入到 i18n。 */
+export interface ExtraBundleItem {
+  namespace: string;
+  bundle: Record<string, unknown>;
+}
+
+export type onLoadExtraBundles = (lng: LanguageEnum) => Promise<ExtraBundleItem | ExtraBundleItem[] | null | undefined>;
+
 /** initI18n 的选项。Options for initI18n. */
 export interface InitI18nOptions {
   /** 由 createI18nResources(resources, nameSpacesMap) 得到；用户自建 JSON 后组装传入。From createI18nResources; user builds from their JSON. */
   bundles: CreateI18nResourcesResult;
   /** 回退语言。Fallback language. */
   fallbackLng?: LanguageEnum;
-  /** 语言切换后由调用方加载额外文案（如错误码等）；不传则不执行。Optional: load extra bundles (e.g. errors) per language; caller provides. */
-  onLoadExtraBundles?: (lng: string) => Promise<void>;
+  /** 语言切换后由调用方拉取额外文案（如错误码）；返回 { namespace, bundle } 或数组，由 initI18n 负责 addResourceBundle。 */
+  onLoadExtraBundles?: onLoadExtraBundles;
 }

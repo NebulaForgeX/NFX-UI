@@ -3,7 +3,7 @@
  * Props types for language-related components.
  */
 import type { ReactNode } from "react";
-import type { CreateI18nResourcesResult } from "./i18n";
+import type { CreateI18nResourcesResult, onLoadExtraBundles } from "./i18n";
 import type { LanguageEnum } from "./language";
 
 /** 语言 Provider 的 props。LanguageProvider props. */
@@ -14,8 +14,8 @@ export interface LanguageProviderProps {
   bundles: CreateI18nResourcesResult;
   /** 回退语言。Fallback language. */
   fallbackLng?: LanguageEnum;
-  /** 语言切换后加载额外文案（如错误码）；由调用方实现。Load extra bundles (e.g. errors) per language; caller implements. */
-  onLoadExtraBundles?: (lng: string) => Promise<void>;
+  /** 语言切换后拉取额外文案（如错误码）；返回 { namespace, bundle }，由 Provider 内部 addResourceBundle。Caller only fetches; Provider injects. */
+  onLoadExtraBundles?: onLoadExtraBundles;
 }
 
 /** 语言切换器 props。LanguageSwitcher props. */

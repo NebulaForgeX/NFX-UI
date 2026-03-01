@@ -1,22 +1,27 @@
 /**
- * 语言提供者：挂载时用用户传入的 bundles 初始化 i18n，并应用 getLocalLanguage。
- * Language provider: inits i18n with user-provided bundles on mount and applies getLocalLanguage.
+ * 语言提供者：首次渲染时同步初始化 i18n（保证内层 ModalProvider 等子组件 useTranslation 时已就绪），再用 useEffect 应用本地语言。
+ * Language provider: inits i18n synchronously on first render so inner children (e.g. ModalProvider) have i18n ready; then useEffect applies getLocalLanguage.
  */
 import type { LanguageProviderProps } from "../../types";
 
-import { memo, useEffect } from "react";
+import { memo, useEffect, useRef } from "react";
 
 import i18n, { initI18n } from "../../languages/i18n";
 import { LANGUAGE_STORAGE_KEY } from "../../types";
 import { getLocalLanguage } from "../../utils";
 
 const LanguageProvider = memo(({ children, bundles, fallbackLng, onLoadExtraBundles }: LanguageProviderProps) => {
-  useEffect(() => {
+  const hasInitialized = useRef(false);
+  if (!hasInitialized.current) {
     initI18n({ bundles, fallbackLng, onLoadExtraBundles });
+    hasInitialized.current = true;
+  }
+
+  useEffect(() => {
     const lng = getLocalLanguage();
     localStorage.setItem(LANGUAGE_STORAGE_KEY, lng);
     void i18n.changeLanguage(lng);
-  }, [bundles, fallbackLng, onLoadExtraBundles]);
+  }, []);
 
   return <>{children}</>;
 });
