@@ -55,6 +55,8 @@ export interface LayoutFrameProps {
   sidebarLogoutLabel?: string;
   /** 可选：侧栏登出回调。Optional: logout handler. */
   onSidebarLogout?: () => void;
+  /** 可选：侧栏底部登出按钮。Optional: bottom logout button. */
+  bottomLogoutButton?: ReactNode;
 }
 
 /** Sidebar props（扩展 react-pro-sidebar）. */
@@ -70,8 +72,12 @@ export interface SidebarProps extends ProSidebarProps {
   currentPathname?: string;
   /** Called when a menu item is clicked. Parent should navigate to path. */
   onNavigate?: (path: string) => void;
+  /** Logout label. */
   logoutLabel?: string;
+  /** Handle logout. */
   handleLogout?: () => void;
+  /** Bottom Logout Button. */
+  bottomLogoutButton?: ReactNode;
 }
 
 /** MainWrapper props. */
@@ -92,6 +98,7 @@ export interface SideHideLayoutProps {
   onSidebarNavigate?: (path: string) => void;
   sidebarLogoutLabel?: string;
   onSidebarLogout?: () => void;
+  bottomLogoutButton?: ReactNode;
 }
 
 /** SideShowLayout props. */
@@ -104,6 +111,7 @@ export interface SideShowLayoutProps {
   onSidebarNavigate?: (path: string) => void;
   sidebarLogoutLabel?: string;
   onSidebarLogout?: () => void;
+  bottomLogoutButton?: ReactNode;
 }
 
 /** Footer props. */

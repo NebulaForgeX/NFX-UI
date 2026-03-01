@@ -1,6 +1,6 @@
 import type { SidebarMenuItem, SidebarProps } from "../../types";
 
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { Menu, MenuItem, Sidebar as ProSidebar, SubMenu } from "react-pro-sidebar";
 
 import { LogOut } from "@/icons/lucide";
@@ -30,6 +30,7 @@ const Sidebar = memo(
     onNavigate,
     logoutLabel = "Logout",
     handleLogout,
+    bottomLogoutButton,
   }: SidebarProps) => {
     const handleItemClick = useCallback(
       (path: string) => {
@@ -95,6 +96,21 @@ const Sidebar = memo(
         </Menu>
       ) : null;
 
+    const bottomLogoutButtonContent = useMemo(() => {
+      if (bottomLogoutButton != null) return bottomLogoutButton;
+      if (handleLogout != null) {
+        return (
+          <div className={styles.logoutContainer}>
+            <button type="button" className={styles.logoutButton} onClick={handleLogout} title={logoutLabel}>
+              <LogOut size={20} />
+              <span className={collapsed ? styles.hiddenText : styles.visibleText}>{logoutLabel}</span>
+            </button>
+          </div>
+        );
+      }
+      return null;
+    }, [collapsed, logoutLabel, handleLogout, bottomLogoutButton]);
+
     return (
       <ProSidebar
         collapsed={collapsed}
@@ -110,14 +126,7 @@ const Sidebar = memo(
       >
         <div className={styles.sidebarContent} onWheel={(e) => e.stopPropagation()}>
           <div className={styles.menuWrapper}>{children ?? menuContent}</div>
-          {handleLogout != null && (
-            <div className={styles.logoutContainer}>
-              <button type="button" className={styles.logoutButton} onClick={handleLogout} title={logoutLabel}>
-                <LogOut size={20} />
-                <span className={collapsed ? styles.hiddenText : styles.visibleText}>{logoutLabel}</span>
-              </button>
-            </div>
-          )}
+          {bottomLogoutButtonContent}
         </div>
       </ProSidebar>
     );

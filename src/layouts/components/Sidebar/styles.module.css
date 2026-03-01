@@ -197,7 +197,6 @@
 
 .logoutButton:hover {
   background-color: var(--color-bg-3);
-  color: var(--color-danger, #ef4444);
 }
 
 .logoutButton:active {

@@ -19,6 +19,7 @@ export const LayoutFrame = memo(
     onSidebarNavigate,
     sidebarLogoutLabel,
     onSidebarLogout,
+    bottomLogoutButton,
   }: LayoutFrameProps) => {
     const { layoutMode } = useLayout();
     return (
@@ -34,6 +35,7 @@ export const LayoutFrame = memo(
                 onSidebarNavigate={onSidebarNavigate}
                 sidebarLogoutLabel={sidebarLogoutLabel}
                 onSidebarLogout={onSidebarLogout}
+                bottomLogoutButton={bottomLogoutButton}
               >
                 {children}
               </SideHideLayout>
@@ -48,6 +50,7 @@ export const LayoutFrame = memo(
                 onSidebarNavigate={onSidebarNavigate}
                 sidebarLogoutLabel={sidebarLogoutLabel}
                 onSidebarLogout={onSidebarLogout}
+                bottomLogoutButton={bottomLogoutButton}
               >
                 {children}
               </SideShowLayout>

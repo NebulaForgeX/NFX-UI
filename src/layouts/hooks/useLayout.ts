@@ -17,4 +17,4 @@ const useLayout = () => {
 };
 
 export default useLayout;
-export { LayoutContext };
+export { LayoutContext, useLayout };
