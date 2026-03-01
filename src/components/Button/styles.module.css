@@ -164,3 +164,59 @@
 .rightIcon {
   margin-left: -0.25rem;
 }
+
+/* Icon-only (square) */
+.button.iconOnly {
+  aspect-ratio: 1;
+  padding: 0;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+.button.iconOnly.small {
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.button.iconOnly.large {
+  min-width: 3rem;
+  min-height: 3rem;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.topIcon,
+.bottomIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconOnly .iconContainer .leftIcon,
+.iconOnly .iconContainer .rightIcon {
+  margin: 0;
+}

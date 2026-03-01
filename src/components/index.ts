@@ -11,9 +11,6 @@ export type { DropdownOption, DropdownProps } from "./Dropdown";
 export { default as Icon } from "./Icon";
 export type { IconName, IconProps } from "./Icon";
 
-export { default as IconButton } from "./IconButton";
-export type { IconButtonProps } from "./IconButton";
-
 export { default as Input } from "./Input";
 export type { InputProps } from "./Input";
 
