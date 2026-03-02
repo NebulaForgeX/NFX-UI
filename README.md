@@ -5,7 +5,7 @@
 **NFX-UI = NebulaForgeX 前端 UI 库**
 
 <div align="center">
-  <img src="./docs/image1.png" alt="NFX-UI Logo" width="200">
+  <img src="https://github.com/NebulaForgeX/NFX-UI/raw/main/docs/image1.png" alt="NFX-UI Logo" width="200">
 </div>
 
 **English:**  

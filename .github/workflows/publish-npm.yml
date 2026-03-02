@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
+          # 使用 Trusted Publishing (OIDC)，不设 registry-url，避免使用到过期的 NODE_AUTH_TOKEN
 
       - name: Get version
         id: pkg
