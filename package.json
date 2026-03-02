@@ -1,11 +1,15 @@
 {
   "name": "nfx-ui",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "description": "Unified frontend UI library for the NFX product family: shared React components, design tokens, theme variables, and layout primitives for a consistent look and behavior across NFX console and other apps.",
   "repository": {
     "type": "git",
     "url": "https://github.com/NebulaForgeX/NFX-UI"
+  },
+  "homepage": "https://github.com/NebulaForgeX/NFX-UI#readme",
+  "bugs": {
+    "url": "https://github.com/NebulaForgeX/NFX-UI/issues"
   },
   "exports": {
     "./themes": {
@@ -129,6 +133,8 @@
     "ui",
     "components",
     "nfx",
+    "NebulaForgeX",
+    "NFX-UI",
     "design-system"
   ],
   "license": "UNLICENSED",
