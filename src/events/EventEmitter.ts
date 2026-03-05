@@ -1,35 +1,40 @@
 /**
  * 通用事件发射器（按事件名注册/注销/触发）
  * Generic event emitter: subscribe, unsubscribe, and emit by event name.
+ * PayloadMap 支持：void（无参）、单类型（单参）、元组（多参）。
  *
- * @example
+ * @example 无 PayloadMap（全部无参）
  * ```ts
- * import { EventEmitter, defineEvents, type EventNamesOf } from "@/events";
- * const events = defineEvents({ FOO: "MY:FOO", BAR: "MY:BAR" });
- * type MyEvent = EventNamesOf<typeof events>;
- * class MyEmitter extends EventEmitter<MyEvent> { constructor() { super(events); } }
- * const em = new MyEmitter();
- * em.on(events.FOO, (x) => console.log(x));
- * em.emit(events.FOO, "hello");
+ * const events = defineEvents({ A: "a", B: "b" });
+ * class Em extends EventEmitter<EventNamesOf<typeof events>> { constructor() { super(events); } }
+ * const em = new Em(); em.on(events.A, () => {}); em.emit(events.A);
+ * ```
+ * @example 单参
+ * ```ts
+ * type Map = { FOO: string };
+ * class Em extends EventEmitter<"FOO", Map> { ... }
+ * em.on(events.FOO, (x) => console.log(x)); em.emit(events.FOO, "hi");
+ * ```
+ * @example 多参（PayloadMap[K] 为元组）
+ * ```ts
+ * type Map = { LOG: [string, number] };
+ * em.on(events.LOG, (msg, level) => {}); em.emit(events.LOG, "ok", 1);
  * ```
  */
 
 import type { Defined } from "@/types";
 
-/** 内部存储用回调类型（on/off 对外暴露泛型回调）。Internal storage type for listeners. */
+/** 内部存储用回调类型。Internal storage type for listeners. */
 type EventCallback<Args extends unknown[] = unknown[]> = (...args: Args) => void;
+
+/** 将 PayloadMap[K] 规范为参数元组：void→[]，单类型 T→[T]，已是元组则不变。Normalize payload to args tuple for emit/on. */
+type ToArgs<P> = P extends void ? [] : P extends unknown[] ? P : [P];
 
 /** 由 defineEvents 返回的「已规范事件名对象」类型；constructor 只接受此类型。 */
 type DefinedEvents<T extends Record<string, string>> = Defined<T, "events">;
 
 /** 从 events 对象推导出事件名联合类型。Event name union from an events key-value object. */
 type EventNamesOf<T> = T extends Defined<infer O, "events"> ? O[keyof O] : T extends Record<string, string> ? T[keyof T] : never;
-
-/**
- * 事件名到 payload 类型的映射；未指定时默认为 unknown，on/off 回调参数为 unknown。
- * Map event name to payload type; default unknown so callback is (payload: unknown) => void.
- */
-type DefaultPayloadMap<E extends string> = Record<E, unknown>;
 
 /**
  * 规范创建「一级 key-value」事件名对象：仅允许 key → 字符串 value，禁止嵌套（类型约束）。
@@ -58,13 +63,12 @@ function createListenersMap<E extends string>(eventNames: readonly E[]): Record<
 
 /**
  * 泛型 EventEmitter：构造函数仅接受 defineEvents 返回的 DefinedEvents 类型，提供 on / off / emit。
- * 第二泛型 PayloadMap 为「事件名 → payload 类型」映射，未传则全部为 unknown。
- * Generic EventEmitter: constructor accepts only DefinedEvents (returned by defineEvents), provides on / off / emit.
- * Second generic PayloadMap maps event name to payload type; omitted then all payloads are unknown.
+ * PayloadMap[K] 可为 void（无参）、单类型 T（单参）、或元组 [A, B, ...]（多参），统一规范为参数列表。
+ * PayloadMap[K] can be void (no args), single type T (one arg), or tuple [A, B, ...] (multi arg).
  *
  * @param events - 须为 defineEvents(...) 的返回值（DefinedEvents）。Must be the return value of defineEvents(...) (DefinedEvents).
  */
-class EventEmitter<E extends string, PayloadMap extends Record<E, unknown> = DefaultPayloadMap<E>> {
+class EventEmitter<E extends string, PayloadMap extends Record<E, unknown> = Record<E, void>> {
   private listeners: Record<E, Set<EventCallback>>;
 
   constructor(events: DefinedEvents<Record<string, E>>) {
@@ -72,10 +76,10 @@ class EventEmitter<E extends string, PayloadMap extends Record<E, unknown> = Def
   }
 
   /**
-   * 注册事件监听；回调参数类型由 PayloadMap[event] 推断。
-   * Register a listener; callback argument type is inferred from PayloadMap[event].
+   * 注册事件监听；回调参数由 PayloadMap[K] 规范为 ...args（无参/单参/多参均支持）。
+   * Register a listener; callback args are normalized from PayloadMap[K] (void / single / tuple).
    */
-  on<K extends E>(event: K, callback: (payload: PayloadMap[K]) => void): void {
+  on<K extends E>(event: K, callback: (...args: ToArgs<PayloadMap[K]>) => void): void {
     this.listeners[event].add(callback as EventCallback);
   }
 
@@ -83,15 +87,15 @@ class EventEmitter<E extends string, PayloadMap extends Record<E, unknown> = Def
    * 移除事件监听（需与 on 时同一引用）。
    * Remove a listener (same reference as passed to on).
    */
-  off<K extends E>(event: K, callback: (payload: PayloadMap[K]) => void): void {
+  off<K extends E>(event: K, callback: (...args: ToArgs<PayloadMap[K]>) => void): void {
     this.listeners[event].delete(callback as EventCallback);
   }
 
   /**
-   * 触发事件；无 payload 时 PayloadMap[K] 为 void 则只传 event。
-   * Emit an event; when PayloadMap[K] is void, only event is passed.
+   * 触发事件；参数与 PayloadMap[K] 一致：void 无参，T 单参，[A,B] 多参。
+   * Emit an event; args match PayloadMap[K]: void → no args, T → one arg, [A,B] → spread.
    */
-  emit<K extends E>(event: K, ...args: PayloadMap[K] extends void ? [] : [PayloadMap[K]]): void {
+  emit<K extends E>(event: K, ...args: ToArgs<PayloadMap[K]>): void {
     this.listeners[event].forEach((cb) => cb(...args));
   }
 }
