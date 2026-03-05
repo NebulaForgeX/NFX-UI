@@ -24,13 +24,12 @@
 
 import type { Defined } from "@/types";
 
-/** 内部存储用回调类型。Internal storage type for listeners. */
-type EventCallback<Args extends unknown[] = unknown[]> = (...args: Args) => void;
+/** 回调类型：内部存储与 on/off 默认(unknown)时均用此，任意函数即可，无需 as 断言。 */
+type EventCallback = (...args: any[]) => void;
 
 /**
  * 将 PayloadMap[K] 规范为参数元组。
- * void→[]；unknown（默认/未指定 payload 类型）→ [] | [unknown]（无参或单参，通用）；单类型 T→[T]；元组→不变。
- * Normalize payload to args: void→[]; unknown (default)→optional one arg; single T→[T]; tuple→unchanged.
+ * void→[]；unknown（默认）→ [] | [unknown]；单类型 T→[T]；元组→不变。
  */
 type ToArgs<P> = P extends void
   ? []
@@ -85,20 +84,14 @@ class EventEmitter<E extends string, PayloadMap extends Record<E, unknown> = Rec
     this.listeners = createListenersMap(Object.values(events as Record<string, E>));
   }
 
-  /**
-   * 注册事件监听；回调参数由 PayloadMap[K] 规范为 ...args（无参/单参/多参均支持）。
-   * Register a listener; callback args are normalized from PayloadMap[K] (void / single / tuple).
-   */
-  on<K extends E>(event: K, callback: (...args: ToArgs<PayloadMap[K]>) => void): void {
-    this.listeners[event].add(callback as EventCallback);
+  /** 注册事件监听；回调为任意函数，由 emit 时传入的参数决定实际类型。 */
+  on<K extends E>(event: K, callback: EventCallback): void {
+    this.listeners[event].add(callback);
   }
 
-  /**
-   * 移除事件监听（需与 on 时同一引用）。
-   * Remove a listener (same reference as passed to on).
-   */
-  off<K extends E>(event: K, callback: (...args: ToArgs<PayloadMap[K]>) => void): void {
-    this.listeners[event].delete(callback as EventCallback);
+  /** 移除事件监听（需与 on 时同一引用）。 */
+  off<K extends E>(event: K, callback: EventCallback): void {
+    this.listeners[event].delete(callback);
   }
 
   /**
