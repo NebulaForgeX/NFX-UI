@@ -9,6 +9,7 @@ import { darkColorTheme } from "./dark";
 import { defaultColorTheme } from "./default";
 import { forestColorTheme } from "./forest";
 import { lightColorTheme } from "./light";
+import { wheatColorTheme } from "./wheat";
 import { wineColorTheme } from "./wine";
 
 const defaultTheme: Theme = { colors: defaultColorTheme, base: defaultBaseTheme };
@@ -19,6 +20,7 @@ const corporateTheme: Theme = { colors: corporateColorTheme, base: defaultBaseTh
 const forestTheme: Theme = { colors: forestColorTheme, base: defaultBaseTheme };
 const coffeeTheme: Theme = { colors: coffeeColorTheme, base: defaultBaseTheme };
 const wineTheme: Theme = { colors: wineColorTheme, base: defaultBaseTheme };
+const wheatTheme: Theme = { colors: wheatColorTheme, base: defaultBaseTheme };
 
 export const themes: Record<ThemeEnum, Theme> = {
   [ThemeEnum.DEFAULT]: defaultTheme,
@@ -29,6 +31,7 @@ export const themes: Record<ThemeEnum, Theme> = {
   [ThemeEnum.FOREST]: forestTheme,
   [ThemeEnum.COFFEE]: coffeeTheme,
   [ThemeEnum.WINE]: wineTheme,
+  [ThemeEnum.WHEAT]: wheatTheme,
 };
 
-export { defaultTheme, lightTheme, darkTheme, cosmicTheme, corporateTheme, forestTheme, coffeeTheme, wineTheme };
+export { defaultTheme, lightTheme, darkTheme, cosmicTheme, corporateTheme, forestTheme, coffeeTheme, wineTheme, wheatTheme };

@@ -132,6 +132,8 @@ export enum ThemeEnum {
   COSMIC = "cosmic",
   COFFEE = "coffee",
   WINE = "wine",
+  /** 麦田：default 基础上白红色改为金黄色 */
+  WHEAT = "wheat",
 }
 
 export const DEFAULT_THEME = ThemeEnum.DEFAULT;
