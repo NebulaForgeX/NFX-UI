@@ -157,7 +157,7 @@ src/
 
 ## License
 
-UNLICENSED (private use). Change the license in `package.json` if you publish.
+[MIT](LICENSE) — see [LICENSE](LICENSE) for details.
 
 ---
 
@@ -320,4 +320,4 @@ src/
 
 ## 许可证
 
-UNLICENSED（仅内部使用）。若对外发布请在 `package.json` 中修改许可证。
+[MIT](LICENSE) — 详见 [LICENSE](LICENSE)。

@@ -1,6 +1,6 @@
 {
   "name": "nfx-ui",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "type": "module",
   "description": "Unified frontend UI library for the NFX product family: shared React components, design tokens, theme variables, and layout primitives for a consistent look and behavior across NFX console and other apps.",
   "repository": {
@@ -111,7 +111,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -b && vite build",
@@ -137,7 +138,8 @@
     "NFX-UI",
     "design-system"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "author": "NebulaForgeX",
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
