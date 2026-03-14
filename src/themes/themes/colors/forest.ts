@@ -43,6 +43,7 @@ export const forestColorTheme: ColorTheme = {
     fgText: "#374151",
     fgHeading: "#0F172A",
     fgHighlight: "#1F7A5A",
+    fgOnPrimary: "#FFFFFF", // 暂时等于 bg
     separator: "#E5E7EB",
 
     temperature: {

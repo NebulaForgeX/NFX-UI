@@ -44,6 +44,7 @@ export const darkColorTheme: ColorTheme = {
     fgText: "#fafafa",
     fgHeading: "#ffffff",
     fgHighlight: "#fde047",
+    fgOnPrimary: "#0f0f11", // 暂时等于 bg
 
     // 分隔线
     separator: "#27272a",

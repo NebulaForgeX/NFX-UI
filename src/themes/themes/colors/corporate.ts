@@ -35,6 +35,7 @@ export const corporateColorTheme: ColorTheme = {
     fgText: "#222b45",
     fgHeading: "#192038",
     fgHighlight: "#003694",
+    fgOnPrimary: "#ffffff", // 暂时等于 bg
 
     // 分隔符
     separator: "#edf1f7",

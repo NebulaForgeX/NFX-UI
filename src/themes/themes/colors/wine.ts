@@ -37,6 +37,7 @@ export const wineColorTheme: ColorTheme = {
     fgText: "#F4E6E9",
     fgHeading: "#F4E6E9",
     fgHighlight: "#F4E6E9",
+    fgOnPrimary: "#2A0B12", // 暂时等于 bg
 
     separator: "#3A0F1A",
 

@@ -32,6 +32,8 @@ export interface ColorVariables {
   fgText: string;
   fgHeading: string;
   fgHighlight: string;
+  /** primary 上的文字色，暂时规定等于 bg */
+  fgOnPrimary: string;
   separator: string;
 
   temperature: {

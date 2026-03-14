@@ -34,6 +34,7 @@ export const wheatColorTheme: ColorTheme = {
     fgText: "rgb(22, 21, 21)",
     fgHeading: "rgb(0, 0, 0)",
     fgHighlight: "rgb(201, 162, 39)", // 金黄高亮
+    fgOnPrimary: "rgb(250, 250, 250)", // 暂时等于 bg
 
     separator: "rgb(226, 224, 224)",
 

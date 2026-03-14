@@ -43,6 +43,7 @@ export const coffeeColorTheme: ColorTheme = {
     fgText: "#F8F4E1",
     fgHeading: "#F8F4E1",
     fgHighlight: "#E4E0E1",
+    fgOnPrimary: "#2e1a08", // 暂时等于 bg
 
     separator: "#493628",
 

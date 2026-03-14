@@ -36,6 +36,7 @@ export const defaultColorTheme: ColorTheme = {
     fgText: "rgb(22, 21, 21)", // 黑色文字
     fgHeading: "rgb(0, 0, 0)", // 纯黑标题
     fgHighlight: "rgb(250, 30, 22)", // 红色高亮
+    fgOnPrimary: "rgb(250, 250, 250)", // 暂时等于 bg
 
     // 分隔符
     separator: "rgb(226, 224, 224)",

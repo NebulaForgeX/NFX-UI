@@ -35,6 +35,7 @@ export const cosmicColorTheme: ColorTheme = {
     fgText: "#ffffff",
     fgHeading: "#ffffff",
     fgHighlight: "#a16eff",
+    fgOnPrimary: "#323259", // 暂时等于 bg
 
     // 分隔符
     separator: "#2a2a48",

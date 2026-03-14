@@ -46,6 +46,7 @@ const useThemeVariables = (currentTheme: Theme, themeName: ThemeEnum) => {
     root.style.setProperty("--color-fg-text", vars.fgText);
     root.style.setProperty("--color-fg-heading", vars.fgHeading);
     root.style.setProperty("--color-fg-highlight", vars.fgHighlight);
+    root.style.setProperty("--color-fg-on-primary", vars.fgOnPrimary);
     root.style.setProperty("--color-separator", vars.separator);
 
     // 基础变量（圆角等）/ Base (radius, etc.)
