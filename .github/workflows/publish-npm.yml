@@ -28,9 +28,8 @@ jobs:
         with:
           node-version: '22'
 
-      # 全程使用最新 npm（Trusted Publishing 需 npm 11.5.1+）
-      - name: Use latest npm
-        run: npm install -g npm@latest
+      # 不在 CI 里 `npm i -g npm@latest`：部分 runner 上会 MODULE_NOT_FOUND（如 promise-retry），导致整 job 失败。
+      # Trusted Publishing（OIDC）需 npm 11.5.1+：发布步骤用 npx 拉取 npm 11，避免污染全局 npm。
 
       - name: Get version
         id: pkg
@@ -53,4 +52,4 @@ jobs:
 
       - name: Publish to npm
         if: steps.check.outputs.published != 'true'
-        run: npm publish --provenance
+        run: npx --yes npm@11 publish --provenance
