@@ -1,6 +1,6 @@
 {
   "name": "nfx-ui",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "type": "module",
   "sideEffects": false,
   "description": "Unified frontend UI library for the NFX product family: shared React components, design tokens, theme variables, and layout primitives for a consistent look and behavior across NFX console and other apps.",
@@ -122,7 +122,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && tsc -p tsconfig.dts.json",
     "link": "npm run build && npm link",
     "prepublishOnly": "npm run build",
     "lint:code-format": "prettier --check \"src/**/*.{js,jsx,ts,tsx,cjs,mjs,json,md}\"",
@@ -201,6 +201,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^17.4.0",
+    "minimatch": "^10.2.4",
     "postprocessing": "^6.39.0",
     "prettier": "^3.8.1",
     "react": "^19.2.4",
@@ -210,12 +211,6 @@
     "typescript-eslint": "^8.58.0",
     "vite": "^8.0.3",
     "vite-plugin-css-injected-by-js": "^4.0.1",
-    "vite-plugin-dts": "^4.5.4",
     "zustand": "^5.0.12"
-  },
-  "overrides": {
-    "vite": "^8.0.3",
-    "esbuild": "^0.27.4",
-    "minimatch": "^10.2.4"
   }
 }

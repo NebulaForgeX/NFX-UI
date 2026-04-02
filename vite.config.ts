@@ -6,7 +6,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -87,12 +86,6 @@ const globals = { react: "React", "react-dom": "ReactDOM" };
 export default defineConfig({
   plugins: [
     react(),
-    dts({
-      include: ["src"],
-      exclude: ["**/*.json"],
-      outDir: "dist",
-      tsconfigPath: "./tsconfig.app.json",
-    }),
     cssInjectedByJsPlugin({
       // 多入口时：仅对每个入口自己的 .mjs/.cjs 注入该入口打包到的 CSS，chunk 不注入。
       // Multi-entry: inject CSS only into each entry's own output (themes→themes.mjs, layouts→layouts.mjs, …), not into chunks.
