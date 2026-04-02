@@ -22,7 +22,7 @@
  * ```
  */
 
-import type { Defined } from "@/types";
+import type { Defined, ValueOf } from "@/types";
 
 /** 回调类型：内部存储与 on/off 默认(unknown)时均用此，任意函数即可，无需 as 断言。 */
 type EventCallback = (...args: any[]) => void;
@@ -42,8 +42,16 @@ type ToArgs<P> = P extends void
 /** 由 defineEvents 返回的「已规范事件名对象」类型；constructor 只接受此类型。 */
 type DefinedEvents<T extends Record<string, string>> = Defined<T, "events">;
 
-/** 从 events 对象推导出事件名联合类型。Event name union from an events key-value object. */
-type EventNamesOf<T> = T extends Defined<infer O, "events"> ? O[keyof O] : T extends Record<string, string> ? T[keyof T] : never;
+/**
+ * 从 events 对象推导出事件名字符串联合。
+ * - 使用 `[T] extends [Defined<...>]` 稳定 `infer O`，避免部分 TS 版本下 `T extends Defined<infer O>` 推断失败得到 `never`。
+ * - 排除 `__defineBrand`，避免 `keyof O` 混入品牌键导致值联合含 `"events"` 或推断异常。
+ */
+type EventNamesOf<T> = [T] extends [Defined<infer O, "events">]
+  ? ValueOf<{ [K in keyof O as K extends "__defineBrand" ? never : K]: O[K] }>
+  : T extends Record<string, string>
+    ? T[keyof T]
+    : never;
 
 /**
  * 规范创建「一级 key-value」事件名对象：仅允许 key → 字符串 value，禁止嵌套（类型约束）。
