@@ -41,7 +41,7 @@
 
 .removeButton:hover {
   background-color: var(--color-error);
-  color: white;
+  color: var(--color-primary-fg);
 }
 
 .addButton {

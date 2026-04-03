@@ -24,12 +24,15 @@ interface SquaresProps {
 const Squares: React.FC<SquaresProps> = ({
   direction = "right",
   speed = 1,
-  borderColor = "#999",
+  borderColor = "#6B7280",
   squareSize = 40,
-  hoverFillColor = "#222",
+  hoverFillColor = "#111827",
   className = "",
   style = {},
 }) => {
+  const { currentTheme } = useTheme();
+  const vignetteEdgeColor = currentTheme.colors.variables.fgHeading;
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number | null>(null);
   const numSquaresX = useRef<number>(0);
@@ -87,7 +90,7 @@ const Squares: React.FC<SquaresProps> = ({
         Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
       );
       gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-      gradient.addColorStop(1, "#060010");
+      gradient.addColorStop(1, vignetteEdgeColor);
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -150,7 +153,7 @@ const Squares: React.FC<SquaresProps> = ({
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [direction, speed, borderColor, hoverFillColor, squareSize]);
+  }, [direction, speed, borderColor, hoverFillColor, squareSize, vignetteEdgeColor]);
 
   return <canvas ref={canvasRef} className={`${styles.squaresCanvas} ${className}`} style={style} />;
 };
@@ -160,7 +163,7 @@ const SquareBackground: React.FC<Omit<SquaresProps, "borderColor" | "hoverFillCo
 
   // 从主题中获取边框颜色
   const borderColor = useMemo(() => {
-    const borderColorValue = currentTheme.colors.variables.border5 || currentTheme.colors.variables.fg || "#271E37";
+    const borderColorValue = currentTheme.colors.variables.border5 || currentTheme.colors.variables.fg || "#6B7280";
     if (borderColorValue.startsWith("#")) {
       return borderColorValue;
     }
@@ -176,7 +179,7 @@ const SquareBackground: React.FC<Omit<SquaresProps, "borderColor" | "hoverFillCo
 
   // 从主题中获取悬停填充颜色
   const hoverFillColor = useMemo(() => {
-    const baseColor = currentTheme.colors.variables.bg3 || currentTheme.colors.variables.border3 || "#222222";
+    const baseColor = currentTheme.colors.variables.bg3 || currentTheme.colors.variables.border3 || "#F3F4F6";
 
     const darkenColor = (r: number, g: number, b: number, factor: number = 0.3) => {
       const newR = Math.round(r * (1 - factor));

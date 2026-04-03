@@ -20,6 +20,11 @@ let languagePersistAttached = false;
  * Init i18n. Merges built-in NFX bundles (theme, language, layout, preference) with user bundles (user overrides).
  */
 export function initI18n(options: InitI18nOptions): void {
+  /** React StrictMode remounts the provider; i18next 原单例二次 init 会弄乱资源。 */
+  if (i18n.isInitialized) {
+    return;
+  }
+
   const nfx = getDefaultNfxBundles();
   const user = options.bundles;
   const fallbackLng = options.fallbackLng ?? LanguageEnum.ZH;
@@ -59,6 +64,12 @@ export function initI18n(options: InitI18nOptions): void {
       resources: RESOURCES,
       lng: initialLng,
       fallbackLng,
+      /**
+       * 资源只注册 en/zh/fr；.detector 或浏览器会给出 zh-CN、en-US 等，若不收敛则整语言匹配失败 → 界面全是 key。
+       * Bundles are only `en` / `zh` / `fr`; normalize regional codes so namespaces resolve.
+       */
+      supportedLngs: [...LANGUAGE_VALUES],
+      load: "languageOnly",
       ns: NAME_SPACES,
       defaultNS: NAME_SPACES[0],
       interpolation: { escapeValue: false },
@@ -77,18 +88,23 @@ export function initI18n(options: InitI18nOptions): void {
 
   const onLoad = options.onLoadExtraBundles;
   if (onLoad) {
-    const apply = async (lng: LanguageEnum) => {
-      const result = await onLoad(lng);
+    const toSupported = (lng: string): LanguageEnum => {
+      const base = lng.split("-")[0]?.toLowerCase() ?? "";
+      return (LANGUAGE_VALUES as readonly string[]).includes(base) ? (base as LanguageEnum) : fallbackLng;
+    };
+    const apply = async (lng: string) => {
+      const code = toSupported(lng);
+      const result = await onLoad(code);
       if (result == null) return;
       const items = Array.isArray(result) ? result : [result];
       for (const { namespace, bundle } of items) {
         if (namespace && bundle && typeof bundle === "object") {
-          i18n.addResourceBundle(lng, namespace, bundle, true, true);
+          i18n.addResourceBundle(code, namespace, bundle, true, true);
         }
       }
     };
-    void apply((i18n.language as LanguageEnum) || fallbackLng);
-    i18n.on("languageChanged", (lng) => void apply(lng as LanguageEnum));
+    void apply(i18n.language || fallbackLng);
+    i18n.on("languageChanged", (lng) => void apply(lng));
   }
 }
 

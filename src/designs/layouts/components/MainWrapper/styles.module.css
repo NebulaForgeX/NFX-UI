@@ -16,7 +16,7 @@
     z-index: 100;
     background: var(--color-bg);
     width: 100%;
-    box-shadow: 0 0.125rem 0.25rem 0 rgba(44, 51, 73, 0.1);
+    box-shadow: 0 0.125rem 0.25rem 0 var(--color-shadow);
 }
 
 

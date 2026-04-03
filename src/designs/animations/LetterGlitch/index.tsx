@@ -17,7 +17,7 @@ interface LetterGlitchProps {
 
 const LetterGlitch = memo(
   ({
-    glitchColors = ["#2b4539", "#61dca3", "#61b3dc"],
+    glitchColors = ["#7F1D1D", "#16A34A", "#2563EB"],
     glitchSpeed = 500, // 增加默认速度，减少更新频率
     centerVignette = false,
     outerVignette = true,
@@ -266,9 +266,9 @@ const LetterGlitchBackground: React.FC<Omit<LetterGlitchProps, "glitchColors">> 
 
   // 从主题中获取故障颜色数组
   const glitchColors = useMemo(() => {
-    const primary = currentTheme.colors.variables.primary || "#FA1E16";
-    const info = currentTheme.colors.variables.info || "#0095ff";
-    const success = currentTheme.colors.variables.success || "#00d68f";
+    const primary = currentTheme.colors.variables.primary || "#DC2626";
+    const info = currentTheme.colors.variables.info || "#2563EB";
+    const success = currentTheme.colors.variables.success || "#16A34A";
 
     const toHex = (color: string): string => {
       if (color.startsWith("#")) {

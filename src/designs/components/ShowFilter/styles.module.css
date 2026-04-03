@@ -30,13 +30,14 @@
 
 .toggleButton.enabled {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-primary-fg);
   border-color: var(--color-primary);
 }
 
 .toggleButton.enabled:hover {
   background: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
+  color: var(--color-primary-fg);
 }
 
 .optionsContainer {
@@ -72,12 +73,13 @@
 
 .option.active {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-primary-fg);
   border-color: var(--color-primary);
 }
 
 .option.active:hover {
   background: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
+  color: var(--color-primary-fg);
 }
 

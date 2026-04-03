@@ -375,7 +375,7 @@ const PixelBlast: React.FC<PixelBlastProps> = memo(
   ({
     variant = "square",
     pixelSize = 3,
-    color = "#B19EEF",
+    color = "#DC2626",
     className,
     style,
     antialias = true,
@@ -735,7 +735,7 @@ const PixelBlastBackground: React.FC<Omit<PixelBlastProps, "color">> = memo((pro
 
   // 从主题中获取颜色
   const color = useMemo(() => {
-    const primary = currentTheme.colors.variables.primary || "#B19EEF";
+    const primary = currentTheme.colors.variables.primary || "#DC2626";
 
     const toHex = (color: string): string => {
       if (color.startsWith("#")) {

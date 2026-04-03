@@ -85,19 +85,19 @@ const Sidebar = memo(
               },
               "&.active": {
                 backgroundColor: "var(--color-primary)",
-                color: "#ffffff",
+                color: "var(--color-primary-fg)",
               },
             },
             icon: {
               color: "var(--color-fg-text)",
               "&.active": {
-                color: "#ffffff",
+                color: "var(--color-primary-fg)",
               },
             },
             label: {
               color: "var(--color-fg-text)",
               "&.active": {
-                color: "#ffffff",
+                color: "var(--color-primary-fg)",
               },
             },
           }}

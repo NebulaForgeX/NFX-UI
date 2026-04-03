@@ -84,19 +84,19 @@
 
 .sidebar :global(.ps-menu-button.ps-active) {
   background-color: var(--color-primary) !important;
-  color: #ffffff !important;
+  color: var(--color-primary-fg) !important;
 }
 
 .sidebar :global(.ps-menu-button.ps-active *) {
-  color: #ffffff !important;
+  color: var(--color-primary-fg) !important;
 }
 
 .sidebar :global(.ps-menu-button.ps-active .ps-menu-icon) {
-  color: #ffffff !important;
+  color: var(--color-primary-fg) !important;
 }
 
 .sidebar :global(.ps-menu-button.ps-active .ps-menu-label) {
-  color: #ffffff !important;
+  color: var(--color-primary-fg) !important;
 }
 
 /* 菜单图标样式 */
@@ -127,13 +127,13 @@
   font-weight: 500 !important;
 }
 
-/* 强制选中状态的所有子元素为白色 */
+/* 选中态：主色上的前景（与 themes primaryFg 一致） */
 .sidebar :global(.ps-menu-button.ps-active),
 .sidebar :global(.ps-menu-button.ps-active span),
 .sidebar :global(.ps-menu-button.ps-active div),
 .sidebar :global(.ps-menu-button.ps-active .ps-menu-icon),
 .sidebar :global(.ps-menu-button.ps-active .ps-menu-label) {
-  color: #ffffff !important;
+  color: var(--color-primary-fg) !important;
 }
 
 /* 退出登录按钮容器 */

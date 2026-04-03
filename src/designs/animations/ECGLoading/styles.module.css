@@ -13,12 +13,12 @@
 
 .loading svg polyline.back {
     fill: none;
-    stroke: var(--color-primary-alpha, rgba(255, 77, 80, 0.2));
+    stroke: var(--color-primary-alpha);
 }
 
 .loading svg polyline.front {
     fill: none;
-    stroke: var(--color-primary, #ff4d4f);
+    stroke: var(--color-primary);
     stroke-dasharray: 48, 144;
     stroke-dashoffset: 192;
     animation: dash_682 1.4s linear infinite;

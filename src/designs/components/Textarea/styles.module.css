@@ -44,11 +44,11 @@
 
 .textarea:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb, 102, 126, 234), 0.1);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
 }
 
 .textarea::placeholder {
-  color: var(--color-fg-muted, var(--color-fg-text));
+  color: var(--color-fg-muted);
   opacity: 0.5;
 }
 
@@ -90,7 +90,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-fg-muted, var(--color-fg-text));
+  color: var(--color-fg-muted);
   pointer-events: none;
   z-index: 1;
 }
@@ -102,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-fg-muted, var(--color-fg-text));
+  color: var(--color-fg-muted);
   pointer-events: none;
   z-index: 1;
 }
@@ -124,7 +124,7 @@
 
 .textarea.error:focus {
   border-color: var(--color-danger);
-  box-shadow: 0 0 0 3px rgba(var(--color-danger-rgb, 244, 67, 54), 0.1);
+  box-shadow: 0 0 0 3px rgba(var(--color-danger-rgb), 0.1);
 }
 
 /* Disabled state */

@@ -46,7 +46,7 @@
 .button.primary {
   background: var(--color-primary);
   border-color: var(--color-primary);
-  color: var(--color-primary-fg, #ffffff);
+  color: var(--color-primary-fg);
 }
 
 .button.primary:hover:not(:disabled) {
@@ -94,12 +94,13 @@
 .button.danger {
   background: var(--color-danger);
   border-color: var(--color-danger);
-  color: #ffffff;
+  color: var(--color-primary-fg);
 }
 
 .button.danger:hover:not(:disabled) {
   background: var(--color-danger-light);
   border-color: var(--color-danger-light);
+  color: var(--color-danger);
   transform: translateY(-1px);
 }
 
