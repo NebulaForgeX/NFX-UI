@@ -23,3 +23,4 @@ export * from "./suspense";
 export * from "./time";
 export * from "./random";
 export * from "./types";
+export * from "./idle";
