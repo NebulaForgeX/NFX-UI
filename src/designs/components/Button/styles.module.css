@@ -94,13 +94,14 @@
 .button.danger {
   background: var(--color-danger);
   border-color: var(--color-danger);
-  color: var(--color-primary-fg);
+  /* 与 Modal 等危险操作区一致：用 danger 专用前景，勿用 primary-fg（主题下易为深色） */
+  color: var(--color-danger-fg, #ffffff);
 }
 
 .button.danger:hover:not(:disabled) {
   background: var(--color-danger-light);
   border-color: var(--color-danger-light);
-  color: var(--color-danger);
+  color: var(--color-danger-fg, #ffffff);
   transform: translateY(-1px);
 }
 
