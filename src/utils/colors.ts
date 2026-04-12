@@ -25,7 +25,7 @@ export const toRgbaWithAlpha = (color: string, alpha: number): string => {
  */
 export const rgbToRgba = (rgb: string, alpha: number): string => {
   if (rgb.startsWith("rgba")) return rgb;
-  const match = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  const match = rgb.match(/rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)/);
   if (match) {
     const [, r, g, b] = match;
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
@@ -72,6 +72,32 @@ export const hexToRGBA = (hex: string, alpha: number): string => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
+function parseColorToRgb(color: string): [number, number, number] {
+  const hex = color.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+  if (hex) return [parseInt(hex[1], 16), parseInt(hex[2], 16), parseInt(hex[3], 16)];
+  const rgb = color.match(/^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/i);
+  if (rgb) return [parseInt(rgb[1], 10), parseInt(rgb[2], 10), parseInt(rgb[3], 10)];
+  return [0, 0, 0];
+}
+
+function interpolateRgbTuple(start: string, end: string, factor: number): [number, number, number] {
+  const [r1, g1, b1] = parseColorToRgb(start);
+  const [r2, g2, b2] = parseColorToRgb(end);
+  return [
+    Math.round(r1 + (r2 - r1) * factor),
+    Math.round(g1 + (g2 - g1) * factor),
+    Math.round(b1 + (b2 - b1) * factor),
+  ];
+}
+
+function rgbTupleToHex([r, g, b]: [number, number, number]): string {
+  const h = (n: number) =>
+    Math.max(0, Math.min(255, n))
+      .toString(16)
+      .padStart(2, "0");
+  return `#${h(r)}${h(g)}${h(b)}`;
+}
+
 /**
  * 在两色之间按 factor 线性插值（支持 hex / rgb）
  * Linear color interpolation between start and end by factor (0–1); supports hex and rgb.
@@ -81,19 +107,15 @@ export const hexToRGBA = (hex: string, alpha: number): string => {
  * @returns rgb(r, g, b) 字符串
  */
 export const interpolateColor = (start: string, end: string, factor: number): string => {
-  const parse = (color: string): [number, number, number] => {
-    const hex = color.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
-    if (hex) return [parseInt(hex[1], 16), parseInt(hex[2], 16), parseInt(hex[3], 16)];
-    const rgb = color.match(/^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/i);
-    if (rgb) return [parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])];
-    return [0, 0, 0];
-  };
-  const [r1, g1, b1] = parse(start);
-  const [r2, g2, b2] = parse(end);
-  const r = Math.round(r1 + (r2 - r1) * factor);
-  const g = Math.round(g1 + (g2 - g1) * factor);
-  const b = Math.round(b1 + (b2 - b1) * factor);
+  const [r, g, b] = interpolateRgbTuple(start, end, factor);
   return `rgb(${r}, ${g}, ${b})`;
+};
+
+/**
+ * 与 {@link interpolateColor} 相同插值，直接返回 `#RRGGBB`（主题 token 多为 hex、`<input type="color" />` 需 hex 时用）
+ */
+export const interpolateColorHex = (start: string, end: string, factor: number): string => {
+  return rgbTupleToHex(interpolateRgbTuple(start, end, factor));
 };
 
 /**
