@@ -13,7 +13,6 @@ const useThemeVariables = (currentTheme: Theme, themeName: ThemeEnum) => {
   useEffect(() => {
     const root = document.documentElement;
     const vars = currentTheme.colors.variables;
-    const base = currentTheme.base.variables;
 
     // 主色与语义色 / Primary and semantic colors
     root.style.setProperty("--color-primary", vars.primary);
@@ -75,11 +74,6 @@ const useThemeVariables = (currentTheme: Theme, themeName: ThemeEnum) => {
     root.style.setProperty("--color-chart-3", vars.chart3);
     root.style.setProperty("--color-chart-4", vars.chart4);
     root.style.setProperty("--color-chart-5", vars.chart5);
-
-    // 基础变量（圆角等）/ Base (radius, etc.)
-    root.style.setProperty("--radius-button", `${base.buttonRadius}px`);
-    root.style.setProperty("--radius-card", `${base.cardRadius}px`);
-    root.style.setProperty("--radius-input", `${base.inputRadius}px`);
 
     // Temperature
     vars.temperature.arcFill.forEach((v: string, i: number) => {

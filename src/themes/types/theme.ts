@@ -187,12 +187,73 @@ export interface ColorVariables {
 
 /** 非颜色变量（圆角等，可随平台不同：iOS 24 / Android|Windows 6 / Linux 4） */
 export interface BaseVariables {
-  /** 按钮圆角（px） | `--radius-button` */
-  buttonRadius: number;
-  /** 卡片圆角（px） | `--radius-card` */
-  cardRadius: number;
-  /** 输入框圆角（px） | `--radius-input` */
-  inputRadius: number;
+  radius: {
+    button: number;
+    card: number;
+    input: number;
+    modal: number;
+    badge: number;
+    avatar: number;
+  };
+
+  spacing: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    page: number;
+    card: number;
+    sectionGap: number;
+    gridGap: number;
+  };
+
+  border: {
+    thin: number;
+    base: number;
+    thick: number;
+    focusRing: number;
+  };
+
+  size: {
+    buttonSm: number;
+    buttonMd: number;
+    buttonLg: number;
+    inputSm: number;
+    inputMd: number;
+    inputLg: number;
+    navbarHeight: number;
+    sidebarWidth: number;
+  };
+
+  typography: {
+    fontFamilyBase: string;
+    fontFamilyHeading: string;
+    fontSizeXs: number;
+    fontSizeSm: number;
+    fontSizeMd: number;
+    fontSizeLg: number;
+    fontSizeXl: number;
+    fontWeightNormal: number;
+    fontWeightMedium: number;
+    fontWeightBold: number;
+    lineHeightBase: number;
+  };
+
+  motion: {
+    fast: number;
+    base: number;
+    slow: number;
+    easingStandard: string;
+  };
+
+  zIndex: {
+    dropdown: number;
+    sticky: number;
+    modal: number;
+    toast: number;
+    tooltip: number;
+  };
 }
 
 /** 颜色主题：name/displayName 表示这套配色是谁 */

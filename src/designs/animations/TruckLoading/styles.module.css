@@ -61,7 +61,7 @@
   position: relative;
   bottom: 0;
   align-self: flex-end;
-  border-radius: 3px;
+  border-radius: var(--radius-button);
 }
 
 .road::before {
@@ -71,7 +71,7 @@
   height: 100%;
   background-color: var(--color-fg-heading);
   right: -50%;
-  border-radius: 3px;
+  border-radius: var(--radius-button);
   animation: roadAnimation 1.4s linear infinite;
   border-left: 10px solid var(--color-bg);
 }
@@ -83,7 +83,7 @@
   height: 100%;
   background-color: var(--color-fg-heading);
   right: -65%;
-  border-radius: 3px;
+  border-radius: var(--radius-button);
   animation: roadAnimation 1.4s linear infinite;
   border-left: 4px solid var(--color-bg);
 }

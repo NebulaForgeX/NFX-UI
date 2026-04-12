@@ -7,7 +7,7 @@ import type { Theme, ThemeProviderProps } from "../types";
 import { memo, useMemo, useState } from "react";
 
 import { ThemeContext } from "../hooks/useTheme";
-import useThemeVariables from "../hooks/useThemeVariables";
+import useVariables from "../hooks/useVariables";
 import { bases } from "../themes/bases";
 import { themes } from "../themes/colors";
 import { getThemeBaseStorage, getThemeColorStorage, setThemeBaseStorage } from "../utils";
@@ -31,7 +31,7 @@ const ThemeProvider = memo(({ children, defaultTheme = ThemeEnum.DEFAULT, defaul
     [themeName, baseName],
   );
 
-  useThemeVariables(currentTheme, themeName);
+  useVariables(currentTheme, themeName);
 
   const setTheme = (newTheme: ThemeEnum) => {
     setThemeName(newTheme);

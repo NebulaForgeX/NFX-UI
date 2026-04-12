@@ -15,7 +15,7 @@
   min-width: 8rem;
   padding: 0.4375rem 2.2rem 0.4375rem 1.125rem;
   border: 1px solid;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-button);
   cursor: pointer;
   outline: none;
   transition: all 0.15s ease-in-out;
@@ -109,7 +109,7 @@
   min-width: 100%;
   background-color: var(--color-bg);
   border: 1px solid var(--color-border-4);
-  border-radius: 0.25rem;
+  border-radius: var(--radius-button);
   box-shadow: 0 0.5rem 1rem var(--color-shadow);
   z-index: 1000;
   overflow: hidden;

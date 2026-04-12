@@ -30,7 +30,7 @@
 
 /* 正方形样式 */
 .square::after {
-  border-radius: 4px;
+  border-radius: var(--radius-button);
   animation: jump7456Square 0.5s linear infinite;
 }
 
