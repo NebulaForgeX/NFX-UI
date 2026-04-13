@@ -18,15 +18,26 @@ type ItemKeyChainable = ((...ids: string[]) => QueryKey) & {
 
 function buildItemKeyChainable(prefix: unknown[], domain: string, subDomain: string): ItemKeyChainable {
   const base: QueryKey = [...prefix, domain, CACHE_ITEM, subDomain];
-  const fn = (...ids: string[]): QueryKey => [...base, ...ids];
-  return Object.assign(fn, {
-    withPrefix(...more: unknown[]): ItemKeyChainable {
+  const fn = ((...ids: string[]): QueryKey => [...base, ...ids]) as ItemKeyChainable;
+
+  Object.defineProperty(fn, "withPrefix", {
+    value(...more: unknown[]): ItemKeyChainable {
       return buildItemKeyChainable([...more, ...prefix], domain, subDomain);
     },
-    get getPrefix(): QueryKey {
+    enumerable: false,
+    writable: true,
+    configurable: true,
+  });
+
+  Object.defineProperty(fn, "getPrefix", {
+    get(): QueryKey {
       return [...base];
     },
-  }) as ItemKeyChainable;
+    enumerable: false,
+    configurable: true,
+  });
+
+  return fn;
 }
 
 /**

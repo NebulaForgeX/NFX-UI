@@ -18,14 +18,28 @@ type ListKeyChainable = QueryKey & {
 
 function buildListKeyChainable(prefix: unknown[], domain: string, subDomain: string): ListKeyChainable {
   const key: QueryKey = [...prefix, domain, CACHE_LIST, subDomain];
-  return Object.assign([...key], {
-    withPrefix(...more: unknown[]): ListKeyChainable {
+  const arr = [...key];
+
+  // 必须不可枚举：TanStack Query v5 的 partialMatchKey 会对 filter 的 queryKey 做 Object.keys；
+  // 若 withPrefix/getPrefix 可枚举，invalidateQueries({ queryKey: listKey }) 永远无法匹配 [...listKey, filter]的缓存 key。
+  Object.defineProperty(arr, "withPrefix", {
+    value(...more: unknown[]): ListKeyChainable {
       return buildListKeyChainable([...more, ...prefix], domain, subDomain);
     },
-    get getPrefix(): QueryKey {
+    enumerable: false,
+    writable: true,
+    configurable: true,
+  });
+
+  Object.defineProperty(arr, "getPrefix", {
+    get(): QueryKey {
       return [...key];
     },
-  }) as ListKeyChainable;
+    enumerable: false,
+    configurable: true,
+  });
+
+  return arr as unknown as ListKeyChainable;
 }
 
 /**
