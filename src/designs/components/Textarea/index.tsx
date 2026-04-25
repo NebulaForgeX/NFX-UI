@@ -17,11 +17,11 @@ import styles from "./styles.module.css";
 
 export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> {
   /** 标签文案。Label text. */
-  label?: string;
+  label?: ReactNode;
   /** 错误信息。Error message. */
-  error?: string;
+  error?: ReactNode;
   /** 辅助说明。Helper text. */
-  helperText?: string;
+  helperText?: ReactNode;
   /** 左侧图标。Left icon. */
   leftIcon?: ReactNode;
   /** 右侧图标。Right icon. */
