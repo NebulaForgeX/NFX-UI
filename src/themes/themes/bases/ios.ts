@@ -5,9 +5,9 @@ import { BaseEnum } from "../../types";
 /** iOS 风格圆角（偏大，贴近系统控件 / sheet 的圆滑感） */
 export const iosBaseVariables: BaseVariables = {
   radius: {
-    button: 16,
+    button: 24,
     card: 28,
-    input: 16,
+    input: 24,
     modal: 34,
     badge: 999,
     avatar: 22,
