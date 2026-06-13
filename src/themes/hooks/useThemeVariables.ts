@@ -38,6 +38,14 @@ const useThemeVariables = (currentTheme: Theme, themeName: ThemeEnum) => {
     root.style.setProperty("--color-error", vars.danger);
     root.style.setProperty("--color-error-rgb", vars.dangerRgb);
 
+    // 扩展色板 / Color pool slots
+    (["1", "2", "3"] as const).forEach((slot) => {
+      const scale = vars.colorPool[slot];
+      root.style.setProperty(`--color-pool-${slot}`, scale.base);
+      root.style.setProperty(`--color-pool-${slot}-light`, scale.light);
+      root.style.setProperty(`--color-pool-${slot}-rgb`, scale.rgb);
+    });
+
     // 背景色 / Background
     root.style.setProperty("--color-bg", vars.bg);
     root.style.setProperty("--color-bg-1", vars.bg);

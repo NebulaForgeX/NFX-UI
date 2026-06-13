@@ -30,6 +30,11 @@ export const coffeeColorTheme: ColorTheme = {
     dangerLight: "#D65A4A",
     dangerRgb: "192, 57, 43",
 
+    colorPool: {
+      1: { base: "#8A7968", light: "#A89888", rgb: "138, 121, 104" },
+      2: { base: "#6D9F72", light: "#8DBE91", rgb: "109, 159, 114" },
+      3: { base: "#D4A574", light: "#E8C9A0", rgb: "212, 165, 116" },
+    },
     bg: "#1A1209",
     bg2: "#28201A",
     bg3: "#3A2E24",

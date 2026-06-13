@@ -30,6 +30,11 @@ export const cosmicColorTheme: ColorTheme = {
     dangerLight: "#FB7185",
     dangerRgb: "244, 63, 94",
 
+    colorPool: {
+      1: { base: "#06B6D4", light: "#22D3EE", rgb: "6, 182, 212" },
+      2: { base: "#22C55E", light: "#4ADE80", rgb: "34, 197, 94" },
+      3: { base: "#F59E0B", light: "#FBBF24", rgb: "245, 158, 11" },
+    },
     bg: "#0C0A1D",
     bg2: "#151332",
     bg3: "#1E1B4B",

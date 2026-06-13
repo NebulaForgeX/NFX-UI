@@ -3,6 +3,20 @@
  * Theme types: color/base variables, theme enums and constants.
  */
 
+/** 单色阶：section accent、chip、gradient 复用 */
+export interface ColorScale {
+  base: string;
+  light: string;
+  rgb: string;
+}
+
+/** 扩展色板 slot（序号，无业务语义） */
+export interface ColorPool {
+  1: ColorScale;
+  2: ColorScale;
+  3: ColorScale;
+}
+
 /** 颜色变量（主题色、背景、边框、文字、图表等一切与颜色相关） */
 export interface ColorVariables {
   // ─── 主色 Primary ───────────────────────────────────────────────
@@ -48,6 +62,11 @@ export interface ColorVariables {
   dangerLight: string;
   /** 危险色 RGB — Input/Textarea 错误 focus ring | `--color-danger-rgb` `--color-error-rgb` */
   dangerRgb: string;
+
+  // ─── 扩展色板 Color Pool ─────────────────────────────────────────
+
+  /** 扩展 accent 色板 slot | `--color-pool-{n}*` */
+  colorPool: ColorPool;
 
   // ─── 背景 Background ────────────────────────────────────────────
 
