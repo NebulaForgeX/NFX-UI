@@ -30,6 +30,11 @@ export const darkColorTheme: ColorTheme = {
     dangerLight: "#F87171",
     dangerRgb: "239, 68, 68",
 
+    colorPool: {
+      1: { base: "#14B8A6", light: "#2DD4BF", rgb: "20, 184, 166" },
+      2: { base: "#22C55E", light: "#4ADE80", rgb: "34, 197, 94" },
+      3: { base: "#EAB308", light: "#FACC15", rgb: "234, 179, 8" },
+    },
     bg: "#09090B",
     bg2: "#18181B",
     bg3: "#27272A",

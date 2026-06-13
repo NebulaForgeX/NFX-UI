@@ -30,6 +30,11 @@ export const wheatColorTheme: ColorTheme = {
     dangerLight: "#FEE2E2",
     dangerRgb: "239, 68, 68",
 
+    colorPool: {
+      1: { base: "#2563EB", light: "#DBEAFE", rgb: "37, 99, 235" },
+      2: { base: "#16A34A", light: "#DCFCE7", rgb: "22, 163, 74" },
+      3: { base: "#D97706", light: "#FEF3C7", rgb: "217, 119, 6" },
+    },
     bg: "#FFFFFF",
     bg2: "#F9FAFB",
     bg3: "#F3F4F6",

@@ -30,6 +30,11 @@ export const corporateColorTheme: ColorTheme = {
     dangerLight: "#FEE2E2",
     dangerRgb: "220, 38, 38",
 
+    colorPool: {
+      1: { base: "#0EA5E9", light: "#E0F2FE", rgb: "14, 165, 233" },
+      2: { base: "#16A34A", light: "#DCFCE7", rgb: "22, 163, 74" },
+      3: { base: "#D97706", light: "#FEF3C7", rgb: "217, 119, 6" },
+    },
     bg: "#FFFFFF",
     bg2: "#F8FAFC",
     bg3: "#EFF6FF",

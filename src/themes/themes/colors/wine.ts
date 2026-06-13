@@ -30,6 +30,11 @@ export const wineColorTheme: ColorTheme = {
     dangerLight: "#FB7185",
     dangerRgb: "225, 29, 72",
 
+    colorPool: {
+      1: { base: "#8A6E7A", light: "#A88E98", rgb: "138, 110, 122" },
+      2: { base: "#6D9F6D", light: "#8DBE8D", rgb: "109, 159, 109" },
+      3: { base: "#C49050", light: "#D4B080", rgb: "196, 144, 80" },
+    },
     bg: "#1A0810",
     bg2: "#2D0F1A",
     bg3: "#3F1525",
