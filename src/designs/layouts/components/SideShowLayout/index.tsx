@@ -1,102 +1,16 @@
 import type { SideShowLayoutProps } from "../../types";
 
-import { memo, useCallback, useLayoutEffect, useRef, useState } from "react";
+import { memo } from "react";
 
-import useLayout from "../../hooks/useLayout";
 import Sidebar from "../Sidebar";
-import styles from "./styles.module.css";
 
-function useElementWidth<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
-  const [width, setWidth] = useState(0);
-
-  useLayoutEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new ResizeObserver(([entry]) => {
-      const nextWidth = entry?.contentRect.width ?? 0;
-      setWidth((prev) => (prev !== nextWidth ? nextWidth : prev));
-    });
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  const callbackRef = useCallback((instance: T | null) => {
-    if (instance) {
-      ref.current = instance;
-    }
-  }, []);
-
-  return [callbackRef, width] as const;
-}
-
-const SideShowLayout = memo(
-  ({
-    children,
-    headerHeight,
-    footerHeight,
-    sidebarItems,
-    sidebarCurrentPathname,
-    onSidebarNavigate,
-    sidebarLogoutLabel,
-    onSidebarLogout,
-    bottomLogoutButton,
-  }: SideShowLayoutProps) => {
-    const { sidebarOpen, closeSidebar } = useLayout();
-    const [sidebarRef, sidebarWidth] = useElementWidth<HTMLDivElement>();
-
-    const handleBackdropClick = () => {
-      closeSidebar();
-    };
-
-    return (
-      <>
-        <div
-          ref={sidebarRef}
-          className={styles.sidebarContainer}
-          style={{
-            // top: `${headerHeight}px`,
-            // bottom: `${footerHeight}px`,
-            // marginTop: `${headerHeight}px`,
-            // marginBottom: `${footerHeight}px`,
-            height: `100%`,
-          }}
-        >
-          <Sidebar
-            collapsed={sidebarOpen}
-            toggled={sidebarOpen}
-            onBackdropClick={handleBackdropClick}
-            breakPoint="xs"
-            className={styles.sidebar}
-            items={sidebarItems}
-            currentPathname={sidebarCurrentPathname}
-            onNavigate={onSidebarNavigate}
-            logoutLabel={sidebarLogoutLabel}
-            handleLogout={onSidebarLogout}
-            bottomLogoutButton={bottomLogoutButton}
-            headerHeight={headerHeight}
-            footerHeight={footerHeight}
-          />
-        </div>
-        <main
-          className={styles.mainWrapper}
-          style={{
-            marginTop: `${headerHeight}px`,
-            marginBottom: `${footerHeight}px`,
-            marginLeft: `${sidebarWidth}px`,
-            width: `calc(100% - ${sidebarWidth}px)`,
-          }}
-        >
-          <div className={styles.content} data-lenis-prevent>
-            {children}
-          </div>
-        </main>
-      </>
-    );
-  },
-);
+const SideShowLayout = memo(({ children, sidebarItems, sidebarCurrentPathname, onSidebarNavigate, sidebarLogoutLabel, onSidebarLogout }: SideShowLayoutProps) => {
+  return (
+    <Sidebar items={sidebarItems} currentPathname={sidebarCurrentPathname} onNavigate={onSidebarNavigate} logoutLabel={sidebarLogoutLabel} handleLogout={onSidebarLogout}>
+      {children}
+    </Sidebar>
+  );
+});
 
 SideShowLayout.displayName = "SideShowLayout";
 export default SideShowLayout;

@@ -1,48 +1,40 @@
 /**
- * 组件统一入口：所有组件及类型在底部集中导出。Components barrel; all components and types exported at bottom.
+ * 组件统一入口。Radix Themes primitives 由宿主 `import { Button, TextField } from "@radix-ui/themes"`。
  */
 
-export { default as Button } from "./Button";
-export type { ButtonProps } from "./Button";
+export { default as LucideIcon } from "./LucideIcon";
+export type { LucideIconProps } from "./LucideIcon";
 
-export { default as Dropdown } from "./Dropdown";
-export type { DropdownOption, DropdownProps } from "./Dropdown";
+export { default as EmptyState } from "./EmptyState";
+export type { EmptyStateProps } from "./EmptyState";
 
-export { default as Icon } from "./Icon";
-export type { IconName, IconProps } from "./Icon";
+export { default as PageHeader } from "./PageHeader";
+export type { PageHeaderProps } from "./PageHeader";
 
-export { default as Input } from "./Input";
-export type { InputProps } from "./Input";
+export { default as CardHeader } from "./CardHeader";
+export type { CardHeaderProps } from "./CardHeader";
 
-export { default as KeyValueEditor } from "./KeyValueEditor";
-export type { KeyValueEditorProps, KeyValuePair } from "./KeyValueEditor";
+export { default as Logo } from "./Logo";
+export type { LogoProps } from "./Logo";
 
-export { default as SearchInput } from "./SearchInput";
-export type { SearchInputProps } from "./SearchInput";
+export { default as PreferencesPopover } from "./PreferencesPopover";
+export type { PreferencesPopoverProps } from "./PreferencesPopover";
 
-export { default as ShowFilter } from "./ShowFilter";
-export type { ShowFilterProps, ShowFilterValue } from "./ShowFilter";
-
-export { default as SlideDownSwitcher } from "./SlideDownSwitcher";
-export type { SlideDownSwitcherProps } from "./SlideDownSwitcher";
-
-export { default as ThemeSwitcher } from "./ThemeSwitcher";
-export type { ThemeSwitcherProps } from "@/themes/types";
-
-export { default as LayoutSwitcher } from "./LayoutSwitcher";
-export type { LayoutSwitcherProps } from "@/designs/layouts/types";
-
-export { default as Slider } from "./Slider";
-export type { SliderProps } from "./Slider";
+export { default as ThemeSettings } from "./ThemeSettings";
 
 export { default as Suspense } from "./Suspense";
 export type { SuspenseProps } from "./Suspense";
 
-export { default as Textarea } from "./Textarea";
-export type { TextareaProps } from "./Textarea";
+export { default as Icon } from "./Icon";
+export type { IconName, IconProps } from "./Icon";
 
 export { default as VirtualList } from "./VirtualList";
 export type { VirtualListProps } from "./VirtualList";
 
 export { default as VirtualWindowList } from "./VirtualWindowList";
 export type { VirtualWindowListProps } from "./VirtualWindowList";
+
+export { default as LayoutSwitcher } from "./LayoutSwitcher";
+export type { LayoutSwitcherProps } from "@/designs/layouts/types";
+
+export * from "@radix-ui/themes";

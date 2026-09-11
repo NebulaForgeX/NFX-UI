@@ -1,13 +1,14 @@
 {
   "themeSwitcher": {
-    "default": "Par défaut",
     "light": "Clair",
     "dark": "Sombre",
-    "cosmic": "Cosmique",
-    "corporate": "Entreprise",
-    "forest": "Forêt",
-    "coffee": "Coffee",
-    "wine": "Vin",
-    "wheat": "Blé"
+    "system": "Système"
+  },
+  "baseSwitcher": {
+    "default": "Autre",
+    "ios": "iOS",
+    "android": "Android",
+    "windows": "Windows",
+    "linux": "Linux"
   }
 }

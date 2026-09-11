@@ -18,7 +18,7 @@ export {
   ChevronUp,
   Clock,
   Coffee,
-  CreditCard,
+  CreditCard as LucideCreditCard,
   DollarSign,
   Edit,
   ExternalLink,

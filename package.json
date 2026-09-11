@@ -1,8 +1,12 @@
 {
   "name": "nfx-ui",
-  "version": "0.17.0",
+  "version": "1.0.0",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css",
+    "**/themes/fonts.ts",
+    "**/themes/fonts.js"
+  ],
   "description": "Unified frontend UI library for the NFX product family: shared React components, design tokens, theme variables, and layout primitives for a consistent look and behavior across NFX console and other apps.",
   "repository": {
     "type": "git",
@@ -13,6 +17,12 @@
     "url": "https://github.com/NebulaForgeX/NFX-UI/issues"
   },
   "exports": {
+    "./enums": {
+      "types": "./dist/src/enums/index.d.ts",
+      "import": "./dist/enums.mjs",
+      "require": "./dist/enums.cjs",
+      "default": "./dist/enums.mjs"
+    },
     "./themes": {
       "types": "./dist/src/themes/index.d.ts",
       "import": "./dist/themes.mjs",
@@ -42,12 +52,6 @@
       "import": "./dist/hooks.mjs",
       "require": "./dist/hooks.cjs",
       "default": "./dist/hooks.mjs"
-    },
-    "./preference": {
-      "types": "./dist/src/preference/index.d.ts",
-      "import": "./dist/preference.mjs",
-      "require": "./dist/preference.cjs",
-      "default": "./dist/preference.mjs"
     },
     "./stores": {
       "types": "./dist/src/stores/index.d.ts",
@@ -109,11 +113,19 @@
       "require": "./dist/icons.cjs",
       "default": "./dist/icons.mjs"
     },
+    "./themes/fonts": "./src/themes/fonts.ts",
+    "./themes/styles.css": "./src/themes/index.css",
     "./pixel-blast": {
       "types": "./dist/src/designs/animations/PixelBlast/index.d.ts",
       "import": "./dist/pixel-blast.mjs",
       "require": "./dist/pixel-blast.cjs",
       "default": "./dist/pixel-blast.mjs"
+    },
+    "./providers": {
+      "types": "./dist/src/providers/index.d.ts",
+      "import": "./dist/providers.mjs",
+      "require": "./dist/providers.cjs",
+      "default": "./dist/providers.mjs"
     }
   },
   "files": [
@@ -131,21 +143,47 @@
     "check:update": "npx npm-check-updates"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "^5.100.6",
-    "i18next": ">=26.0.0",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@radix-ui/themes": "^3.3.0",
+    "@tanstack/react-query": "^5.102.8",
+    "axios": "^1.20.0",
+    "clsx": "^2.1.1",
+    "eventemitter3": "^5.0.4",
+    "i18next": "^26.4.2",
     "i18next-browser-languagedetector": "^8.2.1",
-    "postprocessing": "^6.39.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-i18next": ">=17.0.0",
-    "three": "^0.184.0",
-    "zustand": "^5.0.12"
+    "lucide-react": "^1.41.0",
+    "motion": "^13.1.1",
+    "postprocessing": "^6.39.5",
+    "radix-ui": "^1.6.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.13",
+    "react-pro-sidebar": "^1.1.0",
+    "react-router": "^8.3.1",
+    "react-virtuoso": "^4.18.12",
+    "three": "^0.186.0",
+    "zustand": "^5.0.15"
   },
   "peerDependenciesMeta": {
-    "three": {
+    "axios": {
+      "optional": true
+    },
+    "eventemitter3": {
       "optional": true
     },
     "postprocessing": {
+      "optional": true
+    },
+    "radix-ui": {
+      "optional": true
+    },
+    "react-router": {
+      "optional": true
+    },
+    "react-virtuoso": {
+      "optional": true
+    },
+    "three": {
       "optional": true
     }
   },
@@ -161,38 +199,58 @@
   "license": "MIT",
   "author": "NebulaForgeX",
   "dependencies": {
-    "@tanstack/react-virtual": "^3.14.2",
-    "async-retry": "^1.3.3",
-    "axios": "^1.17.0",
-    "lucide-react": "^1.17.0",
-    "motion": "^12.40.0",
-    "react-pro-sidebar": "^1.1.0"
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/noto-sans": "^5.3.0",
+    "@fontsource/noto-sans-sc": "^5.3.0",
+    "@fontsource/noto-sans-tc": "^5.3.0",
+    "@fontsource/source-sans-3": "^5.3.0",
+    "@ibm/plex-sans-sc": "^1.1.0",
+    "@tanstack/react-virtual": "^3.14.11",
+    "async-retry": "^1.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tanstack/react-query": "^5.101.0",
-    "@types/node": "^25.9.3",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.184.1",
-    "@vitejs/plugin-react": "^6.0.2",
-    "esbuild": "^0.28.0",
-    "eslint": "^10.4.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@radix-ui/themes": "^3.3.0",
+    "@tanstack/react-query": "^5.102.8",
+    "@types/async-retry": "^1.4.9",
+    "@types/node": "^26.4.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.185.4",
+    "@vitejs/plugin-react": "^6.1.1",
+    "axios": "^1.20.0",
+    "clsx": "^2.1.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-react-refresh": "^0.5.6",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "i18next": "^26.3.1",
+    "eventemitter3": "^5.0.4",
+    "globals": "^17.12.0",
+    "i18next": "^26.4.2",
     "i18next-browser-languagedetector": "^8.2.1",
-    "postprocessing": "^6.39.1",
-    "prettier": "^3.8.4",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-i18next": "^17.0.8",
-    "three": "^0.184.0",
+    "lucide-react": "^1.41.0",
+    "motion": "^13.1.1",
+    "postprocessing": "^6.39.5",
+    "prettier": "^3.9.6",
+    "radix-ui": "^1.6.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.13",
+    "react-pro-sidebar": "^1.1.0",
+    "react-router": "^8.3.1",
+    "react-virtuoso": "^4.18.12",
+    "three": "^0.186.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.61.0",
-    "vite": "^8.0.16",
-    "vite-plugin-css-injected-by-js": "^5.0.1",
-    "zustand": "^5.0.14"
+    "typescript-eslint": "^8.69.0",
+    "vite": "^8.2.2",
+    "vite-plugin-css-injected-by-js": "^5.0.2",
+    "vite-plugin-dts": "^5.1.0",
+    "zustand": "^5.0.15"
+  },
+  "allowScripts": {
+    "@ibm/plex-sans-sc": false
   }
 }

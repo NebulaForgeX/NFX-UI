@@ -99,6 +99,13 @@ export function safeOr<T, D>(value: Nilable<T>, defaultValue: D): T | D {
 }
 
 /**
+ * 将字符串规范为允许的枚举成员；非法或缺省时回落 defaultValue。
+ */
+export function safeEnum<T extends string>(value: Nilable<string>, allowed: readonly T[], defaultValue: T): T {
+  return typeof value === "string" && allowed.includes(value as T) ? (value as T) : defaultValue;
+}
+
+/**
  * 安全取数字：null/undefined/NaN 转为 undefined，合法数字原样。返回类型 Maybe&lt;number&gt;。
  * Safe number: null/undefined/NaN to undefined; valid number unchanged. Returns Maybe&lt;number&gt;.
  * @param value - 可能为 null、undefined 或非数字 (value that may be null, undefined or NaN)

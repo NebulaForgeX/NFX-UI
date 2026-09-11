@@ -1,7 +1,47 @@
 {
   "languageSwitcher": {
+    "english": "English",
+    "chinese": "中文",
+    "french": "Français",
     "en": "English",
     "zh": "Chinese",
     "fr": "French"
+  },
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "openMenu": "Open menu",
+    "contact": "Contact",
+    "login": "Login",
+    "signup": "Signup",
+    "profile": "Profile",
+    "logout": "Logout",
+    "preferences": "Preferences",
+    "theme": "Theme",
+    "accentColor": "Accent color",
+    "grayColor": "Gray color",
+    "appearance": "Appearance",
+    "appearanceMode": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "panelBackground": "Panel background",
+    "panelBackgroundMode": {
+      "solid": "Solid",
+      "translucent": "Translucent"
+    },
+    "radius": "Platform",
+    "scaling": "Scaling",
+    "language": "Language",
+    "panel": "Control panel"
+  },
+  "sidebar": {
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "openMenu": "Open menu",
+    "logout": "Logout",
+    "helpCenter": "Help Center",
+    "settingsItem": "Settings"
   }
 }

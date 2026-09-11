@@ -15,13 +15,14 @@ const src = path.resolve(root, "src");
 // ——— 子路径入口（与 package.json exports 一一对应） ———
 // Subpath entries; must match package.json "exports" keys.
 const LIB_ENTRIES: Record<string, string> = {
+  enums: path.join(src, "enums/index.ts"),
   themes: path.join(src, "themes/index.ts"),
   layouts: path.join(src, "designs/layouts/index.ts"),
   components: path.join(src, "designs/components/index.ts"),
   animations: path.join(src, "designs/animations/index.ts"),
   "pixel-blast": path.join(src, "designs/animations/PixelBlast/index.tsx"),
+  providers: path.join(src, "providers/index.ts"),
   hooks: path.join(src, "hooks/index.ts"),
-  preference: path.join(src, "preference/index.ts"),
   stores: path.join(src, "stores/index.ts"),
   apis: path.join(src, "apis/index.ts"),
   events: path.join(src, "events/index.ts"),
@@ -42,6 +43,15 @@ const EXTERNALS = [
   "react/jsx-runtime",
   /^react\//,
   /^react-dom\//,
+  "@radix-ui/themes",
+  /^@radix-ui\/themes/,
+  "@radix-ui/react-icons",
+  /^@radix-ui\/react-icons/,
+  "radix-ui",
+  /^radix-ui/,
+  "clsx",
+  "react-router",
+  /^react-router/,
   "lucide-react",
   /^lucide-react\//,
   "recharts",
@@ -91,7 +101,7 @@ export default defineConfig({
       // Multi-entry: inject CSS only into each entry's own output (themes→themes.mjs, layouts→layouts.mjs, …), not into chunks.
       jsAssetsFilterFunction: (chunk) => {
         const base = chunk.fileName.replace(/\.(mjs|cjs)$/, "");
-        return Object.keys(LIB_ENTRIES).includes(base);
+        return base === "themes" || base === "layouts" || base === "components" || base === "providers";
       },
     }),
   ],
