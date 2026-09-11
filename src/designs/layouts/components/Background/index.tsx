@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Suspense, lazy, memo } from "react";
 
 import { LetterGlitchBackground, SquareBackground, WaveBackground } from "@/designs/animations";
-import { DashboardBackgroundEnum } from "@/preference";
+import { DashboardBackgroundEnum } from "@/enums/dashboard";
 
 import styles from "./styles.module.css";
 

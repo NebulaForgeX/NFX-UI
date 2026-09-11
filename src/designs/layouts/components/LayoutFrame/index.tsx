@@ -2,62 +2,31 @@ import type { LayoutFrameProps } from "../../types";
 
 import { memo } from "react";
 
-import useLayout from "../../hooks/useLayout";
-import { LayoutModeEnum } from "../../types";
-import MainWrapper from "../MainWrapper";
-import SideHideLayout from "../SideHideLayout";
-import SideShowLayout from "../SideShowLayout";
+import Sidebar from "../Sidebar";
 
 export const LayoutFrame = memo(
   ({
     children,
-    headerLeft,
-    headerRight,
-    footerContent,
     sidebarItems,
     sidebarCurrentPathname,
     onSidebarNavigate,
     sidebarLogoutLabel,
     onSidebarLogout,
-    bottomLogoutButton,
+    headerLeft,
+    headerRight,
   }: LayoutFrameProps) => {
-    const { layoutMode } = useLayout();
     return (
-      <MainWrapper headerLeft={headerLeft} headerRight={headerRight} footerContent={footerContent}>
-        {(headerHeight, footerHeight) => {
-          if (layoutMode === LayoutModeEnum.HIDE) {
-            return (
-              <SideHideLayout
-                headerHeight={headerHeight}
-                footerHeight={footerHeight}
-                sidebarItems={sidebarItems}
-                sidebarCurrentPathname={sidebarCurrentPathname}
-                onSidebarNavigate={onSidebarNavigate}
-                sidebarLogoutLabel={sidebarLogoutLabel}
-                onSidebarLogout={onSidebarLogout}
-                bottomLogoutButton={bottomLogoutButton}
-              >
-                {children}
-              </SideHideLayout>
-            );
-          } else {
-            return (
-              <SideShowLayout
-                headerHeight={headerHeight}
-                footerHeight={footerHeight}
-                sidebarItems={sidebarItems}
-                sidebarCurrentPathname={sidebarCurrentPathname}
-                onSidebarNavigate={onSidebarNavigate}
-                sidebarLogoutLabel={sidebarLogoutLabel}
-                onSidebarLogout={onSidebarLogout}
-                bottomLogoutButton={bottomLogoutButton}
-              >
-                {children}
-              </SideShowLayout>
-            );
-          }
-        }}
-      </MainWrapper>
+      <Sidebar
+        items={sidebarItems}
+        currentPathname={sidebarCurrentPathname}
+        onNavigate={onSidebarNavigate}
+        logoutLabel={sidebarLogoutLabel}
+        handleLogout={onSidebarLogout}
+        header={headerLeft}
+        topBar={headerRight}
+      >
+        {children}
+      </Sidebar>
     );
   },
 );

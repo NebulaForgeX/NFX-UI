@@ -295,33 +295,4 @@ export interface Theme {
   base: BaseTheme;
 }
 
-/** 颜色主题枚举 */
-export enum ThemeEnum {
-  DEFAULT = "default",
-  LIGHT = "light",
-  CORPORATE = "corporate",
-  FOREST = "forest",
-  DARK = "dark",
-  COSMIC = "cosmic",
-  COFFEE = "coffee",
-  WINE = "wine",
-  WHEAT = "wheat",
-}
-
-export const DEFAULT_THEME = ThemeEnum.DEFAULT;
-export const THEME_VALUES = Object.values(ThemeEnum);
-
-/** 基础主题枚举（平台/圆角等，如 iOS 24 / Android|Windows 6 / Linux 4） */
-export enum BaseEnum {
-  DEFAULT = "default",
-  IOS = "ios",
-  ANDROID = "android",
-  WINDOWS = "windows",
-  LINUX = "linux",
-}
-
-export const DEFAULT_BASE = BaseEnum.DEFAULT;
-export const BASE_VALUES = Object.values(BaseEnum);
-
-export const COLOR_STORAGE_KEY = "theme-color";
-export const BASE_STORAGE_KEY = "theme-base";
+export { BaseEnum, DEFAULT_BASE, BASE_VALUES } from "@/enums/theme";

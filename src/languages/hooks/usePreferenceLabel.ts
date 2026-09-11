@@ -2,7 +2,7 @@
  * 返回 { getPreferenceDisplayName }（Base 展示名），便于扩展；可传给 SlideDownSwitcher 的 getDisplayName。
  * Returns { getPreferenceDisplayName } for extensibility; pass to SlideDownSwitcher getDisplayName.
  */
-import type { BaseEnum } from "@/themes/types";
+import type { BaseEnum } from "@/enums/theme";
 
 import { useCallback, useMemo } from "react";
 

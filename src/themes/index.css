@@ -1,0 +1,385 @@
+/* index.css */
+
+/* ---------------------------------------------
+   Base reset
+--------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------
+   Document structure
+--------------------------------------------- */
+
+main,
+section,
+article,
+aside,
+header,
+footer,
+nav {
+  display: block;
+}
+
+main {
+  min-height: 100%;
+}
+
+/* ---------------------------------------------
+   Typography
+--------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+abbr[title] {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.18em;
+}
+
+address {
+  font-style: normal;
+}
+
+blockquote {
+  margin: 0;
+}
+
+sub,
+sup {
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* ---------------------------------------------
+   Code
+--------------------------------------------- */
+
+code,
+kbd,
+samp {
+  padding: 0.12em 0.32em;
+}
+
+pre {
+  margin: 0;
+  overflow: auto;
+}
+
+pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+/* ---------------------------------------------
+   Links
+--------------------------------------------- */
+
+a {
+  text-decoration: none;
+  transition:
+    color 120ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 120ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+a:focus-visible {
+  outline: none;
+}
+
+/* ---------------------------------------------
+   Lists
+--------------------------------------------- */
+
+ul,
+ol {
+  margin: 0;
+}
+
+li {
+  margin: 0;
+}
+
+dl,
+dd {
+  margin: 0;
+}
+
+/* ---------------------------------------------
+   Media
+--------------------------------------------- */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  user-select: none;
+}
+
+svg {
+  flex-shrink: 0;
+}
+
+audio {
+  width: 100%;
+}
+
+iframe {
+  display: block;
+  max-width: 100%;
+  border: 0;
+}
+
+figure {
+  margin: 0;
+}
+
+/* ---------------------------------------------
+   Form elements — Radix Themes 接管 App 内控件样式
+--------------------------------------------- */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+dialog:not(.rt-DialogContent) {
+  border: none;
+}
+
+/* ---------------------------------------------
+   Tables
+--------------------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption {
+  text-align: left;
+}
+
+th,
+td {
+  text-align: left;
+}
+
+/* ---------------------------------------------
+   Native elements
+--------------------------------------------- */
+
+hr {
+  height: 1px;
+  margin: 0;
+  border: none;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+summary {
+  cursor: pointer;
+}
+
+progress,
+meter {
+  width: 100%;
+}
+
+/* ---------------------------------------------
+   Scrollbar
+--------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+}
+
+/* ---------------------------------------------
+   Accessibility
+--------------------------------------------- */
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---------------------------------------------
+   Radix Themes font stacks (faces loaded via themes/fonts.ts)
+   Switch via data-font-family on .radix-themes (ThemePreference.fontFamily).
+--------------------------------------------- */
+
+.radix-themes {
+  --heading-font-family: var(--default-font-family);
+  --strong-font-family: var(--default-font-family);
+  --em-font-family: var(--default-font-family);
+  --quote-font-family: var(--default-font-family);
+
+  /*
+   * iOS Theme radius="full" only sets --radius-full to 9999px.
+   * --radius-1…6 share --radius-factor with Windows/large, so
+   * `border-radius: var(--radius-N)` looks unchanged. Compact chrome
+   * must use max(token, --radius-full), same as Radix Button.
+   */
+  --radius-chip: max(var(--radius-3), var(--radius-full));
+  --radius-icon: max(var(--radius-4), var(--radius-full));
+}
+
+.radix-themes .rt-BaseTabListTriggerInner,
+.radix-themes .rt-BaseTabListTriggerInnerHidden,
+.radix-themes .rt-TabsTriggerInner {
+  border-radius: max(var(--tab-inner-border-radius), var(--radius-full)) !important;
+}
+
+.radix-themes[data-radius="full"] .rt-Card {
+  --card-border-radius: var(--radius-6);
+}
+
+.radix-themes,
+.radix-themes[data-font-family="system"] {
+  --default-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.radix-themes[data-font-family="ibm-plex"] {
+  --default-font-family: "IBM Plex Sans", "IBM Plex Sans SC", "Noto Sans SC", "Noto Sans TC", system-ui, sans-serif;
+}
+
+.radix-themes[data-font-family="noto"] {
+  --default-font-family: "Noto Sans", "Noto Sans SC", "Noto Sans TC", sans-serif;
+}
+
+/* Source Sans 3 + Source Han Sans SC (Noto Sans SC = same CJK design). */
+.radix-themes[data-font-family="source-sans"] {
+  --default-font-family: "Source Sans 3", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", sans-serif;
+}
+
+/* ---------------------------------------------
+   Legacy NFX-UI token aliases (0.17 CSS Modules hosts)
+--------------------------------------------- */
+
+.radix-themes {
+  --color-primary: var(--accent-9);
+  --color-primary-hover: var(--accent-10);
+  --color-primary-light: var(--accent-4);
+  --color-primary-bg: var(--accent-3);
+  --color-primary-fg: var(--accent-contrast);
+  --color-success: var(--green-9);
+  --color-success-light: var(--green-4);
+  --color-info: var(--blue-9);
+  --color-info-light: var(--blue-4);
+  --color-warning: var(--amber-9);
+  --color-warning-light: var(--amber-4);
+  --color-danger: var(--red-9);
+  --color-error: var(--red-9);
+  --color-danger-light: var(--red-4);
+  --color-bg: var(--color-background);
+  --color-bg-1: var(--color-background);
+  --color-bg-2: var(--color-panel-solid);
+  --color-bg-3: var(--gray-3);
+  --color-bg-4: var(--gray-4);
+  --color-bg-secondary: var(--gray-2);
+  --color-border: var(--gray-6);
+  --color-border-2: var(--gray-5);
+  --color-border-3: var(--gray-6);
+  --color-border-4: var(--gray-7);
+  --color-border-5: var(--gray-8);
+  --color-border-hover: var(--gray-8);
+  --color-fg: var(--gray-11);
+  --color-fg-text: var(--gray-12);
+  --color-fg-heading: var(--gray-12);
+  --color-fg-highlight: var(--accent-11);
+  --color-fg-muted: var(--gray-10);
+  --color-fg-on-primary: var(--accent-contrast);
+  --color-separator: var(--gray-6);
+  --color-overlay: var(--black-a6);
+  --color-shadow: var(--gray-a4);
+  --color-ring: var(--accent-8);
+}

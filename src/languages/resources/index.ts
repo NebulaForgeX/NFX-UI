@@ -2,8 +2,8 @@
  * NFX-UI 内置多语言资源：theme / language / layout / preference 四个命名空间，en / zh / fr 三种语言。
  * Built-in i18n resources: namespaces theme, language, layout, preference; languages en, zh, fr.
  *
- * 使用方可在 createI18nResources 时合并此资源，使 ThemeSwitcher / LanguageSwitcher / LayoutSwitcher 使用默认翻译。
- * Consumers can merge these resources in createI18nResources so switchers use default labels.
+ * LanguageProvider 会把这些命名空间与宿主 getBuiltinBundles 合并。
+ * LanguageProvider merges these namespaces with host getBuiltinBundles.
  */
 import type { CreateI18nResourcesResult, NameSpacesMap, Resources } from "../types";
 

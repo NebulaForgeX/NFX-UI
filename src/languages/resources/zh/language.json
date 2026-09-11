@@ -1,7 +1,47 @@
 {
   "languageSwitcher": {
+    "english": "English",
+    "chinese": "中文",
+    "french": "Français",
     "en": "英语",
     "zh": "中文",
     "fr": "法语"
+  },
+  "header": {
+    "home": "首页",
+    "about": "关于",
+    "openMenu": "打开菜单",
+    "contact": "联系",
+    "login": "登录",
+    "signup": "注册",
+    "profile": "资料",
+    "logout": "退出",
+    "preferences": "偏好",
+    "theme": "主题",
+    "accentColor": "强调色",
+    "grayColor": "灰色",
+    "appearance": "外观",
+    "appearanceMode": {
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    },
+    "panelBackground": "面板背景",
+    "panelBackgroundMode": {
+      "solid": "实色",
+      "translucent": "半透明"
+    },
+    "radius": "平台",
+    "scaling": "缩放",
+    "language": "语言",
+    "panel": "控制台"
+  },
+  "sidebar": {
+    "collapse": "收起侧栏",
+    "expand": "展开侧栏",
+    "openMenu": "打开菜单",
+    "logout": "退出",
+    "helpCenter": "帮助中心",
+    "settingsItem": "设置"
   }
 }

@@ -1,6 +1,6 @@
 /**
  * 通用 Store 工厂（学习 hooks 的 make 函数模式）。
- * Generic store factory (make pattern like hooks makeUnifiedQuery).
+ * Generic persist store factory.
  */
 
 import { createStore, useStore } from "zustand";
