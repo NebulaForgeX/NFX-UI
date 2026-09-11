@@ -1,6 +1,15 @@
-# 每次 push 到 main 时：若 package.json 的 version 在 npm 上尚未发布，则 build 并 publish
-# 使用 npm Trusted Publishing（OIDC），无需在 GitHub 存 NPM_TOKEN，更安全
-# 需在 npm 包 nfx-ui 的 Access 里添加 Trusted Publisher：GitHub Actions，workflow 填 publish-npm.yml，仓库填 你的 owner/NFX-UI
+# 每次 push 到 main 时：若 package.json 的 version 在 npm 上尚未发布，则 build 并 publish。
+# 使用 npm Trusted Publishing（OIDC），不要在 GitHub 存 NPM_TOKEN。
+#
+# 必须先在 https://www.npmjs.com/package/nfx-ui → Settings → Trusted Publisher 添加：
+#   Organization or user: NebulaForgeX
+#   Repository:            NFX-UI
+#   Workflow filename:     publish-npm.yml   （只要文件名，不要 .github/workflows/）
+#   Environment:           留空（本 workflow 没有 environment:）
+#   Allowed actions:       勾选 npm publish（2026-09 之后新建的 publisher 默认可能只有 stage）
+#
+# Publish on each main push when package.json version is not yet on npm.
+# OIDC trusted publishing — no NPM_TOKEN secret.
 
 name: Publish to npm
 
@@ -8,17 +17,18 @@ on:
   push:
     branches: [main]
     paths:
-      - 'package.json'
-      - 'src/**'
-      - 'vite.config.ts'
-      - 'tsconfig*.json'
+      - "package.json"
+      - "src/**"
+      - "vite.config.ts"
+      - "tsconfig*.json"
+      - ".github/workflows/publish-npm.yml"
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write  # 供 npm Trusted Publishing (OIDC) 使用
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -26,10 +36,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: '22'
-
-      # 不在 CI 里 `npm i -g npm@latest`：部分 runner 上会 MODULE_NOT_FOUND（如 promise-retry），导致整 job 失败。
-      # Trusted Publishing（OIDC）需 npm 11.5.1+：发布步骤用 npx 拉取 npm 11，避免污染全局 npm。
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
 
       - name: Get version
         id: pkg
@@ -52,4 +61,4 @@ jobs:
 
       - name: Publish to npm
         if: steps.check.outputs.published != 'true'
-        run: npx --yes npm@11 publish --provenance
+        run: npm publish
