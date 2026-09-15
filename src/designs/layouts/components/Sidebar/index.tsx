@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, IconButton, Text } from "@radix-ui/themes";
-import type { LucideIcon as LucideIconType } from "lucide-react";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, LogOut, Menu as MenuIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Menu, Sidebar as ProSidebar } from "react-pro-sidebar";
 
 import LucideIcon from "@/designs/components/LucideIcon";
+import type { LucideIconComponent } from "@/designs/components/LucideIcon";
 import type { SidebarMenuItem } from "../../types";
 
 import { MenuItem, SidebarMenuState, SubMenu } from "./menu";
@@ -24,7 +24,7 @@ function MenuLabel({ children, active = false }: { children: ReactNode; active?:
   );
 }
 
-function SectionTitle({ label, icon }: { label: string; icon: LucideIconType }) {
+function SectionTitle({ label, icon }: { label: string; icon: LucideIconComponent }) {
   return (
     <Flex align="center" justify="between" gap="2" className={styles.sectionTitle}>
       <Text as="span" size="2" weight="bold">

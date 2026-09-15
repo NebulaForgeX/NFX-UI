@@ -1,12 +1,12 @@
-import type { LucideIcon as LucideIconType } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Flex, Heading, Text } from "@radix-ui/themes";
 
 import LucideIcon from "../LucideIcon";
+import type { LucideIconComponent } from "../LucideIcon";
 
 export type EmptyStateProps = {
-  icon: LucideIconType;
+  icon: LucideIconComponent;
   title: string;
   description?: string;
   action?: ReactNode;

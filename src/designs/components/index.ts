@@ -3,7 +3,7 @@
  */
 
 export { default as LucideIcon } from "./LucideIcon";
-export type { LucideIconProps } from "./LucideIcon";
+export type { LucideIconProps, LucideIconComponent } from "./LucideIcon";
 
 export { default as EmptyState } from "./EmptyState";
 export type { EmptyStateProps } from "./EmptyState";

@@ -19,6 +19,7 @@ export interface AuthRepository {
   PatchProfile(kind: ProfileKindEnum, body: Profile.Request.PatchProfile): Promise<void>;
   PatchProfileSettings(kind: ProfileKindEnum, body: Profile.Request.PatchProfileSettings): Promise<void>;
   ConfirmProfileAvatar(kind: ProfileKindEnum, body: Profile.Request.ConfirmProfileAvatar): Promise<void>;
+  ClearProfileAvatar(kind: ProfileKindEnum): Promise<void>;
   ConfirmProfileBackgrounds(kind: ProfileKindEnum, body: Profile.Request.ConfirmProfileBackgrounds): Promise<void>;
   ListProfiles<K extends ProfileKindEnum>(kind: K, params?: { limit?: number; offset?: number }): Promise<ListDTOWithTotalNumber<ProfileItemsByKind<K>[number]>>;
   DeleteProfile(kind: ProfileKindEnum, profileId: string): Promise<void>;
@@ -144,6 +145,19 @@ export class ApiAuthRepository implements AuthRepository {
         return;
       case ProfileKindEnum.AUTHORITY:
         await protectedClient.put<DataResponse<null>>(URL_PATHS.AUTH.Me.AuthorityProfileAvatars, body);
+        return;
+      default:
+        throw new Error("Invalid profile kind");
+    }
+  }
+
+  async ClearProfileAvatar(kind: ProfileKindEnum): Promise<void> {
+    switch (kind) {
+      case ProfileKindEnum.FORGER:
+        await protectedClient.delete<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfileAvatars);
+        return;
+      case ProfileKindEnum.AUTHORITY:
+        await protectedClient.delete<DataResponse<null>>(URL_PATHS.AUTH.Me.AuthorityProfileAvatars);
         return;
       default:
         throw new Error("Invalid profile kind");
