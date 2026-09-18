@@ -89,14 +89,23 @@ export const useSignupWithEmail = () => {
       ...params
     }: {
       rememberMe: boolean;
-    } & Omit<Signup.Request.SignupWithEmail, "deviceId">) =>
-      auth.SignupWithEmail({
+    } & Omit<Signup.Request.SignupWithEmail, "deviceId">): Promise<Signup.Response.SignupWithEmail & { profileId?: string }> => {
+      const deviceId = await ensureDeviceIdStorage();
+      const result = await auth.SignupWithEmail({
         ...params,
-        deviceId: await ensureDeviceIdStorage(),
-      }),
+        deviceId,
+      });
+      const first = result.profiles?.find((p) => p.kind === ProfileKindEnum.FORGER) ?? result.profiles?.[0];
+      if (!first) return result;
+      const selected = await auth.SelectProfile({
+        profileId: first.profileId,
+        kind: first.kind,
+        deviceId,
+      });
+      return { ...result, accessToken: selected.accessToken, refreshToken: selected.refreshToken, profileId: selected.profileId };
+    },
     onSuccess: (result, variables) => {
       if (!result?.accessToken) return;
-      setCurrentProfileId(result.profileId || EMPTY_PROFILE_ID);
       setTokens(
         {
           accessToken: result.accessToken,
@@ -107,8 +116,11 @@ export const useSignupWithEmail = () => {
       setIsAuthValid(true);
       if (result.accountId) setCurrentAccountId(result.accountId);
       if (result.profileId) {
+        setCurrentProfileId(result.profileId);
         setCurrentProfileKind(ProfileKindEnum.FORGER);
         authEventEmitter.emit(authEvents.LOGIN_SUCCESS, result.accountId);
+      } else {
+        setCurrentProfileId(EMPTY_PROFILE_ID);
       }
     },
     onError: (error: AxiosError) => {

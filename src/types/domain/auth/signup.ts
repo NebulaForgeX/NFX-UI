@@ -1,5 +1,7 @@
 import type { AuthSignupPlatformEnum, LanguageEnum } from "@/enums";
 
+import type { Login } from "./login";
+
 export namespace Signup {
   export namespace Request {
     export interface SendVerificationCode {
@@ -18,11 +20,6 @@ export namespace Signup {
   }
 
   export namespace Response {
-    export interface SignupWithEmail {
-      accountId: string;
-      profileId: Maybe<string>;
-      accessToken: string;
-      refreshToken: string;
-    }
+    export type SignupWithEmail = Login.Response.LoginWithEmail;
   }
 }

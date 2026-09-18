@@ -2,14 +2,9 @@ import type { UserProfileEditFormData } from "@/schemas";
 import type { Profile } from "@/types";
 
 import { Language } from "@/enums";
+import { assignIfChanged, assignNullableString, normalizeOptionalString } from "@/utils/primitive/patch";
 import { safeNullable, safeStringable } from "@/utils/safe";
 import { toDateInputValue } from "@/utils/time";
-
-import { assignIfChanged, assignNullableString, normalizeOptionalString } from "../primitive/patch";
-
-function toBirthdayISO(value: string): string {
-  return `${value}T00:00:00.000Z`;
-}
 
 export function buildProfilePatch(original: Maybe<Profile.Response.ProfileBase>, form: Partial<UserProfileEditFormData>): Profile.Request.PatchProfile {
   const patch: Profile.Request.PatchProfile = {};
@@ -30,7 +25,7 @@ export function buildProfilePatch(original: Maybe<Profile.Response.ProfileBase>,
     const nextBirthday = normalizeOptionalString(safeStringable(form.birthday));
     const previousBirthday = original?.birthday ? toDateInputValue(original.birthday) : null;
     if (nextBirthday !== previousBirthday) {
-      patch.birthday = nextBirthday ? toBirthdayISO(nextBirthday) : null;
+      patch.birthday = nextBirthday || null;
     }
   }
 
