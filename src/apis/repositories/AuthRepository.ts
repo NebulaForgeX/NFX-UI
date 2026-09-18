@@ -11,10 +11,6 @@ export interface AuthRepository {
   SignupWithEmail(params: Signup.Request.SignupWithEmail): Promise<Signup.Response.SignupWithEmail>;
   LoginWithEmail(params: Login.Request.LoginWithEmail): Promise<Login.Response.LoginWithEmail>;
   LoginWithPhone(params: Login.Request.LoginWithPhone): Promise<Login.Response.LoginWithPhone>;
-  GetGitHubAuthorizeUrl(): Promise<Login.Response.GitHubAuthorizeUrl>;
-  LoginWithGitHub(params: Login.Request.LoginWithGitHub): Promise<Login.Response.LoginWithGitHub>;
-  LinkGitHub(params: Login.Request.LinkGitHub): Promise<void>;
-  UnlinkGitHub(): Promise<void>;
   SelectProfile(params: Login.Request.SelectProfile): Promise<Login.Response.SelectProfile>;
   GetCurrentFullAccountInformationWithProfile<K extends ProfileKindEnum>(kind: K): Promise<FullAccountInfoByKind<K>>;
   PatchProfile(kind: ProfileKindEnum, body: Profile.Request.PatchProfile): Promise<void>;
@@ -76,24 +72,6 @@ export class ApiAuthRepository implements AuthRepository {
   async LoginWithPhone(params: Login.Request.LoginWithPhone): Promise<Login.Response.LoginWithPhone> {
     const { data } = await publicClient.post<DataResponse<Login.Response.LoginWithPhone>>(URL_PATHS.AUTH.LoginWithPhone, params);
     return data.data;
-  }
-
-  async GetGitHubAuthorizeUrl(): Promise<Login.Response.GitHubAuthorizeUrl> {
-    const { data } = await publicClient.get<DataResponse<Login.Response.GitHubAuthorizeUrl>>(URL_PATHS.AUTH.LoginGitHubUrl);
-    return data.data;
-  }
-
-  async LoginWithGitHub(params: Login.Request.LoginWithGitHub): Promise<Login.Response.LoginWithGitHub> {
-    const { data } = await publicClient.post<DataResponse<Login.Response.LoginWithGitHub>>(URL_PATHS.AUTH.LoginGitHub, params);
-    return data.data;
-  }
-
-  async LinkGitHub(params: Login.Request.LinkGitHub): Promise<void> {
-    await protectedClient.post(URL_PATHS.AUTH.Me.GitHub, params);
-  }
-
-  async UnlinkGitHub(): Promise<void> {
-    await protectedClient.delete(URL_PATHS.AUTH.Me.GitHub);
   }
 
   async SelectProfile(params: Login.Request.SelectProfile): Promise<Login.Response.SelectProfile> {

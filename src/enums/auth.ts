@@ -66,7 +66,6 @@ export const AuthSignupPlatform = (value: Nilable<string>) =>
 
 export enum AuthIdentityProviderEnum {
   PASSWORD = "password",
-  GITHUB = "github",
 }
 export const DEFAULT_AUTH_IDENTITY_PROVIDER = AuthIdentityProviderEnum.PASSWORD;
 export const AUTH_IDENTITY_PROVIDER_VALUES = Object.values(AuthIdentityProviderEnum);

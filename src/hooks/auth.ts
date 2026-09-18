@@ -264,60 +264,6 @@ export const useDeleteProfile = () => {
   });
 };
 
-export const useGetGitHubAuthorizeUrl = () => {
-  const auth = useAuthRepository();
-  return useMutation({
-    mutationFn: () => auth.GetGitHubAuthorizeUrl(),
-    onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useGetGitHubAuthorizeUrl] error"));
-    },
-  });
-};
-
-export const useLoginWithGitHub = () => {
-  const auth = useAuthRepository();
-  return useMutation({
-    mutationFn: async (params: { code: string; state: string; signupPlatform: AuthSignupPlatformEnum }) =>
-      auth.LoginWithGitHub({
-        ...params,
-        deviceId: await ensureDeviceIdStorage(),
-      }),
-    onSuccess: (result) => {
-      if (!result?.accessToken) return;
-      setCurrentProfileId(EMPTY_PROFILE_ID);
-      setTokens({
-        accessToken: result.accessToken,
-        refreshToken: safeStringable(result.refreshToken),
-      });
-      setIsAuthValid(true);
-      if (result.accountId) setCurrentAccountId(result.accountId);
-    },
-    onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useLoginWithGitHub] error"));
-    },
-  });
-};
-
-export const useLinkGitHub = () => {
-  const auth = useAuthRepository();
-  return useMutation({
-    mutationFn: (params: Login.Request.LinkGitHub) => auth.LinkGitHub(params),
-    onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useLinkGitHub] error"));
-    },
-  });
-};
-
-export const useUnlinkGitHub = () => {
-  const auth = useAuthRepository();
-  return useMutation({
-    mutationFn: () => auth.UnlinkGitHub(),
-    onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useUnlinkGitHub] error"));
-    },
-  });
-};
-
 export const useConfirmProfileAvatar = () => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
