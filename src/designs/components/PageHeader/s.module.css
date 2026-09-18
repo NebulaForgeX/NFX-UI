@@ -1,9 +1,0 @@
-.pageIcon {
-  border-radius: var(--radius-3);
-  background: color-mix(in oklab, var(--accent-9) 12%, transparent);
-  color: var(--accent-9);
-}
-
-.panelIcon {
-  border-radius: var(--radius-2);
-}

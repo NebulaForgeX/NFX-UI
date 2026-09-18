@@ -81,3 +81,8 @@ declare module "async-retry" {
   ): Promise<T>;
   export default retry;
 }
+
+declare module "*.json" {
+  const value: Record<string, unknown>;
+  export default value;
+}

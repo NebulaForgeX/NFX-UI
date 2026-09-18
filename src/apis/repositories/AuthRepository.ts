@@ -2,10 +2,11 @@ import type { DataResponse, FullAccountInfoByKind, ListDTOWithTotalNumber, Login
 
 import { ProfileKindEnum } from "@/enums";
 
-import { protectedClient, publicClient } from "../clients";
+import { protectedClient, publicClient, publicClientWithoutTransform } from "../clients";
 import { dataFromResponse, URL_PATHS } from "../ip";
 
 export interface AuthRepository {
+  GetErrorTranslations(lang: string): Promise<Record<string, string>>;
   SendVerificationCode(params: Signup.Request.SendVerificationCode): Promise<void>;
   SignupWithEmail(params: Signup.Request.SignupWithEmail): Promise<Signup.Response.SignupWithEmail>;
   LoginWithEmail(params: Login.Request.LoginWithEmail): Promise<Login.Response.LoginWithEmail>;
@@ -25,6 +26,7 @@ export interface AuthRepository {
   DeleteProfile(kind: ProfileKindEnum, profileId: string): Promise<void>;
   UpdatePreference(kind: ProfileKindEnum, preference: string): Promise<void>;
   CreateForgerProfile(body: Login.Request.CreateForgerProfile): Promise<Login.Response.CreateForgerProfile>;
+  CreateAuthorityProfile(body: Login.Request.CreateAuthorityProfile): Promise<Login.Response.CreateAuthorityProfile>;
   SearchForgerProfiles(params: Profile.Request.SearchProfiles): Promise<ListDTOWithTotalNumber<Profile.Response.ForgerProfileItem>>;
   SearchAuthorityProfiles(params: Profile.Request.SearchProfiles): Promise<ListDTOWithTotalNumber<Profile.Response.AuthorityProfileItem>>;
   GetPublicProfileCard(profileId: string): Promise<Profile.Response.ForgerProfileItem>;
@@ -45,12 +47,18 @@ export interface AuthRepository {
   SendChangePasswordVerificationCode(body?: Login.Request.SendChangePasswordVerificationCode): Promise<void>;
   ChangePassword(body: Login.Request.ChangePassword): Promise<void>;
   RefreshTokens(params: Tokens.Request.RefreshTokens): Promise<Tokens.Response.Tokens>;
+  Logout(params: Tokens.Request.Logout): Promise<void>;
   ListOwnerForgerProfiles(params?: { limit?: number; offset?: number; query?: string }): Promise<ListDTOWithTotalNumber<Profile.Response.ForgerProfileItem>>;
   ListOwnerAuthorityProfiles(params?: { limit?: number; offset?: number; query?: string }): Promise<ListDTOWithTotalNumber<Profile.Response.AuthorityProfileItem>>;
   UpdateAuthorityProfileRoles(profileId: string, params: Profile.Request.UpdateAuthorityProfileRoles): Promise<void>;
 }
 
 export class ApiAuthRepository implements AuthRepository {
+  async GetErrorTranslations(lang: string): Promise<Record<string, string>> {
+    const { data } = await publicClientWithoutTransform.get<Record<string, string>>(URL_PATHS.AUTH.Locales.errorsByLang(lang));
+    return data;
+  }
+
   async SendVerificationCode(params: Signup.Request.SendVerificationCode): Promise<void> {
     await publicClient.post(URL_PATHS.AUTH.SignupSendCode, params);
   }
@@ -223,6 +231,11 @@ export class ApiAuthRepository implements AuthRepository {
     return dataFromResponse(data, "CreateForgerProfile");
   }
 
+  async CreateAuthorityProfile(body: Login.Request.CreateAuthorityProfile): Promise<Login.Response.CreateAuthorityProfile> {
+    const { data } = await protectedClient.post<DataResponse<Login.Response.CreateAuthorityProfile>>(URL_PATHS.AUTH.Me.AuthorityProfiles, body);
+    return dataFromResponse(data, "CreateAuthorityProfile");
+  }
+
   async SearchForgerProfiles(params: Profile.Request.SearchProfiles): Promise<ListDTOWithTotalNumber<Profile.Response.ForgerProfileItem>> {
     const { data } = await protectedClient.post<DataResponse<ListDTOWithTotalNumber<Profile.Response.ForgerProfileItem>>>(URL_PATHS.AUTH.Me.SearchForgerProfiles, params);
     return dataFromResponse(data, "SearchForgerProfiles");
@@ -309,6 +322,10 @@ export class ApiAuthRepository implements AuthRepository {
   async RefreshTokens(params: Tokens.Request.RefreshTokens): Promise<Tokens.Response.Tokens> {
     const { data } = await publicClient.post<DataResponse<Tokens.Response.Tokens>>(URL_PATHS.AUTH.Refresh, params);
     return dataFromResponse(data, "RefreshTokens");
+  }
+
+  async Logout(params: Tokens.Request.Logout): Promise<void> {
+    await publicClient.post(URL_PATHS.AUTH.Logout, params);
   }
 
   async ListOwnerForgerProfiles(params: { limit?: number; offset?: number; query?: string } = {}): Promise<ListDTOWithTotalNumber<Profile.Response.ForgerProfileItem>> {

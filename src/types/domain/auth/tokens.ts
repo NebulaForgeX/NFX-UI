@@ -4,6 +4,10 @@ export namespace Tokens {
       refreshToken: string;
       deviceId: string;
     }
+
+    export interface Logout {
+      refreshToken: string;
+    }
   }
   export namespace Response {
     export interface Tokens {
