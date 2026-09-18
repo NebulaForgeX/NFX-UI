@@ -4,3 +4,5 @@
  */
 export * from "./EventEmitter";
 export * from "./auth";
+export * from "./system";
+export * from "./query";

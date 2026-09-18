@@ -1,6 +1,6 @@
 {
   "name": "nfx-ui",
-  "version": "0.20.0",
+  "version": "0.22.0",
   "type": "module",
   "sideEffects": [
     "**/*.css",
@@ -17,152 +17,272 @@
     "url": "https://github.com/NebulaForgeX/NFX-UI/issues"
   },
   "exports": {
-    "./enums": {
-      "types": "./dist/src/enums/index.d.ts",
-      "import": "./dist/enums.mjs",
-      "require": "./dist/enums.cjs",
-      "default": "./dist/enums.mjs"
-    },
-    "./themes": {
-      "types": "./dist/src/themes/index.d.ts",
-      "import": "./dist/themes.mjs",
-      "require": "./dist/themes.cjs",
-      "default": "./dist/themes.mjs"
-    },
-    "./layouts": {
-      "types": "./dist/src/designs/layouts/index.d.ts",
-      "import": "./dist/layouts.mjs",
-      "require": "./dist/layouts.cjs",
-      "default": "./dist/layouts.mjs"
-    },
-    "./components": {
-      "types": "./dist/src/designs/components/index.d.ts",
-      "import": "./dist/components.mjs",
-      "require": "./dist/components.cjs",
-      "default": "./dist/components.mjs"
-    },
-    "./animations": {
-      "types": "./dist/src/designs/animations/index.d.ts",
-      "import": "./dist/animations.mjs",
-      "require": "./dist/animations.cjs",
-      "default": "./dist/animations.mjs"
-    },
-    "./hooks": {
-      "types": "./dist/src/hooks/index.d.ts",
-      "import": "./dist/hooks.mjs",
-      "require": "./dist/hooks.cjs",
-      "default": "./dist/hooks.mjs"
-    },
-    "./stores": {
-      "types": "./dist/src/stores/index.d.ts",
-      "import": "./dist/stores.mjs",
-      "require": "./dist/stores.cjs",
-      "default": "./dist/stores.mjs"
-    },
     "./apis": {
-      "types": "./dist/src/apis/index.d.ts",
-      "import": "./dist/apis.mjs",
-      "require": "./dist/apis.cjs",
-      "default": "./dist/apis.mjs"
+      "types": "./dist/apis/index.d.ts",
+      "development": "./src/apis/index.ts",
+      "import": "./dist/apis/index.js",
+      "default": "./dist/apis/index.js"
     },
-    "./events": {
-      "types": "./dist/src/events/index.d.ts",
-      "import": "./dist/events.mjs",
-      "require": "./dist/events.cjs",
-      "default": "./dist/events.mjs"
+    "./apis/*": {
+      "types": "./dist/apis/*",
+      "development": "./src/apis/*",
+      "import": "./dist/apis/*",
+      "default": "./dist/apis/*"
     },
-    "./services": {
-      "types": "./dist/src/services/index.d.ts",
-      "import": "./dist/services.mjs",
-      "require": "./dist/services.cjs",
-      "default": "./dist/services.mjs"
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "development": "./src/config/index.ts",
+      "import": "./dist/config/index.js",
+      "default": "./dist/config/index.js"
     },
-    "./navigations": {
-      "types": "./dist/src/navigations/index.d.ts",
-      "import": "./dist/navigations.mjs",
-      "require": "./dist/navigations.cjs",
-      "default": "./dist/navigations.mjs"
-    },
-    "./types": {
-      "types": "./dist/src/types/index.d.ts",
-      "import": "./dist/types.mjs",
-      "require": "./dist/types.cjs",
-      "default": "./dist/types.mjs"
-    },
-    "./utils": {
-      "types": "./dist/src/utils/index.d.ts",
-      "import": "./dist/utils.mjs",
-      "require": "./dist/utils.cjs",
-      "default": "./dist/utils.mjs"
+    "./config/*": {
+      "types": "./dist/config/*",
+      "development": "./src/config/*",
+      "import": "./dist/config/*",
+      "default": "./dist/config/*"
     },
     "./constants": {
-      "types": "./dist/src/constants/index.d.ts",
-      "import": "./dist/constants.mjs",
-      "require": "./dist/constants.cjs",
-      "default": "./dist/constants.mjs"
+      "types": "./dist/constants/index.d.ts",
+      "development": "./src/constants/index.ts",
+      "import": "./dist/constants/index.js",
+      "default": "./dist/constants/index.js"
+    },
+    "./constants/*": {
+      "types": "./dist/constants/*",
+      "development": "./src/constants/*",
+      "import": "./dist/constants/*",
+      "default": "./dist/constants/*"
+    },
+    "./elements": {
+      "types": "./dist/elements/index.d.ts",
+      "development": "./src/elements/index.ts",
+      "import": "./dist/elements/index.js",
+      "default": "./dist/elements/index.js"
+    },
+    "./elements/*": {
+      "types": "./dist/elements/*",
+      "development": "./src/elements/*",
+      "import": "./dist/elements/*",
+      "default": "./dist/elements/*"
+    },
+    "./enums": {
+      "types": "./dist/enums/index.d.ts",
+      "development": "./src/enums/index.ts",
+      "import": "./dist/enums/index.js",
+      "default": "./dist/enums/index.js"
+    },
+    "./enums/*": {
+      "types": "./dist/enums/*",
+      "development": "./src/enums/*",
+      "import": "./dist/enums/*",
+      "default": "./dist/enums/*"
+    },
+    "./events": {
+      "types": "./dist/events/index.d.ts",
+      "development": "./src/events/index.ts",
+      "import": "./dist/events/index.js",
+      "default": "./dist/events/index.js"
+    },
+    "./events/*": {
+      "types": "./dist/events/*",
+      "development": "./src/events/*",
+      "import": "./dist/events/*",
+      "default": "./dist/events/*"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "development": "./src/hooks/index.ts",
+      "import": "./dist/hooks/index.js",
+      "default": "./dist/hooks/index.js"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*",
+      "development": "./src/hooks/*",
+      "import": "./dist/hooks/*",
+      "default": "./dist/hooks/*"
     },
     "./languages": {
-      "types": "./dist/src/languages/index.d.ts",
-      "import": "./dist/languages.mjs",
-      "require": "./dist/languages.cjs",
-      "default": "./dist/languages.mjs"
+      "types": "./dist/languages/index.d.ts",
+      "development": "./src/languages/index.ts",
+      "import": "./dist/languages/index.js",
+      "default": "./dist/languages/index.js"
     },
-    "./icons": {
-      "types": "./dist/src/icons/index.d.ts",
-      "import": "./dist/icons.mjs",
-      "require": "./dist/icons.cjs",
-      "default": "./dist/icons.mjs"
+    "./languages/*": {
+      "types": "./dist/languages/*",
+      "development": "./src/languages/*",
+      "import": "./dist/languages/*",
+      "default": "./dist/languages/*"
     },
-    "./themes/fonts": "./src/themes/fonts.ts",
-    "./themes/styles.css": "./src/themes/index.css",
-    "./pixel-blast": {
-      "types": "./dist/src/designs/animations/PixelBlast/index.d.ts",
-      "import": "./dist/pixel-blast.mjs",
-      "require": "./dist/pixel-blast.cjs",
-      "default": "./dist/pixel-blast.mjs"
+    "./navigations": {
+      "types": "./dist/navigations/index.d.ts",
+      "development": "./src/navigations/index.ts",
+      "import": "./dist/navigations/index.js",
+      "default": "./dist/navigations/index.js"
+    },
+    "./navigations/*": {
+      "types": "./dist/navigations/*",
+      "development": "./src/navigations/*",
+      "import": "./dist/navigations/*",
+      "default": "./dist/navigations/*"
     },
     "./providers": {
-      "types": "./dist/src/providers/index.d.ts",
-      "import": "./dist/providers.mjs",
-      "require": "./dist/providers.cjs",
-      "default": "./dist/providers.mjs"
-    }
+      "types": "./dist/providers/index.d.ts",
+      "development": "./src/providers/index.ts",
+      "import": "./dist/providers/index.js",
+      "default": "./dist/providers/index.js"
+    },
+    "./providers/*": {
+      "types": "./dist/providers/*",
+      "development": "./src/providers/*",
+      "import": "./dist/providers/*",
+      "default": "./dist/providers/*"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "development": "./src/schemas/index.ts",
+      "import": "./dist/schemas/index.js",
+      "default": "./dist/schemas/index.js"
+    },
+    "./schemas/*": {
+      "types": "./dist/schemas/*",
+      "development": "./src/schemas/*",
+      "import": "./dist/schemas/*",
+      "default": "./dist/schemas/*"
+    },
+    "./stores": {
+      "types": "./dist/stores/index.d.ts",
+      "development": "./src/stores/index.ts",
+      "import": "./dist/stores/index.js",
+      "default": "./dist/stores/index.js"
+    },
+    "./stores/*": {
+      "types": "./dist/stores/*",
+      "development": "./src/stores/*",
+      "import": "./dist/stores/*",
+      "default": "./dist/stores/*"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "development": "./src/themes/index.ts",
+      "import": "./dist/themes/index.js",
+      "default": "./dist/themes/index.js"
+    },
+    "./themes/radix": {
+      "types": "./dist/themes/radix/index.d.ts",
+      "development": "./src/themes/radix/index.ts",
+      "import": "./dist/themes/radix/index.js",
+      "default": "./dist/themes/radix/index.js"
+    },
+    "./themes/fonts": {
+      "types": "./dist/themes/fonts.d.ts",
+      "development": "./src/themes/fonts.ts",
+      "import": "./dist/themes/fonts.js",
+      "default": "./dist/themes/fonts.js"
+    },
+    "./themes/index.css": {
+      "development": "./src/themes/index.css",
+      "import": "./src/themes/index.css",
+      "default": "./src/themes/index.css"
+    },
+    "./themes/*": {
+      "types": "./dist/themes/*",
+      "development": "./src/themes/*",
+      "import": "./dist/themes/*",
+      "default": "./dist/themes/*"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "development": "./src/types/index.ts",
+      "import": "./dist/types/index.js",
+      "default": "./dist/types/index.js"
+    },
+    "./types/*": {
+      "types": "./dist/types/*",
+      "development": "./src/types/*",
+      "import": "./dist/types/*",
+      "default": "./dist/types/*"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "development": "./src/utils/index.ts",
+      "import": "./dist/utils/index.js",
+      "default": "./dist/utils/index.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*",
+      "development": "./src/utils/*",
+      "import": "./dist/utils/*",
+      "default": "./dist/utils/*"
+    },
+    "./apis/repositories": {
+      "types": "./dist/apis/repositories/index.d.ts",
+      "development": "./src/apis/repositories/index.ts",
+      "import": "./dist/apis/repositories/index.js",
+      "default": "./dist/apis/repositories/index.js"
+    },
+    "./apis/repositories/*": {
+      "types": "./dist/apis/repositories/*",
+      "development": "./src/apis/repositories/*",
+      "import": "./dist/apis/repositories/*",
+      "default": "./dist/apis/repositories/*"
+    },
+    "./icons": {
+      "types": "./dist/animations/index.d.ts",
+      "development": "./src/animations/index.ts",
+      "import": "./dist/animations/index.js",
+      "default": "./dist/animations/index.js"
+    },
+    "./icons/*": {
+      "types": "./dist/animations/*",
+      "development": "./src/animations/*",
+      "import": "./dist/animations/*",
+      "default": "./dist/animations/*"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
+    "src",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -b && vite build && tsc -p tsconfig.dts.json",
+    "build": "vite build",
+    "icons:fetch": "node scripts/fetch-itshover-icons.mjs",
     "link": "npm run build && npm link",
     "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "lint:code-format": "prettier --check \"src/**/*.{js,jsx,ts,tsx,cjs,mjs,json,md}\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,cjs,mjs,json,md}\"",
-    "check:update": "npx npm-check-updates"
+    "check:update": "npx npm-check-updates",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit"
   },
   "peerDependencies": {
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/themes": "^3.3.0",
-    "@tanstack/react-query": "^5.102.8",
+    "@tanstack/react-query": "^5.103.1",
     "axios": "^1.20.0",
     "axios-case-converter": "^2.0.1",
     "clsx": "^2.1.1",
     "eventemitter3": "^5.0.4",
+    "gsap": "^3.15.0",
+    "@gsap/react": "^2.1.2",
+    "@hookform/resolvers": "^5.9.1",
     "i18next": "^26.4.2",
     "i18next-browser-languagedetector": "^8.2.1",
-    "lucide-react": "^1.41.0",
-    "motion": "^13.1.1",
+    "lucide-react": "^1.47.0",
+    "motion": "^13.4.0",
     "postprocessing": "^6.39.5",
     "radix-ui": "^1.6.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-i18next": "^17.0.13",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-hook-form": "^7.88.0",
+    "react-i18next": "^17.0.14",
     "react-pro-sidebar": "^1.1.0",
-    "react-router": "^8.3.1",
-    "react-virtuoso": "^4.18.12",
+    "react-router": "^8.4.0",
+    "react-virtuoso": "^4.18.13",
     "three": "^0.186.0",
+    "zod": "^4.6.5",
     "zustand": "^5.0.15"
   },
   "peerDependenciesMeta": {
@@ -189,6 +309,12 @@
     },
     "three": {
       "optional": true
+    },
+    "gsap": {
+      "optional": true
+    },
+    "@gsap/react": {
+      "optional": true
     }
   },
   "keywords": [
@@ -209,7 +335,6 @@
     "@fontsource/noto-sans-tc": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.0",
     "@ibm/plex-sans-sc": "^1.1.0",
-    "@tanstack/react-virtual": "^3.14.11",
     "async-retry": "^1.3.3"
   },
   "devDependencies": {
@@ -217,12 +342,12 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/themes": "^3.3.0",
-    "@tanstack/react-query": "^5.102.8",
+    "@tanstack/react-query": "^5.103.1",
     "@types/async-retry": "^1.4.9",
-    "@types/node": "^26.4.1",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.7",
-    "@types/three": "^0.185.4",
+    "@types/node": "^26.6.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.1",
     "axios": "^1.20.0",
     "axios-case-converter": "^2.0.1",
@@ -230,29 +355,34 @@
     "esbuild": "^0.28.2",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.6",
+    "eslint-plugin-react-refresh": "^0.5.7",
     "eslint-plugin-unused-imports": "^4.4.1",
     "eventemitter3": "^5.0.4",
     "globals": "^17.12.0",
+    "gsap": "^3.15.0",
+    "@gsap/react": "^2.1.2",
+    "@hookform/resolvers": "^5.9.1",
     "i18next": "^26.4.2",
     "i18next-browser-languagedetector": "^8.2.1",
-    "lucide-react": "^1.41.0",
-    "motion": "^13.1.1",
+    "lucide-react": "^1.47.0",
+    "motion": "^13.4.0",
     "postprocessing": "^6.39.5",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "radix-ui": "^1.6.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-i18next": "^17.0.13",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-hook-form": "^7.88.0",
+    "react-i18next": "^17.0.14",
     "react-pro-sidebar": "^1.1.0",
-    "react-router": "^8.3.1",
-    "react-virtuoso": "^4.18.12",
+    "react-router": "^8.4.0",
+    "react-virtuoso": "^4.18.13",
     "three": "^0.186.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.69.0",
-    "vite": "^8.2.2",
+    "typescript-eslint": "^8.70.0",
+    "vite": "^8.3.0",
     "vite-plugin-css-injected-by-js": "^5.0.2",
     "vite-plugin-dts": "^5.1.0",
+    "zod": "^4.6.5",
     "zustand": "^5.0.15"
   },
   "allowScripts": {

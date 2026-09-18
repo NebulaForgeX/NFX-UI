@@ -32,6 +32,13 @@ export const URL_PATHS = {
     SignupSendCode: "/signup/send-code",
     SignupWithEmail: "/signup/with-email",
     Refresh: "/refresh",
+    Logout: "/logout",
+    Locales: path("/locales", {
+      errorsByLang: (lang: string) => `/${lang}`,
+    }),
+    Messages: path("/messages", {
+      byLang: (lang: string) => `/${lang}`,
+    }),
     Me: path("/me", {
       SelectProfile: "/select-profile",
       FullAccountInformationWithForgerProfile: "/full-account-information-with-forger-profile",
@@ -76,6 +83,9 @@ export const URL_PATHS = {
   ASSET: path("/asset", {
     Locales: path("/locales", {
       errorsByLang: (lang: string) => `/${lang}`,
+    }),
+    Messages: path("/messages", {
+      byLang: (lang: string) => `/${lang}`,
     }),
     Images: path("/images", {
       uploadUrl: "/upload-url",

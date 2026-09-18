@@ -71,6 +71,11 @@ export namespace Login {
       profileLanguage: LanguageEnum;
     }
 
+    export interface CreateAuthorityProfile {
+      displayName: string;
+      profileLanguage: LanguageEnum;
+    }
+
     export interface CreateEmail {
       email: string;
     }
@@ -134,6 +139,10 @@ export namespace Login {
     }
 
     export interface CreateForgerProfile {
+      profileId: string;
+    }
+
+    export interface CreateAuthorityProfile {
       profileId: string;
     }
 

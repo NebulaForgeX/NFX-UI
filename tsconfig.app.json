@@ -25,7 +25,8 @@
     "noUncheckedSideEffectImports": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "nfx-ui/*": ["./src/*", "./src/*/index.ts"]
     }
   },
   "include": ["src"]
