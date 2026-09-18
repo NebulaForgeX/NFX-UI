@@ -27,8 +27,6 @@ export const URL_PATHS = {
   AUTH: path("/auth", {
     LoginWithEmail: "/login/with-email",
     LoginWithPhone: "/login/with-phone",
-    LoginGitHub: "/login/github",
-    LoginGitHubUrl: "/login/github/url",
     SignupSendCode: "/signup/send-code",
     SignupWithEmail: "/signup/with-email",
     Refresh: "/refresh",
@@ -60,7 +58,6 @@ export const URL_PATHS = {
       AuthorityProfiles: "/authority-profiles",
       SearchAuthorityProfiles: "/authority-profiles/search",
       AuthorityProfileById: (profileId: string) => `/authority-profiles/${profileId}`,
-      GitHub: "/github",
       Emails: "/emails",
       EmailById: (emailId: string) => `/emails/${emailId}`,
       EmailSendVerificationCode: (emailId: string) => `/emails/${emailId}/send-verification-code`,

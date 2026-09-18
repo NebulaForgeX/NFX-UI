@@ -48,18 +48,6 @@ export namespace Login {
       deviceId: string;
     }
 
-    export interface LoginWithGitHub {
-      code: string;
-      state: string;
-      deviceId: string;
-      signupPlatform: string;
-    }
-
-    export interface LinkGitHub {
-      code: string;
-      state: string;
-    }
-
     export interface SelectProfile {
       profileId: string;
       kind: ProfileKindEnum;
@@ -124,12 +112,6 @@ export namespace Login {
     }
 
     export type LoginWithPhone = LoginWithEmail;
-    export type LoginWithGitHub = LoginWithEmail;
-
-    export interface GitHubAuthorizeUrl {
-      authorizeUrl: string;
-      state: string;
-    }
 
     export interface SelectProfile {
       accountId: string;
