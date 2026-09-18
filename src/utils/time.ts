@@ -128,14 +128,7 @@ export const formatDate = (dateString: string): string => {
  * @param dateString - 时间字符串
  * @returns 格式化后的时间字符串，无效则返回原串
  */
-export const formatTime = (dateString: string): string => {
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
-    const hour = String(date.getHours()).padStart(2, "0");
-    const minute = String(date.getMinutes()).padStart(2, "0");
-    return `${hour}:${minute}`;
-  } catch {
-    return dateString;
-  }
-};
+export function toDateInputValue(value: Nilable<string>): string {
+  if (!value) return "";
+  return value.slice(0, 10);
+}

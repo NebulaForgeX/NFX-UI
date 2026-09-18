@@ -1,5 +1,18 @@
 /// <reference types="vite/client" />
 
+interface ImportMetaEnv {
+  readonly VITE_API_URL?: string;
+  readonly VITE_IDENTITY_API_URL?: string;
+  readonly VITE_WS_URL?: string;
+  readonly DEV: boolean;
+  readonly PROD: boolean;
+  readonly MODE: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
 // CSS Modules 类型声明
 declare module "*.module.css" {
   const classes: { [key: string]: string };
@@ -67,4 +80,9 @@ declare module "async-retry" {
     opts?: Options
   ): Promise<T>;
   export default retry;
+}
+
+declare module "*.json" {
+  const value: Record<string, unknown>;
+  export default value;
 }

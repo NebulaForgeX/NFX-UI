@@ -2,7 +2,7 @@
  * 返回 { getLayoutDisplayName }，便于扩展；getLayoutDisplayName 可传给 SlideDownSwitcher 的 getDisplayName。
  * Returns { getLayoutDisplayName } for extensibility; pass to SlideDownSwitcher getDisplayName.
  */
-import type { LayoutModeEnum } from "@/designs/layouts/types";
+import type { LayoutModeEnum } from "@/enums/layout";
 
 import { useCallback, useMemo } from "react";
 
