@@ -1,7 +1,7 @@
 /**
  * Shared preference store — theme + language + layout (no map/billing/event).
  */
-import { DEFAULT_LAYOUT_MODE, LayoutModeEnum } from "@/designs/layouts/types";
+import { DEFAULT_LAYOUT_MODE, LayoutModeEnum } from "@/enums/layout";
 import { DEFAULT_LANGUAGE, Language, type LanguageEnum } from "@/enums/language";
 import { DashboardBackground, DEFAULT_DASHBOARD_BACKGROUND, DashboardBackgroundEnum } from "@/enums/dashboard";
 import { getDefaultThemePreference, resolveThemePreference, type ResolvedThemePreference } from "@/themes/radix";

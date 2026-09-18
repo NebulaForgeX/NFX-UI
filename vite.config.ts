@@ -1,148 +1,91 @@
-/**
- * NFX-UI 库构建配置。仅子路径入口，不构建聚合 index，避免消费者 import 'nfx-ui' 时打进全量。
- * NFX-UI lib build: subpath entries only, no barrel index, so consumers don't pull the whole lib.
- */
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import type { Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import dts from "vite-plugin-dts";
+
+function injectCssModuleSideEffect(): Plugin {
+  return {
+    name: "inject-css-module-side-effect",
+    generateBundle(_opts, bundle) {
+      for (const chunk of Object.values(bundle)) {
+        if (chunk.type !== "chunk") continue;
+        if (!/\bfrom\s+["']\.\/s\.module\.js["']/.test(chunk.code)) continue;
+        if (chunk.code.includes('import "./s.module.css"') || chunk.code.includes("import './s.module.css'")) continue;
+        chunk.code = `import "./s.module.css";\n${chunk.code}`;
+      }
+    },
+  };
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(__dirname);
-const src = path.resolve(root, "src");
+const srcDir = path.resolve(__dirname, "src");
 
-// ——— 子路径入口（与 package.json exports 一一对应） ———
-// Subpath entries; must match package.json "exports" keys.
-const LIB_ENTRIES: Record<string, string> = {
-  enums: path.join(src, "enums/index.ts"),
-  themes: path.join(src, "themes/index.ts"),
-  layouts: path.join(src, "designs/layouts/index.ts"),
-  components: path.join(src, "designs/components/index.ts"),
-  animations: path.join(src, "designs/animations/index.ts"),
-  "pixel-blast": path.join(src, "designs/animations/PixelBlast/index.tsx"),
-  providers: path.join(src, "providers/index.ts"),
-  hooks: path.join(src, "hooks/index.ts"),
-  stores: path.join(src, "stores/index.ts"),
-  apis: path.join(src, "apis/index.ts"),
-  events: path.join(src, "events/index.ts"),
-  services: path.join(src, "services/index.ts"),
-  navigations: path.join(src, "navigations/index.ts"),
-  types: path.join(src, "types/index.ts"),
-  utils: path.join(src, "utils/index.ts"),
-  constants: path.join(src, "constants/index.ts"),
-  languages: path.join(src, "languages/index.ts"),
-  icons: path.join(src, "icons/index.ts"),
+const pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, "package.json"), "utf8")) as {
+  dependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
 };
 
-// ——— 外部依赖（不打包，由宿主/消费者提供） ———
-// External deps; not bundled, provided by host or consumer.
-const EXTERNALS = [
-  "react",
-  "react-dom",
-  "react/jsx-runtime",
-  /^react\//,
-  /^react-dom\//,
-  "@radix-ui/themes",
-  /^@radix-ui\/themes/,
-  "@radix-ui/react-icons",
-  /^@radix-ui\/react-icons/,
-  "radix-ui",
-  /^radix-ui/,
-  "clsx",
-  "react-router",
-  /^react-router/,
-  "lucide-react",
-  /^lucide-react\//,
-  "recharts",
-  /^recharts\//,
-  "three",
-  /^three\//,
-  "gsap",
-  "@gsap/react",
-  "motion",
-  /^motion\//,
-  "@tanstack/react-query",
-  /^@tanstack\/react-query/,
-  "react-router-dom",
-  /^react-router-dom\//,
-  "i18next",
-  "react-i18next",
-  "i18next-browser-languagedetector",
-  "axios",
-  "zustand",
-  "react-hook-form",
-  "@hookform/resolvers",
-  "zod",
-  "@headlessui/react",
-  /^@headlessui\/react/,
-  "@dnd-kit/core",
-  "@dnd-kit/sortable",
-  "@dnd-kit/utilities",
-  "react-datepicker",
-  "react-intersection-observer",
-  "react-pro-sidebar",
-  "lenis",
-  "postprocessing",
-  "eventemitter3",
-  "uuid",
-  "buffer",
-  "axios-case-converter",
-  "async-retry",
-];
+function toPackageExternal(name: string): RegExp {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`^${escaped}($|/)`);
+}
 
-const globals = { react: "React", "react-dom": "ReactDOM" };
+const packageExternals = [...Object.keys(pkg.dependencies ?? {}), ...Object.keys(pkg.peerDependencies ?? {})].map(toPackageExternal);
+
+function collectEntries(dir: string, base = srcDir): Record<string, string> {
+  const entries: Record<string, string> = {};
+  for (const name of fs.readdirSync(dir)) {
+    const abs = path.join(dir, name);
+    const stat = fs.statSync(abs);
+    if (stat.isDirectory()) {
+      Object.assign(entries, collectEntries(abs, base));
+      continue;
+    }
+    if (!/\.tsx?$/.test(name)) continue;
+    if (name.endsWith(".d.ts") || name.includes(".test.") || name.includes(".spec.")) continue;
+    const rel = path.relative(base, abs).replace(/\.(tsx?)$/, "");
+    entries[rel] = abs;
+  }
+  return entries;
+}
 
 export default defineConfig({
   plugins: [
     react(),
-    cssInjectedByJsPlugin({
-      // 多入口时：仅对每个入口自己的 .mjs/.cjs 注入该入口打包到的 CSS，chunk 不注入。
-      // Multi-entry: inject CSS only into each entry's own output (themes→themes.mjs, layouts→layouts.mjs, …), not into chunks.
-      jsAssetsFilterFunction: (chunk) => {
-        const base = chunk.fileName.replace(/\.(mjs|cjs)$/, "");
-        return base === "themes" || base === "layouts" || base === "components" || base === "providers";
-      },
+    injectCssModuleSideEffect(),
+    dts({
+      include: ["src"],
+      exclude: ["src/**/*.test.*", "src/**/*.css"],
+      outDirs: "dist",
+      tsconfigPath: "./tsconfig.build.json",
+      bundleTypes: false,
     }),
   ],
   resolve: {
-    alias: { "@": src },
-  },
-  css: {
-    modules: {
-      localsConvention: "camelCase" as const,
-      generateScopedName: "[name]__[local]___[hash:base64:5]",
-    },
+    alias: [
+      { find: /^nfx-ui\/(.*)$/, replacement: path.join(srcDir, "$1") },
+      { find: "@", replacement: srcDir },
+    ],
   },
   build: {
     outDir: "dist",
     emptyOutDir: true,
     sourcemap: true,
-    minify: "esbuild",
+    cssCodeSplit: true,
     lib: {
-      entry: LIB_ENTRIES,
-      name: "NfxUi",
-      fileName: (format, entryName) =>
-        `${entryName}${format === "es" ? ".mjs" : ".cjs"}`,
+      entry: collectEntries(srcDir),
+      formats: ["es"],
     },
     rollupOptions: {
-      external: EXTERNALS,
-      output: [
-        {
-          format: "es",
-          entryFileNames: "[name].mjs",
-          chunkFileNames: "chunk-[name]-[hash].mjs",
-          assetFileNames: "[name][extname]",
-          globals,
-        },
-        {
-          format: "cjs",
-          entryFileNames: "[name].cjs",
-          chunkFileNames: "chunk-[name]-[hash].cjs",
-          assetFileNames: "[name][extname]",
-          globals,
-        },
-      ],
+      external: packageExternals,
+      output: {
+        preserveModules: true,
+        preserveModulesRoot: "src",
+        entryFileNames: "[name].js",
+      },
     },
   },
 });

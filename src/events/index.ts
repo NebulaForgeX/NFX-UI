@@ -3,3 +3,6 @@
  * Events module: exports only the generic EventEmitter. Use direct paths for domain emitters (e.g. @/events/router).
  */
 export * from "./EventEmitter";
+export * from "./auth";
+export * from "./system";
+export * from "./query";

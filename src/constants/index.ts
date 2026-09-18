@@ -4,6 +4,7 @@
  */
 export * from "./caches";
 export * from "./enums";
+export * from "./key";
 export * from "./query.itemkeys";
 export * from "./query.listkeys";
 export * from "./querykeys";
