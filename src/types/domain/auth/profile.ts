@@ -73,6 +73,8 @@ export namespace Profile {
     export interface Preference {
       theme: Maybe<ThemePreference>;
       language: Maybe<LanguageEnum>;
+      layoutMode?: string;
+      dashboardBackground?: string;
     }
 
     export interface Account {
