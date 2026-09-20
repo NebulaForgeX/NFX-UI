@@ -13,3 +13,7 @@ export const AUTH_ME = (aID: string, pID: string): QueryKey => [aID, pID, DOMAIN
 export const AUTH_PROFILES = (aID: string, kind: ProfileKindEnum): QueryKey => [aID, DOMAIN_AUTH, kind, "list", "profiles"];
 export const AUTH_EMAILS = (aID: string): QueryKey => [aID, DOMAIN_AUTH, "list", "emails"];
 export const AUTH_PHONES = (aID: string): QueryKey => [aID, DOMAIN_AUTH, "list", "phones"];
+export const AUTH_OWNER_FORGERS = (aID: string): QueryKey => [aID, DOMAIN_AUTH, "list", "owner-forgers"];
+export const AUTH_OWNER_AUTHORITIES = (aID: string): QueryKey => [aID, DOMAIN_AUTH, "list", "owner-authorities"];
+export const AUTH_PUBLIC_CARD = (profileId: string): QueryKey => [DOMAIN_AUTH, "item", "public-card", profileId];
+export const AUTH_PROFILE_SEARCH = (aID: string, kind: ProfileKindEnum, query: string): QueryKey => [aID, DOMAIN_AUTH, kind, "list", "profile-search", query];

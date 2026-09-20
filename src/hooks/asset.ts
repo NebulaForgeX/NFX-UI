@@ -16,6 +16,11 @@ export type UseDeleteImageOptions = {
   ifShowError?: boolean;
 };
 
+export const useAssetFileURL = () => {
+  const asset = useAssetRepository();
+  return (kind: Asset.Kind, id: string) => asset.FileURL(kind, id);
+};
+
 export const usePrepareUpload = () => {
   const asset = useAssetRepository();
   return useMutation({

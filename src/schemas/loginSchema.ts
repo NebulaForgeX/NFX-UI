@@ -30,3 +30,28 @@ export const useInitLoginForm = () => {
     },
   });
 };
+
+export function createLoginWithPhoneSchema(t: TFunction) {
+  return z.object({
+    phone: z.string().min(1, t("form.validation.phoneRequired")).min(6, t("form.validation.phoneInvalid")),
+    password: z.string().min(1, t("form.validation.passwordRequired")),
+    rememberMe: z.boolean().optional(),
+  });
+}
+
+export type LoginWithPhoneFormData = z.infer<ReturnType<typeof createLoginWithPhoneSchema>>;
+
+export const useInitLoginWithPhoneForm = () => {
+  const { t } = useTranslation("pages.Account.Login");
+  const schema = createLoginWithPhoneSchema(t);
+
+  return useForm<LoginWithPhoneFormData>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+    defaultValues: {
+      phone: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
+};
