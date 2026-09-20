@@ -1,11 +1,11 @@
 /**
  * Shared preference store — theme + language + layout (no map/billing/event).
  */
-import { DEFAULT_LAYOUT_MODE, LayoutModeEnum } from "@/enums/layout";
-import { DEFAULT_LANGUAGE, Language, type LanguageEnum } from "@/enums/language";
-import { DashboardBackground, DEFAULT_DASHBOARD_BACKGROUND, DashboardBackgroundEnum } from "@/enums/dashboard";
-import { getDefaultThemePreference, resolveThemePreference, type ResolvedThemePreference } from "@/themes/radix";
-import { makePersistStore } from "@/stores/makeStore";
+import { DEFAULT_LAYOUT_MODE, LayoutModeEnum } from "nfx-ui/enums/layout";
+import { DEFAULT_LANGUAGE, Language, type LanguageEnum } from "nfx-ui/enums/language";
+import { DashboardBackground, DEFAULT_DASHBOARD_BACKGROUND, DashboardBackgroundEnum } from "nfx-ui/enums/dashboard";
+import { getDefaultThemePreference, resolveThemePreference, type ResolvedThemePreference } from "nfx-ui/themes/radix";
+import { makePersistStore } from "nfx-ui/stores/makeStore";
 
 export interface ResolvedPreference {
   language: LanguageEnum;

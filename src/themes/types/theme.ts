@@ -295,4 +295,4 @@ export interface Theme {
   base: BaseTheme;
 }
 
-export { BaseEnum, DEFAULT_BASE, BASE_VALUES } from "@/enums/theme";
+export { BaseEnum, DEFAULT_BASE, BASE_VALUES } from "nfx-ui/enums/theme";

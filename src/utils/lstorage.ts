@@ -3,7 +3,7 @@
  * Safe localStorage wrapper; avoids throwing in private mode etc.
  */
 
-import type { Maybe, Nilable } from "@/types/utils";
+import type { Maybe, Nilable } from "nfx-ui/types/utils";
 
 function safe<T>(fn: () => T): Maybe<T> {
   try {

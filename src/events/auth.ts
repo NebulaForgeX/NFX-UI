@@ -1,8 +1,8 @@
-import type { ProfileKindEnum } from "@/enums";
-import type { EventNamesOf } from "@/events/EventEmitter";
+import type { ProfileKindEnum } from "nfx-ui/enums";
+import type { EventNamesOf } from "nfx-ui/events/EventEmitter";
 
-import { defineEvents, EventEmitter } from "@/events/EventEmitter";
-import { singleton } from "@/utils/singleton";
+import { defineEvents, EventEmitter } from "nfx-ui/events/EventEmitter";
+import { singleton } from "nfx-ui/utils/singleton";
 
 export const authEvents = defineEvents({
   UPDATE_ACCOUNT_SUCCESS: "AUTH:UPDATE_ACCOUNT_SUCCESS",

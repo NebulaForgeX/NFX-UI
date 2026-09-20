@@ -2,7 +2,7 @@
  * Guest-only outlet — redirects away when session + profile are already selected.
  * Host supplies product home path via `redirectTo`.
  */
-import { hasSelectedProfile, useAuthStore } from "@/stores/auth";
+import { hasSelectedProfile, useAuthStore } from "nfx-ui/stores/auth";
 import { Navigate, Outlet } from "react-router";
 
 export interface GuestRouteProps {

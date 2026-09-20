@@ -3,7 +3,7 @@
  * Safe utils: normalize Nilable/Emptyable/array to Nullable, Maybe, Zeroable, Stringable, Array.
  */
 
-import type { Nullable, Maybe, Nilable, Emptyable, Zeroable, Stringable, Array } from "@/types";
+import type { Nullable, Maybe, Nilable, Emptyable, Zeroable, Stringable, Array } from "nfx-ui/types";
 
 /**
  * 将 Nilable 规范为 Nullable：undefined 转为 null，null 与 T 原样返回。返回类型 Nullable&lt;T&gt;。

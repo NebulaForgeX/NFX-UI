@@ -2,7 +2,7 @@
  * Auth-gated outlet — redirects to login when session/profile missing.
  * Host supplies product login path via `redirectTo`.
  */
-import { hasSelectedProfile, useAuthStore } from "@/stores/auth";
+import { hasSelectedProfile, useAuthStore } from "nfx-ui/stores/auth";
 import { Navigate, Outlet, useLocation } from "react-router";
 
 export interface ProtectedRouteProps {

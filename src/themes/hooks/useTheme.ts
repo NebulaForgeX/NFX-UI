@@ -1,7 +1,7 @@
-import { usePreferenceStore } from "@/stores/preference";
-import { BASE_VALUES, type BaseEnum } from "@/enums/theme";
-import { BASE_TO_RADIX_RADIUS, RADIX_RADIUS_TO_BASE, type ResolvedThemePreference } from "@/themes/radix";
-import { setPreference } from "@/stores/preference";
+import { usePreferenceStore } from "nfx-ui/stores/preference";
+import { BASE_VALUES, type BaseEnum } from "nfx-ui/enums/theme";
+import { BASE_TO_RADIX_RADIUS, RADIX_RADIUS_TO_BASE, type ResolvedThemePreference } from "nfx-ui/themes/radix";
+import { setPreference } from "nfx-ui/stores/preference";
 
 export function readCssColor(varName: string, fallback: string): string {
   if (typeof document === "undefined") return fallback;

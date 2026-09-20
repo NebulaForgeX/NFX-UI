@@ -1,4 +1,4 @@
-import { makePersistStore } from "@/stores/makeStore";
+import { makePersistStore } from "nfx-ui/stores/makeStore";
 
 interface LayoutState {
   headerHeight: number;

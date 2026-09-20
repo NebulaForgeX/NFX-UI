@@ -1,7 +1,7 @@
-import type { Tokens } from "@/types";
+import type { Tokens } from "nfx-ui/types";
 
-import { DEFAULT_PROFILE_KIND, ProfileKind, ProfileKindEnum } from "@/enums";
-import { makeStore } from "@/stores/makeStore";
+import { DEFAULT_PROFILE_KIND, ProfileKind, ProfileKindEnum } from "nfx-ui/enums";
+import { makeStore } from "nfx-ui/stores/makeStore";
 
 /**
  * Auth session: memory is source of truth.

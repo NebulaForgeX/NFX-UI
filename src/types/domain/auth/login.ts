@@ -1,6 +1,6 @@
-import type { ProfileRole } from "@/enums";
+import type { ProfileRole } from "nfx-ui/enums";
 
-import { LanguageEnum, ProfileKindEnum } from "@/enums";
+import { LanguageEnum, ProfileKindEnum } from "nfx-ui/enums";
 
 export namespace Login {
   export type ProfileKind = ProfileKindEnum;

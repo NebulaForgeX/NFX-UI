@@ -1,7 +1,7 @@
 import type { TFunction } from "i18next";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { normalizeVerificationCode, VERIFICATION_CODE_ALPHABET } from "@/utils/domain/verificationCode";
+import { normalizeVerificationCode, VERIFICATION_CODE_ALPHABET } from "nfx-ui/utils/domain/verificationCode";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";

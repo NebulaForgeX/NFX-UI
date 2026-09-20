@@ -1,2 +1,2 @@
 export * from "./useTheme";
-export { useResolvedAppearance } from "@/hooks/preference";
+export { useResolvedAppearance } from "nfx-ui/hooks/preference";

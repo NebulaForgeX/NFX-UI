@@ -2,16 +2,16 @@
  * Shared LanguageProvider — host passes product builtin bundles.
  * Identity error/message namespaces load here (PulsoLink LanguageProvider pattern).
  */
-import type { CreateI18nResourcesResult, ExtraBundleItem, onLoadExtraBundles } from "@/languages/types";
+import type { CreateI18nResourcesResult, ExtraBundleItem, onLoadExtraBundles } from "nfx-ui/languages/types";
 import type { ReactNode } from "react";
 
 import { useEffect, useRef } from "react";
 
-import { getIdentityRepositories } from "@/apis";
-import { DEFAULT_LANGUAGE, LANGUAGE_VALUES, LanguageEnum } from "@/enums/language";
-import i18n, { initI18n, toSupportedLanguage } from "@/languages/languages/i18n";
-import { PreferenceStore } from "@/stores/preference";
-import { ERRORS_NS_IDENTITY, MESSAGES_NS_IDENTITY } from "@/utils/apiError";
+import { getIdentityRepositories } from "nfx-ui/apis";
+import { DEFAULT_LANGUAGE, LANGUAGE_VALUES, LanguageEnum } from "nfx-ui/enums/language";
+import i18n, { initI18n, toSupportedLanguage } from "nfx-ui/languages/languages/i18n";
+import { PreferenceStore } from "nfx-ui/stores/preference";
+import { ERRORS_NS_IDENTITY, MESSAGES_NS_IDENTITY } from "nfx-ui/utils/apiError";
 
 export interface LanguageProviderProps {
   children: ReactNode;

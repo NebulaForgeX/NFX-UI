@@ -14,7 +14,7 @@ import type {
   UseSuspenseQueryResult,
 } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import type { ListDTOWithNextCursor, ListDTOWithTotalNumber, OffsetLimitNumber, OffsetLimitString } from "@/types/api";
+import type { ListDTOWithNextCursor, ListDTOWithTotalNumber, OffsetLimitNumber, OffsetLimitString } from "nfx-ui/types/api";
 
 import { useMemo } from "react";
 import { useInfiniteQuery, useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";

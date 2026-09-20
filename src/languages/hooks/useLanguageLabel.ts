@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 
-import { BaseEnum } from "@/enums/theme";
+import { BaseEnum } from "nfx-ui/enums/theme";
 import { LanguageEnum } from "../types";
 
 function getLanguageI18nKey(lang: LanguageEnum): string {

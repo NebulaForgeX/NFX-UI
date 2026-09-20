@@ -1,10 +1,10 @@
 import type { TFunction } from "i18next";
-import type { Profile } from "@/types";
+import type { Profile } from "nfx-ui/types";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Language, LanguageEnum } from "@/enums";
-import { toDateInputValue } from "@/utils/time";
-import { safeStringable } from "@/utils/safe";
+import { Language, LanguageEnum } from "nfx-ui/enums";
+import { toDateInputValue } from "nfx-ui/utils/time";
+import { safeStringable } from "nfx-ui/utils/safe";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";

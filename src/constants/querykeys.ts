@@ -4,7 +4,7 @@
  *
  * @example
  * ```ts
- * import { createListKey, createItemKey } from "@/constants";
+ * import { createListKey, createItemKey } from "nfx-ui/constants";
  *
  * const CATALOG_CATEGORY_LIST = createListKey("catalog", "category");
  * const CATALOG_CATEGORY = createItemKey("catalog", "category");

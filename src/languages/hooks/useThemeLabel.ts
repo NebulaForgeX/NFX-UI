@@ -1,7 +1,7 @@
 /**
  * Accent / appearance labels for ThemeSettings.
  */
-import type { AccentColorEnum } from "@/enums/theme";
+import type { AccentColorEnum } from "nfx-ui/enums/theme";
 
 import { useCallback, useMemo } from "react";
 

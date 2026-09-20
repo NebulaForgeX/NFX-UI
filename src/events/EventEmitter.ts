@@ -22,7 +22,7 @@
  * ```
  */
 
-import type { Defined, ValueOf } from "@/types";
+import type { Defined, ValueOf } from "nfx-ui/types";
 
 /** 回调类型：内部存储与 on/off 默认(unknown)时均用此，任意函数即可，无需 as 断言。 */
 type EventCallback = (...args: any[]) => void;

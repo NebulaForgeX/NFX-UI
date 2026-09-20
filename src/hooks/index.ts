@@ -14,4 +14,4 @@ export {
   usePreferenceLabel,
   getThemeDisplayName,
   useThemeLabel,
-} from "@/languages/hooks";
+} from "nfx-ui/languages/hooks";

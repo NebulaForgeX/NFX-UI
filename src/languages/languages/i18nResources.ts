@@ -5,7 +5,7 @@
 import type { CreateI18nResourcesResult, LanguageEnum, NameSpacesMap, Resources } from "../types";
 
 import i18n from "./i18n";
-import { setPreference } from "@/stores/preference";
+import { setPreference } from "nfx-ui/stores/preference";
 
 /**
  * 由调用方传入 resources 和 nameSpacesMap，生成 i18n 所需的 RESOURCES、NAME_SPACES_MAP、NAME_SPACES。

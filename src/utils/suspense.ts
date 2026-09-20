@@ -1,4 +1,4 @@
-import type { Nilable } from "@/types";
+import type { Nilable } from "nfx-ui/types";
 
 /**
  * 若值为 null/undefined 则抛出 Promise 使 React Suspense 挂起，否则返回该值。

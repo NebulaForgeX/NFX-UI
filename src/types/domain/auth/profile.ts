@@ -13,7 +13,7 @@ import type {
   RadiusEnum,
   ScalingEnum,
   ThemeFontFamilyEnum,
-} from "@/enums";
+} from "nfx-ui/enums";
 
 export namespace Profile {
   export namespace Request {

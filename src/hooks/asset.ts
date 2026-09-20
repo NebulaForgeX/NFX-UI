@@ -2,15 +2,15 @@
  * Asset upload hooks — 组件勿直接调 apis/asset
  */
 import type { AxiosError } from "axios";
-import type { Asset } from "@/types";
+import type { Asset } from "nfx-ui/types";
 
 import { useMutation } from "@tanstack/react-query";
-import { useAssetRepository } from "@/apis/repositories";
-import { authEventEmitter, authEvents } from "@/events/auth";
-import { systemEventEmitter } from "@/events/system";
-import { AuthStore } from "@/stores/auth";
-import { getApiErrorMessage } from "@/utils/apiError";
-import { useUnifiedQuery } from "@/utils/factory";
+import { useAssetRepository } from "nfx-ui/apis/repositories";
+import { authEventEmitter, authEvents } from "nfx-ui/events/auth";
+import { systemEventEmitter } from "nfx-ui/events/system";
+import { AuthStore } from "nfx-ui/stores/auth";
+import { getApiErrorMessage } from "nfx-ui/utils/apiError";
+import { useUnifiedQuery } from "nfx-ui/utils/factory";
 
 export type UseDeleteImageOptions = {
   ifShowError?: boolean;

@@ -1,10 +1,10 @@
-import type { UserProfileEditFormData } from "@/schemas";
-import type { Profile } from "@/types";
+import type { UserProfileEditFormData } from "nfx-ui/schemas";
+import type { Profile } from "nfx-ui/types";
 
-import { Language } from "@/enums";
-import { assignIfChanged, assignNullableString, normalizeOptionalString } from "@/utils/primitive/patch";
-import { safeNullable, safeStringable } from "@/utils/safe";
-import { toDateInputValue } from "@/utils/time";
+import { Language } from "nfx-ui/enums";
+import { assignIfChanged, assignNullableString, normalizeOptionalString } from "nfx-ui/utils/primitive/patch";
+import { safeNullable, safeStringable } from "nfx-ui/utils/safe";
+import { toDateInputValue } from "nfx-ui/utils/time";
 
 export function buildProfilePatch(original: Maybe<Profile.Response.ProfileBase>, form: Partial<UserProfileEditFormData>): Profile.Request.PatchProfile {
   const patch: Profile.Request.PatchProfile = {};

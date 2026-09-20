@@ -1,6 +1,6 @@
-import { safeEnum } from "@/utils/safe";
+import { safeEnum } from "nfx-ui/utils/safe";
 
-import type { Nilable } from "@/types";
+import type { Nilable } from "nfx-ui/types";
 
 /** 基础主题枚举（平台/圆角等，如 iOS 24 / Android|Windows 6 / Linux 4） */
 export enum BaseEnum {

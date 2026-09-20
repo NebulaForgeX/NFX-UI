@@ -5,9 +5,9 @@
  */
 
 import type { AxiosError } from "axios";
-import type { ApiErrorBody } from "@/types/api";
+import type { ApiErrorBody } from "nfx-ui/types/api";
 
-import i18n from "@/languages/languages/i18n";
+import i18n from "nfx-ui/languages/languages/i18n";
 
 /** Identity error copy namespace (GET /asset/locales/:lang). */
 export const ERRORS_NS_IDENTITY = "errors";
