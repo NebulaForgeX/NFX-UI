@@ -89,20 +89,12 @@ export const useSignupWithEmail = () => {
       ...params
     }: {
       rememberMe: boolean;
-    } & Omit<Signup.Request.SignupWithEmail, "deviceId">): Promise<Signup.Response.SignupWithEmail & { profileId?: string }> => {
+    } & Omit<Signup.Request.SignupWithEmail, "deviceId">): Promise<Signup.Response.SignupWithEmail> => {
       const deviceId = await ensureDeviceIdStorage();
-      const result = await auth.SignupWithEmail({
+      return auth.SignupWithEmail({
         ...params,
         deviceId,
       });
-      const first = result.profiles?.find((p) => p.kind === ProfileKindEnum.FORGER) ?? result.profiles?.[0];
-      if (!first) return result;
-      const selected = await auth.SelectProfile({
-        profileId: first.profileId,
-        kind: first.kind,
-        deviceId,
-      });
-      return { ...result, accessToken: selected.accessToken, refreshToken: selected.refreshToken, profileId: selected.profileId };
     },
     onSuccess: (result, variables) => {
       if (!result?.accessToken) return;
@@ -117,7 +109,7 @@ export const useSignupWithEmail = () => {
       if (result.accountId) setCurrentAccountId(result.accountId);
       if (result.profileId) {
         setCurrentProfileId(result.profileId);
-        setCurrentProfileKind(ProfileKindEnum.FORGER);
+        setCurrentProfileKind(ProfileKindEnum.COMMUNITY);
         authEventEmitter.emit(authEvents.LOGIN_SUCCESS, result.accountId);
       } else {
         setCurrentProfileId(EMPTY_PROFILE_ID);
@@ -272,7 +264,7 @@ export const useCreateForgerProfile = () => {
     mutationFn: (body: Login.Request.CreateForgerProfile) => auth.CreateForgerProfile(body),
     onSuccess: () => {
       const aID = AuthStore.getState().currentAccountId;
-      authEventEmitter.invalidateProfiles({ aID, kind: ProfileKindEnum.FORGER });
+      authEventEmitter.invalidateProfiles({ aID, kind: ProfileKindEnum.COMMUNITY });
     },
     onError: (error: AxiosError) => {
       systemEventEmitter.showError(getApiErrorMessage(error, "[useCreateForgerProfile] error"));
@@ -597,7 +589,7 @@ export const useSearchForgerProfiles = (query: string) => {
   const trimmed = query.trim();
   return useUnifiedQuery(
     ({ query: q }) => auth.SearchForgerProfiles({ query: q, limit: 50, offset: 0 }),
-    AUTH_PROFILE_SEARCH(aID, ProfileKindEnum.FORGER, trimmed),
+    AUTH_PROFILE_SEARCH(aID, ProfileKindEnum.COMMUNITY, trimmed),
     { query: trimmed },
     { enabled: isAuthValid && Boolean(aID) && trimmed.length > 0 },
   );

@@ -87,8 +87,8 @@ export class ApiAuthRepository implements AuthRepository {
 
   async GetCurrentFullAccountInformationWithProfile<K extends ProfileKindEnum>(kind: K): Promise<FullAccountInfoByKind<K>> {
     switch (kind) {
-      case ProfileKindEnum.FORGER: {
-        const { data } = await protectedClient.get<DataResponse<Profile.Response.FullAccountInformationWithForgerProfile>>(
+      case ProfileKindEnum.COMMUNITY: {
+        const { data } = await protectedClient.get<DataResponse<Profile.Response.FullAccountInformationWithCommunityProfile>>(
           URL_PATHS.AUTH.Me.FullAccountInformationWithForgerProfile,
         );
         return dataFromResponse(data, "GetCurrentFullAccountInformationWithProfile") as FullAccountInfoByKind<K>;
@@ -106,7 +106,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async PatchProfile(kind: ProfileKindEnum, body: Profile.Request.PatchProfile): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.patch<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfile, body);
         return;
       case ProfileKindEnum.AUTHORITY:
@@ -119,7 +119,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async PatchProfileSettings(kind: ProfileKindEnum, body: Profile.Request.PatchProfileSettings): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.patch<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfileSettings, body);
         return;
       case ProfileKindEnum.AUTHORITY:
@@ -132,7 +132,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async ConfirmProfileAvatar(kind: ProfileKindEnum, body: Profile.Request.ConfirmProfileAvatar): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.put<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfileAvatars, body);
         return;
       case ProfileKindEnum.AUTHORITY:
@@ -145,7 +145,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async ClearProfileAvatar(kind: ProfileKindEnum): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.delete<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfileAvatars);
         return;
       case ProfileKindEnum.AUTHORITY:
@@ -158,7 +158,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async ConfirmProfileBackgrounds(kind: ProfileKindEnum, body: Profile.Request.ConfirmProfileBackgrounds): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.put<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfileBackgrounds, body);
         return;
       case ProfileKindEnum.AUTHORITY:
@@ -171,7 +171,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async ListProfiles<K extends ProfileKindEnum>(kind: K, params: { limit?: number; offset?: number } = {}): Promise<ListDTOWithTotalNumber<ProfileItemsByKind<K>[number]>> {
     switch (kind) {
-      case ProfileKindEnum.FORGER: {
+      case ProfileKindEnum.COMMUNITY: {
         const { data } = await protectedClient.get<DataResponse<ListDTOWithTotalNumber<Profile.Response.ForgerProfileItem>>>(URL_PATHS.AUTH.Me.Profiles, { params });
         return dataFromResponse(data, "ListProfiles") as ListDTOWithTotalNumber<ProfileItemsByKind<K>[number]>;
       }
@@ -186,7 +186,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async DeleteProfile(kind: ProfileKindEnum, profileId: string): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.delete<DataResponse<null>>(URL_PATHS.AUTH.Me.ProfileById(profileId));
         return;
       case ProfileKindEnum.AUTHORITY:
@@ -199,7 +199,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async UpdatePreference(kind: ProfileKindEnum, preference: string): Promise<void> {
     switch (kind) {
-      case ProfileKindEnum.FORGER:
+      case ProfileKindEnum.COMMUNITY:
         await protectedClient.put<DataResponse<null>>(URL_PATHS.AUTH.Me.ForgerProfilePreference, { preference });
         return;
       case ProfileKindEnum.AUTHORITY:

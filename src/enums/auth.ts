@@ -1,6 +1,7 @@
 /**
  * Auth 枚举，镜像 Identity 后端。
- * ProfileKindEnum 与 JWT profile_scope 共用 wire 值 "forger" | "authority"。
+ * ProfileKindEnum 与 JWT profile_scope 共用 wire 值 "community" | "authority"。
+ * forger 是 community 档上的角色（AuthForgerRoleEnum），不是 kind。
  * 角色不在 JWT；能力门控按纯成员判定（hasRole / hasAnyRole）。
  */
 
@@ -16,13 +17,13 @@ export function hasAnyRole<T>(roles: Nilable<readonly T[]>, ...candidates: T[]):
   return candidates.some((role) => hasRole(role, roles));
 }
 
-/** 与后端 ProfileKind / profile_scope 一致。 */
+/** 与后端 ProfileKind / profile_scope 一致（"community" | "authority"）。forger 是 community 档上的角色，不是 kind。 */
 export enum ProfileKindEnum {
-  FORGER = "forger",
+  COMMUNITY = "community",
   AUTHORITY = "authority",
 }
 
-export const DEFAULT_PROFILE_KIND = ProfileKindEnum.FORGER;
+export const DEFAULT_PROFILE_KIND = ProfileKindEnum.COMMUNITY;
 export const PROFILE_KIND_VALUES = Object.values(ProfileKindEnum);
 export const ProfileKind = (value: Nilable<string>) => safeEnum(value, PROFILE_KIND_VALUES, DEFAULT_PROFILE_KIND);
 

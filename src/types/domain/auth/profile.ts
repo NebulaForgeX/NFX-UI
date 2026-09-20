@@ -174,12 +174,12 @@ export namespace Profile {
       authorityProfiles: AuthorityProfile[];
     }
 
-    export interface FullAccountInformationWithForgerProfile {
+    export interface FullAccountInformationWithCommunityProfile {
       account: Account;
       emails: Email[];
       phones: Phone[];
       identities: IdentityLink[];
-      forgerProfile: Nullable<ForgerProfile>;
+      communityProfile: Nullable<ForgerProfile>;
     }
 
     export interface FullAccountInformationWithAuthorityProfile {
@@ -215,13 +215,13 @@ export namespace Profile {
   }
 }
 
-export type FullAccountInfoByKind<K extends ProfileKindEnum> = K extends ProfileKindEnum.FORGER
-  ? Profile.Response.FullAccountInformationWithForgerProfile
+export type FullAccountInfoByKind<K extends ProfileKindEnum> = K extends ProfileKindEnum.COMMUNITY
+  ? Profile.Response.FullAccountInformationWithCommunityProfile
   : K extends ProfileKindEnum.AUTHORITY
     ? Profile.Response.FullAccountInformationWithAuthorityProfile
     : never;
 
-export type ProfileItemsByKind<K extends ProfileKindEnum> = K extends ProfileKindEnum.FORGER
+export type ProfileItemsByKind<K extends ProfileKindEnum> = K extends ProfileKindEnum.COMMUNITY
   ? Profile.Response.ForgerProfileItem[]
   : K extends ProfileKindEnum.AUTHORITY
     ? Profile.Response.AuthorityProfileItem[]
