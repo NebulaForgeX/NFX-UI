@@ -4,12 +4,12 @@ import { ProfileKindEnum } from "nfx-ui/enums";
 
 export function pickProfile(
   kind: ProfileKindEnum,
-  data: Nilable<Profile.Response.FullAccountInformationWithForgerProfile | Profile.Response.FullAccountInformationWithAuthorityProfile>,
+  data: Nilable<Profile.Response.FullAccountInformationWithCommunityProfile | Profile.Response.FullAccountInformationWithAuthorityProfile>,
 ): Nullable<Profile.Response.ProfileBase> {
   if (!data) return null;
   return kind === ProfileKindEnum.AUTHORITY
     ? (data as Profile.Response.FullAccountInformationWithAuthorityProfile).authorityProfile
-    : (data as Profile.Response.FullAccountInformationWithForgerProfile).forgerProfile;
+    : (data as Profile.Response.FullAccountInformationWithCommunityProfile).communityProfile;
 }
 
 function isUuidLike(value: string): boolean {
