@@ -7,6 +7,7 @@ type Kind = Asset.Kind;
 
 export interface AssetRepository {
   GetErrorTranslations(lang: string): Promise<Record<string, string>>;
+  GetMessageTranslations(lang: string): Promise<Record<string, unknown>>;
   List(kind: Kind): Promise<Asset.Response.Detail[]>;
   PrepareUpload(kind: Kind, params: Asset.Request.PrepareUpload): Promise<Asset.Response.PrepareUpload>;
   PrepareUploads(kind: Kind, params: Asset.Request.PrepareUploads): Promise<Asset.Response.PrepareUploads>;
@@ -32,6 +33,11 @@ function kindPaths(kind: Kind) {
 export class ApiAssetRepository implements AssetRepository {
   async GetErrorTranslations(lang: string): Promise<Record<string, string>> {
     const { data } = await publicClientWithoutTransform.get<Record<string, string>>(URL_PATHS.ASSET.Locales.errorsByLang(lang));
+    return data;
+  }
+
+  async GetMessageTranslations(lang: string): Promise<Record<string, unknown>> {
+    const { data } = await publicClientWithoutTransform.get<Record<string, unknown>>(URL_PATHS.ASSET.Messages.byLang(lang));
     return data;
   }
 

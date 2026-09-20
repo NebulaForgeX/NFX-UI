@@ -7,6 +7,7 @@ import { dataFromResponse, URL_PATHS } from "../ip";
 
 export interface AuthRepository {
   GetErrorTranslations(lang: string): Promise<Record<string, string>>;
+  GetMessageTranslations(lang: string): Promise<Record<string, unknown>>;
   SendVerificationCode(params: Signup.Request.SendVerificationCode): Promise<void>;
   SignupWithEmail(params: Signup.Request.SignupWithEmail): Promise<Signup.Response.SignupWithEmail>;
   LoginWithEmail(params: Login.Request.LoginWithEmail): Promise<Login.Response.LoginWithEmail>;
@@ -52,6 +53,11 @@ export interface AuthRepository {
 export class ApiAuthRepository implements AuthRepository {
   async GetErrorTranslations(lang: string): Promise<Record<string, string>> {
     const { data } = await publicClientWithoutTransform.get<Record<string, string>>(URL_PATHS.AUTH.Locales.errorsByLang(lang));
+    return data;
+  }
+
+  async GetMessageTranslations(lang: string): Promise<Record<string, unknown>> {
+    const { data } = await publicClientWithoutTransform.get<Record<string, unknown>>(URL_PATHS.AUTH.Messages.byLang(lang));
     return data;
   }
 
