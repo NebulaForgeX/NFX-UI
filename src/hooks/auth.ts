@@ -7,7 +7,7 @@ import type { CurrentProfileResult, Login, Profile, Signup } from "nfx-ui/types"
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthRepository } from "nfx-ui/apis/repositories";
-import { AUTH_EMAILS, AUTH_ME, AUTH_PHONES, AUTH_PROFILES } from "nfx-ui/constants";
+import { AUTH_EMAILS, AUTH_ME, AUTH_OWNER_AUTHORITIES, AUTH_OWNER_FORGERS, AUTH_PHONES, AUTH_PROFILE_SEARCH, AUTH_PROFILES, AUTH_PUBLIC_CARD } from "nfx-ui/constants";
 import { AuthSignupPlatformEnum, LanguageEnum, ProfileKindEnum } from "nfx-ui/enums";
 import { authEventEmitter, authEvents } from "nfx-ui/events/auth";
 import { systemEventEmitter } from "nfx-ui/events/system";
@@ -156,6 +156,33 @@ export const useLoginWithEmail = () => {
   });
 };
 
+export const useLoginWithPhone = () => {
+  const auth = useAuthRepository();
+  return useMutation({
+    mutationFn: async ({ rememberMe, ...params }: { phone: string; password: string; rememberMe: boolean }) =>
+      auth.LoginWithPhone({
+        ...params,
+        deviceId: await ensureDeviceIdStorage(),
+      }),
+    onSuccess: (result, variables) => {
+      if (!result?.accessToken) return;
+      setCurrentProfileId(EMPTY_PROFILE_ID);
+      setTokens(
+        {
+          accessToken: result.accessToken,
+          refreshToken: safeStringable(result.refreshToken),
+        },
+        { rememberMe: variables.rememberMe },
+      );
+      setIsAuthValid(true);
+      if (result.accountId) setCurrentAccountId(result.accountId);
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useLoginWithPhone] error"));
+    },
+  });
+};
+
 export const useSelectProfile = () => {
   const auth = useAuthRepository();
   return useMutation({
@@ -203,10 +230,27 @@ export const usePatchProfile = (options?: { silent?: boolean }) => {
 export const useUpdateProfileSettings = () => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (body: Profile.Request.PatchProfileSettings) => auth.PatchProfileSettings(kind, body),
+    onSuccess: () => {
+      const aID = AuthStore.getState().currentAccountId;
+      authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
+      systemEventEmitter.showSuccess(t("updateSettingsSuccess", { defaultValue: "Settings updated." }));
+    },
     onError: (error: AxiosError) => {
       systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdateProfileSettings] error"));
+    },
+  });
+};
+
+export const useUpdatePreference = () => {
+  const auth = useAuthRepository();
+  const { kind } = useAuthQueryScope();
+  return useMutation({
+    mutationFn: (preference: string) => auth.UpdatePreference(kind, preference),
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdatePreference] error"));
     },
   });
 };
@@ -269,6 +313,10 @@ export const useConfirmProfileAvatar = () => {
   const { kind } = useAuthQueryScope();
   return useMutation({
     mutationFn: (body: Profile.Request.ConfirmProfileAvatar) => auth.ConfirmProfileAvatar(kind, body),
+    onSuccess: () => {
+      const aID = AuthStore.getState().currentAccountId;
+      authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
+    },
     onError: (error: AxiosError) => {
       systemEventEmitter.showError(getApiErrorMessage(error, "[useConfirmProfileAvatar] error"));
     },
@@ -278,8 +326,14 @@ export const useConfirmProfileAvatar = () => {
 export const useClearProfileAvatar = () => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: () => auth.ClearProfileAvatar(kind),
+    onSuccess: () => {
+      const aID = AuthStore.getState().currentAccountId;
+      authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
+      systemEventEmitter.showSuccess(t("clearAvatarSuccess", { defaultValue: "Avatar removed." }));
+    },
     onError: (error: AxiosError) => {
       systemEventEmitter.showError(getApiErrorMessage(error, "[useClearProfileAvatar] error"));
     },
@@ -437,6 +491,178 @@ export const useConfirmProfileBackgrounds = () => {
     },
     onError: (error: AxiosError) => {
       systemEventEmitter.showError(getApiErrorMessage(error, "[useConfirmProfileBackgrounds] error"));
+    },
+  });
+};
+
+export const useCreatePhone = () => {
+  const auth = useAuthRepository();
+  const accountId = AuthStore.getState().currentAccountId;
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: (body: Login.Request.CreatePhone) => auth.CreatePhone(body),
+    onSuccess: () => {
+      authEventEmitter.invalidatePhones(accountId);
+      systemEventEmitter.showSuccess(t("createPhoneSuccess", { defaultValue: "Phone added." }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useCreatePhone] error"));
+    },
+  });
+};
+
+export const useSendPhoneVerificationCode = () => {
+  const auth = useAuthRepository();
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: (phoneId: string) => auth.SendPhoneVerificationCode(phoneId),
+    onSuccess: () => {
+      systemEventEmitter.showSuccess(t("sendVerificationCodeSuccess", { defaultValue: "Code sent" }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useSendPhoneVerificationCode] error"));
+    },
+  });
+};
+
+export const useVerifyPhone = () => {
+  const auth = useAuthRepository();
+  const accountId = AuthStore.getState().currentAccountId;
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: ({ phoneId, verificationCode }: { phoneId: string; verificationCode: string }) =>
+      auth.VerifyPhone(phoneId, { verificationCode }),
+    onSuccess: () => {
+      authEventEmitter.invalidatePhones(accountId);
+      systemEventEmitter.showSuccess(t("verifyPhoneSuccess", { defaultValue: "Phone verified." }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useVerifyPhone] error"));
+    },
+  });
+};
+
+export const useUpdatePhone = () => {
+  const auth = useAuthRepository();
+  const accountId = AuthStore.getState().currentAccountId;
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: ({ phoneId, phone }: { phoneId: string; phone: string }) => auth.UpdatePhone(phoneId, { phone }),
+    onSuccess: () => {
+      authEventEmitter.invalidatePhones(accountId);
+      systemEventEmitter.showSuccess(t("updatePhoneSuccess", { defaultValue: "Phone updated." }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdatePhone] error"));
+    },
+  });
+};
+
+export const useSetPrimaryPhone = () => {
+  const auth = useAuthRepository();
+  const accountId = AuthStore.getState().currentAccountId;
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: (phoneId: string) => auth.SetPrimaryPhone(phoneId),
+    onSuccess: () => {
+      authEventEmitter.invalidatePhones(accountId);
+      authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, accountId);
+      systemEventEmitter.showSuccess(t("setPrimaryPhoneSuccess", { defaultValue: "Primary phone updated." }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useSetPrimaryPhone] error"));
+    },
+  });
+};
+
+export const useDeletePhone = () => {
+  const auth = useAuthRepository();
+  const accountId = AuthStore.getState().currentAccountId;
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: (phoneId: string) => auth.DeletePhone(phoneId),
+    onSuccess: () => {
+      authEventEmitter.invalidatePhones(accountId);
+      systemEventEmitter.showSuccess(t("deletePhoneSuccess", { defaultValue: "Phone removed." }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useDeletePhone] error"));
+    },
+  });
+};
+
+export const useSearchForgerProfiles = (query: string) => {
+  const auth = useAuthRepository();
+  const { aID, isAuthValid } = useAuthQueryScope();
+  const trimmed = query.trim();
+  return useUnifiedQuery(
+    ({ query: q }) => auth.SearchForgerProfiles({ query: q, limit: 50, offset: 0 }),
+    AUTH_PROFILE_SEARCH(aID, ProfileKindEnum.FORGER, trimmed),
+    { query: trimmed },
+    { enabled: isAuthValid && Boolean(aID) && trimmed.length > 0 },
+  );
+};
+
+export const useSearchAuthorityProfiles = (query: string) => {
+  const auth = useAuthRepository();
+  const { aID, isAuthValid } = useAuthQueryScope();
+  const trimmed = query.trim();
+  return useUnifiedQuery(
+    ({ query: q }) => auth.SearchAuthorityProfiles({ query: q, limit: 50, offset: 0 }),
+    AUTH_PROFILE_SEARCH(aID, ProfileKindEnum.AUTHORITY, trimmed),
+    { query: trimmed },
+    { enabled: isAuthValid && Boolean(aID) && trimmed.length > 0 },
+  );
+};
+
+export const useGetPublicProfileCard = (profileId: string) => {
+  const auth = useAuthRepository();
+  const { isAuthValid } = useAuthQueryScope();
+  return useUnifiedQuery(
+    () => auth.GetPublicProfileCard(profileId),
+    AUTH_PUBLIC_CARD(profileId),
+    undefined,
+    { enabled: isAuthValid && Boolean(profileId) },
+  );
+};
+
+export const useListOwnerForgerProfiles = (query = "") => {
+  const auth = useAuthRepository();
+  const { aID, isAuthValid } = useAuthQueryScope();
+  const trimmed = query.trim();
+  return useUnifiedQuery(
+    ({ query: q }) => auth.ListOwnerForgerProfiles({ limit: 50, offset: 0, query: q || undefined }),
+    [...AUTH_OWNER_FORGERS(aID), trimmed],
+    { query: trimmed },
+    { enabled: isAuthValid && Boolean(aID) },
+  );
+};
+
+export const useListOwnerAuthorityProfiles = (query = "") => {
+  const auth = useAuthRepository();
+  const { aID, isAuthValid } = useAuthQueryScope();
+  const trimmed = query.trim();
+  return useUnifiedQuery(
+    ({ query: q }) => auth.ListOwnerAuthorityProfiles({ limit: 50, offset: 0, query: q || undefined }),
+    [...AUTH_OWNER_AUTHORITIES(aID), trimmed],
+    { query: trimmed },
+    { enabled: isAuthValid && Boolean(aID) },
+  );
+};
+
+export const useUpdateAuthorityProfileRoles = () => {
+  const auth = useAuthRepository();
+  const accountId = AuthStore.getState().currentAccountId;
+  const { t } = useTranslation("hooks", { keyPrefix: "account" });
+  return useMutation({
+    mutationFn: ({ profileId, authorityRoles }: { profileId: string; authorityRoles: Profile.Request.UpdateAuthorityProfileRoles["authorityRoles"] }) =>
+      auth.UpdateAuthorityProfileRoles(profileId, { authorityRoles }),
+    onSuccess: () => {
+      authEventEmitter.invalidateOwner(accountId);
+      systemEventEmitter.showSuccess(t("updateRolesSuccess", { defaultValue: "Roles updated." }));
+    },
+    onError: (error: AxiosError) => {
+      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdateAuthorityProfileRoles] error"));
     },
   });
 };

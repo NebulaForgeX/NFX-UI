@@ -9,7 +9,9 @@ export const authEvents = defineEvents({
   LOGIN_SUCCESS: "AUTH:LOGIN_SUCCESS",
   LOGOUT: "AUTH:LOGOUT",
   INVALIDATE_EMAILS: "AUTH:INVALIDATE_EMAILS",
+  INVALIDATE_PHONES: "AUTH:INVALIDATE_PHONES",
   INVALIDATE_PROFILES: "AUTH:INVALIDATE_PROFILES",
+  INVALIDATE_OWNER: "AUTH:INVALIDATE_OWNER",
 });
 
 type AuthEvent = EventNamesOf<typeof authEvents>;
@@ -28,8 +30,16 @@ class AuthEventEmitter extends EventEmitter<AuthEvent> {
     this.emit(authEvents.INVALIDATE_EMAILS, aID);
   }
 
+  invalidatePhones(aID?: string) {
+    this.emit(authEvents.INVALIDATE_PHONES, aID);
+  }
+
   invalidateProfiles(payload: InvalidateProfilesPayload) {
     this.emit(authEvents.INVALIDATE_PROFILES, payload);
+  }
+
+  invalidateOwner(aID?: string) {
+    this.emit(authEvents.INVALIDATE_OWNER, aID);
   }
 
   logout() {
