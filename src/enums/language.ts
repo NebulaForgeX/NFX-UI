@@ -1,9 +1,9 @@
 /**
  * 语言枚举与常量，不引用任何 JSON，供需要轻量引用的模块使用。
  */
-import type { Nilable } from "@/types";
+import type { Nilable } from "nfx-ui/types";
 
-import { safeEnum } from "@/utils/safe";
+import { safeEnum } from "nfx-ui/utils/safe";
 
 export enum LanguageEnum {
   EN = "en",

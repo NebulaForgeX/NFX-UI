@@ -1,6 +1,6 @@
-import type { DataResponse, FullAccountInfoByKind, ListDTOWithTotalNumber, Login, Profile, ProfileItemsByKind, Signup, Tokens } from "@/types";
+import type { DataResponse, FullAccountInfoByKind, ListDTOWithTotalNumber, Login, Profile, ProfileItemsByKind, Signup, Tokens } from "nfx-ui/types";
 
-import { ProfileKindEnum } from "@/enums";
+import { ProfileKindEnum } from "nfx-ui/enums";
 
 import { protectedClient, publicClient, publicClientWithoutTransform } from "../clients";
 import { dataFromResponse, URL_PATHS } from "../ip";

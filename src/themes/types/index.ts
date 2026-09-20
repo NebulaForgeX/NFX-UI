@@ -1,1 +1,1 @@
-export type { ThemeProviderProps } from "@/providers/ThemeProvider";
+export type { ThemeProviderProps } from "nfx-ui/providers/ThemeProvider";

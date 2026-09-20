@@ -1,6 +1,6 @@
 import type { ThemeProps } from "@radix-ui/themes";
 
-import type { Nilable } from "@/types";
+import type { Nilable } from "nfx-ui/types";
 
 import {
   AccentColor,
@@ -18,7 +18,7 @@ import {
   ScalingEnum,
   ThemeFontFamily,
   ThemeFontFamilyEnum,
-} from "@/enums/theme";
+} from "nfx-ui/enums/theme";
 
 export type RadixAccentColor = NonNullable<ThemeProps["accentColor"]>;
 export type RadixGrayColor = NonNullable<ThemeProps["grayColor"]>;

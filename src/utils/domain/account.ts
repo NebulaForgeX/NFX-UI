@@ -1,6 +1,6 @@
-import type { Profile } from "@/types";
+import type { Profile } from "nfx-ui/types";
 
-import { ProfileKindEnum } from "@/enums";
+import { ProfileKindEnum } from "nfx-ui/enums";
 
 export function pickProfile(
   kind: ProfileKindEnum,

@@ -2,16 +2,16 @@
  * Shared Radix Theme provider — reads unified preference store.
  * Host may pass document side-effects (e.g. favicon) via `onAppearanceChange`.
  */
-import type { RadixAppearance } from "@/themes/radix";
+import type { RadixAppearance } from "nfx-ui/themes/radix";
 import type { ReactNode } from "react";
 
 import { useEffect } from "react";
 import { Theme } from "@radix-ui/themes";
 
-import { useResolvedAppearance } from "@/hooks/preference";
-import { usePreferenceStore } from "@/stores/preference";
+import { useResolvedAppearance } from "nfx-ui/hooks/preference";
+import { usePreferenceStore } from "nfx-ui/stores/preference";
 
-import "@/themes/index.css";
+import "nfx-ui/themes/index.css";
 
 export interface ThemeProviderProps {
   children: ReactNode;

@@ -1,6 +1,6 @@
 import type { QueryKey } from "@tanstack/react-query";
 
-import { ProfileKindEnum } from "@/enums";
+import { ProfileKindEnum } from "nfx-ui/enums";
 
 const DOMAIN_AUTH = "auth";
 

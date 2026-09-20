@@ -4,9 +4,9 @@
  * 角色不在 JWT；能力门控按纯成员判定（hasRole / hasAnyRole）。
  */
 
-import type { Nilable } from "@/types";
+import type { Nilable } from "nfx-ui/types";
 
-import { safeArray, safeEnum } from "@/utils/safe";
+import { safeArray, safeEnum } from "nfx-ui/utils/safe";
 
 export function hasRole<T>(role: T, roles: Nilable<readonly T[]>): boolean {
   return safeArray(roles).includes(role);

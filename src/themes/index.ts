@@ -29,6 +29,6 @@ export {
   getDefaultThemePreference,
   resolveThemePreference,
 } from "./radix";
-export { default as ThemeProvider } from "@/providers/ThemeProvider";
-export type { ThemeProviderProps } from "@/providers/ThemeProvider";
+export { default as ThemeProvider } from "nfx-ui/providers/ThemeProvider";
+export type { ThemeProviderProps } from "nfx-ui/providers/ThemeProvider";
 export * from "./hooks";

@@ -1,4 +1,4 @@
-import type { AuthSignupPlatformEnum, LanguageEnum } from "@/enums";
+import type { AuthSignupPlatformEnum, LanguageEnum } from "nfx-ui/enums";
 
 import type { Login } from "./login";
 

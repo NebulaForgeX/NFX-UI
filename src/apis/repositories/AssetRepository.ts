@@ -1,4 +1,4 @@
-import type { Asset, DataResponse } from "@/types";
+import type { Asset, DataResponse } from "nfx-ui/types";
 
 import { protectedClient, publicClientWithoutTransform } from "../clients";
 import { API_ENDPOINTS, dataFromResponse, URL_PATHS } from "../ip";

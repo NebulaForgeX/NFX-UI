@@ -15,7 +15,6 @@
     "outDir": "dist",
     "rootDir": "src",
     "paths": {
-      "@/*": ["./src/*"],
       "nfx-ui/*": ["./src/*", "./src/*/index.ts"]
     },
     "noUnusedLocals": true,

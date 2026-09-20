@@ -8,9 +8,9 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
-import { LanguageEnum, LANGUAGE_VALUES } from "@/enums/language";
-import { PreferenceStore, setPreference } from "@/stores/preference";
-import { safeEnum, safeStringable } from "@/utils/safe";
+import { LanguageEnum, LANGUAGE_VALUES } from "nfx-ui/enums/language";
+import { PreferenceStore, setPreference } from "nfx-ui/stores/preference";
+import { safeEnum, safeStringable } from "nfx-ui/utils/safe";
 
 import { getDefaultNfxBundles } from "../resources";
 

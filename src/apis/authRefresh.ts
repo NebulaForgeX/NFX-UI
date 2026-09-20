@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
-import { AuthStore, clearAuth, isRejectedRefreshToken, markRejectedRefreshToken, setTokens } from "@/stores/auth";
-import { ensureDeviceIdStorage } from "@/stores/system";
-import { getApiError } from "@/utils/apiError";
-import { getJwtExpiresAtMs, getJwtIssuedAtMs } from "@/utils/jwt";
+import { AuthStore, clearAuth, isRejectedRefreshToken, markRejectedRefreshToken, setTokens } from "nfx-ui/stores/auth";
+import { ensureDeviceIdStorage } from "nfx-ui/stores/system";
+import { getApiError } from "nfx-ui/utils/apiError";
+import { getJwtExpiresAtMs, getJwtIssuedAtMs } from "nfx-ui/utils/jwt";
 
 import { getIdentityRepositories } from "./activeIdentityRepositories";
 

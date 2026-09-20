@@ -1,4 +1,4 @@
-import { safeOr, safeStringable } from "@/utils/safe";
+import { safeOr, safeStringable } from "nfx-ui/utils/safe";
 
 function resolveApiUrl(): string {
   const raw = safeStringable(import.meta.env.VITE_API_URL).trim();

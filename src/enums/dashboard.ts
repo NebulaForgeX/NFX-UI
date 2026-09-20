@@ -1,6 +1,6 @@
-import type { Array, Nilable } from "@/types";
+import type { Array, Nilable } from "nfx-ui/types";
 
-import { safeEnum } from "@/utils/safe";
+import { safeEnum } from "nfx-ui/utils/safe";
 
 /** 仪表盘背景。Dashboard background. */
 export enum DashboardBackgroundEnum {

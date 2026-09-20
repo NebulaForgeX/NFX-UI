@@ -1,4 +1,4 @@
-import type { DataResponse } from "@/types";
+import type { DataResponse } from "nfx-ui/types";
 
 import { path } from "./ip.path";
 

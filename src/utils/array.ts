@@ -1,4 +1,4 @@
-import type { Array } from "@/types";
+import type { Array } from "nfx-ui/types";
 
 /**
  * 按 id 将 items 合并进数组：insert 仅插入新 id，upsert 覆盖同 id 并插入新 id；可 prepend 或 append

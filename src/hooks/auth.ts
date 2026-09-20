@@ -2,15 +2,15 @@
  * Auth hooks — 组件勿直接调 apis/auth
  */
 import type { AxiosError } from "axios";
-import type { CurrentProfileResult, Login, Profile, Signup } from "@/types";
+import type { CurrentProfileResult, Login, Profile, Signup } from "nfx-ui/types";
 
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useAuthRepository } from "@/apis/repositories";
-import { AUTH_EMAILS, AUTH_ME, AUTH_PHONES, AUTH_PROFILES } from "@/constants";
-import { AuthSignupPlatformEnum, LanguageEnum, ProfileKindEnum } from "@/enums";
-import { authEventEmitter, authEvents } from "@/events/auth";
-import { systemEventEmitter } from "@/events/system";
+import { useAuthRepository } from "nfx-ui/apis/repositories";
+import { AUTH_EMAILS, AUTH_ME, AUTH_PHONES, AUTH_PROFILES } from "nfx-ui/constants";
+import { AuthSignupPlatformEnum, LanguageEnum, ProfileKindEnum } from "nfx-ui/enums";
+import { authEventEmitter, authEvents } from "nfx-ui/events/auth";
+import { systemEventEmitter } from "nfx-ui/events/system";
 import {
   AuthStore,
   clearAuth,
@@ -22,12 +22,12 @@ import {
   setIsAuthValid,
   setTokens,
   useAuthStore,
-} from "@/stores/auth";
-import { ensureDeviceIdStorage } from "@/stores/system";
-import { getApiErrorMessage } from "@/utils/apiError";
-import { pickProfile } from "@/utils/domain/account";
-import { useUnifiedQuery } from "@/utils/factory";
-import { safeOr, safeStringable } from "@/utils/safe";
+} from "nfx-ui/stores/auth";
+import { ensureDeviceIdStorage } from "nfx-ui/stores/system";
+import { getApiErrorMessage } from "nfx-ui/utils/apiError";
+import { pickProfile } from "nfx-ui/utils/domain/account";
+import { useUnifiedQuery } from "nfx-ui/utils/factory";
+import { safeOr, safeStringable } from "nfx-ui/utils/safe";
 import { useTranslation } from "react-i18next";
 
 export function useAuthQueryScope() {

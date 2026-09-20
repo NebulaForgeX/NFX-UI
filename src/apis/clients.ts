@@ -3,14 +3,14 @@
  * publicClient: login / refresh. protectedClient: Bearer + 401 → refreshAuthTokens.
  */
 import type { InternalAxiosRequestConfig } from "axios";
-import type { ApiErrorBody } from "@/types";
+import type { ApiErrorBody } from "nfx-ui/types";
 
 import axios, { AxiosError } from "axios";
 import applyCaseMiddleware from "axios-case-converter";
-import { authEventEmitter, authEvents } from "@/events/auth";
-import { AuthStore, clearAuth, hasSelectedProfile } from "@/stores/auth";
-import { shouldForceLogoutAfterAuthRetry, shouldImmediateForceLogoutOnApiError } from "@/utils/sessionErrors";
-import { safeOr } from "@/utils/safe";
+import { authEventEmitter, authEvents } from "nfx-ui/events/auth";
+import { AuthStore, clearAuth, hasSelectedProfile } from "nfx-ui/stores/auth";
+import { shouldForceLogoutAfterAuthRetry, shouldImmediateForceLogoutOnApiError } from "nfx-ui/utils/sessionErrors";
+import { safeOr } from "nfx-ui/utils/safe";
 
 import { refreshAuthTokens } from "./authRefresh";
 import { API_ENDPOINTS } from "./ip";

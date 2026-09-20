@@ -1,19 +1,19 @@
 /**
  * Shared preference hooks — appearance resolve + host-configured server sync.
  */
-import type { PreferencePatch, ResolvedPreference } from "@/stores/preference";
-import type { RadixAppearance } from "@/themes/radix";
+import type { PreferencePatch, ResolvedPreference } from "nfx-ui/stores/preference";
+import type { RadixAppearance } from "nfx-ui/themes/radix";
 
 import { useEffect, useRef, useState } from "react";
 
-import { AppearanceEnum } from "@/enums/theme";
+import { AppearanceEnum } from "nfx-ui/enums/theme";
 import {
   PreferenceStore,
   replacePreference,
   setPreference,
   usePreferenceStore,
-} from "@/stores/preference";
-import { readSystemRadixAppearance, resolveRadixAppearance } from "@/themes/radix";
+} from "nfx-ui/stores/preference";
+import { readSystemRadixAppearance, resolveRadixAppearance } from "nfx-ui/themes/radix";
 
 /** 将 theme.appearance（含 system）解析为当前生效的 Radix light|dark，并在跟随系统时响应 OS 切换。 */
 export function useResolvedAppearance(): RadixAppearance {

@@ -1,13 +1,13 @@
-import type { IdentityRepositories } from "@/apis";
+import type { IdentityRepositories } from "nfx-ui/apis";
 import type { ReactNode } from "react";
 
 import { useEffect, useMemo } from "react";
-import { ApiAssetRepository, ApiAuthRepository, IdentityRepositoriesContext, setIdentityRepositories, useAuthRepository } from "@/apis";
-import { scheduleAccessTokenRefresh } from "@/apis/authRefresh";
-import { useAuthQueryScope, useCurrentProfile } from "@/hooks/auth";
-import { configurePreferenceSync, useApplyPreferenceOnLoad } from "@/hooks/preference";
-import { AuthStore, hasSelectedProfile, subscribeAuthStorageSync } from "@/stores/auth";
-import { parseServerPreference, toServerPreference } from "@/stores/preference";
+import { ApiAssetRepository, ApiAuthRepository, IdentityRepositoriesContext, setIdentityRepositories, useAuthRepository } from "nfx-ui/apis";
+import { scheduleAccessTokenRefresh } from "nfx-ui/apis/authRefresh";
+import { useAuthQueryScope, useCurrentProfile } from "nfx-ui/hooks/auth";
+import { configurePreferenceSync, useApplyPreferenceOnLoad } from "nfx-ui/hooks/preference";
+import { AuthStore, hasSelectedProfile, subscribeAuthStorageSync } from "nfx-ui/stores/auth";
+import { parseServerPreference, toServerPreference } from "nfx-ui/stores/preference";
 
 const defaultIdentityRepositories: IdentityRepositories = {
   auth: new ApiAuthRepository(),

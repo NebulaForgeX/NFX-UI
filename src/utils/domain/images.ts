@@ -1,4 +1,4 @@
-import { appEnv } from "@/config/env";
+import { appEnv } from "nfx-ui/config/env";
 
 export const DEFAULT_AVATAR_SRC = "/default-avatar.png";
 

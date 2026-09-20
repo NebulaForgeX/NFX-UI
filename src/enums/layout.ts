@@ -1,6 +1,6 @@
-import type { Nilable } from "@/types";
+import type { Nilable } from "nfx-ui/types";
 
-import { safeEnum } from "@/utils/safe";
+import { safeEnum } from "nfx-ui/utils/safe";
 
 export enum LayoutModeEnum {
   SHOW = "show",
