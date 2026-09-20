@@ -319,6 +319,58 @@ meter {
   border-radius: max(var(--tab-inner-border-radius), var(--radius-full)) !important;
 }
 
+/*
+ * Tabs hover: PulsoLink-WEB pattern. Radix paints both the active underline
+ * (::before) and TabsTriggerInner, which reads as two color layers. Keep the
+ * bar; only fill the inner on inactive hover. Active hover stays underline-only.
+ */
+.radix-themes .rt-BaseTabListTrigger::before {
+  content: "";
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--accent-indicator);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.radix-themes .rt-BaseTabListTrigger[data-state="active"]::before,
+.radix-themes .rt-BaseTabListTrigger[data-active]::before {
+  transform: scaleX(1);
+}
+
+.radix-themes .rt-BaseTabListTrigger[data-state="active"] .rt-BaseTabListTriggerInner,
+.radix-themes .rt-BaseTabListTrigger[data-active] .rt-BaseTabListTriggerInner {
+  font-weight: var(--font-weight-bold);
+  background-color: transparent;
+}
+
+@media (hover: hover) {
+  .radix-themes .rt-BaseTabListTrigger:hover::before {
+    transform: scaleX(1);
+  }
+
+  .radix-themes :where(.rt-BaseTabListTrigger:hover:not([data-state="active"]):not([data-active])) :where(.rt-BaseTabListTriggerInner) {
+    background-color: var(--accent-a3);
+    color: var(--accent-11);
+  }
+
+  .radix-themes .rt-BaseTabListTrigger[data-state="active"]:hover .rt-BaseTabListTriggerInner,
+  .radix-themes .rt-BaseTabListTrigger[data-active]:hover .rt-BaseTabListTriggerInner {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radix-themes .rt-BaseTabListTrigger::before {
+    transition: none;
+  }
+}
+
 .radix-themes[data-radius="full"] .rt-Card {
   --card-border-radius: var(--radius-6);
 }
