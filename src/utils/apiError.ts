@@ -9,6 +9,12 @@ import type { ApiErrorBody } from "@/types/api";
 
 import i18n from "@/languages/languages/i18n";
 
+/** Identity error copy namespace (GET /asset/locales/:lang). */
+export const ERRORS_NS_IDENTITY = "errors";
+
+/** Identity message copy namespace (GET /asset/messages/:lang). */
+export const MESSAGES_NS_IDENTITY = "messages";
+
 /**
  * 仅当为后端错误（有 response.data）时解析为 ApiErrorBody，否则返回 null
  * Parse to ApiErrorBody only when response.data exists; otherwise null.
@@ -37,8 +43,8 @@ export function getApiError(error: unknown): ApiErrorBody | null {
 export function getApiErrorMessage(error: unknown, fallback: string): string {
   const api = getApiError(error);
   if (api?.errCode) {
-    const out = i18n.t(`errors:${api.errCode}`);
-    if (out && out !== `errors:${api.errCode}`) return out;
+    const out = i18n.t(`${ERRORS_NS_IDENTITY}:${api.errCode}`);
+    if (out && out !== `${ERRORS_NS_IDENTITY}:${api.errCode}`) return out;
   }
   if (api?.message) return api.message;
   return fallback;
