@@ -5,6 +5,8 @@ export type {
 } from './types'
 export { DEFAULT_STROKE_WIDTH, scaledStrokeWidth } from './types'
 export { useAnimatedIconTrigger } from './useAnimatedIconTrigger'
+export { AnimatedIcon } from './AnimatedIcon'
+export type { AnimatedIconComponent, AnimatedIconViewProps } from './AnimatedIcon'
 
 export { default as AccessibilityIcon } from './accessibility-icon'
 export { default as AirplaneIcon } from './airplane-icon'
