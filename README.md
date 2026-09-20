@@ -1,5 +1,8 @@
 # NFX-UI — Unified Frontend UI Library
 
+> 部署、网络、配置与安全的详细说明见 [NFX-Documentation](https://github.com/NebulaForgeX/NFX-Documentation)。
+> Deploy, network, config, and security: [NFX-Documentation](https://github.com/NebulaForgeX/NFX-Documentation).
+
 **NFX-UI 1.0** is the shared frontend UI library of the NebulaForgeX ecosystem. Chrome follows **CityPulso PulsoLink-Package** (Radix Themes + `react-pro-sidebar`). Hosts compose Radix primitives themselves; NFX-UI ships theme, language, layout, modal, and preference chrome.
 
 **NFX-UI 1.0** 是 NebulaForgeX 的共享前端 UI 库。壳层对齐 **CityPulso PulsoLink-Package**（Radix Themes + `react-pro-sidebar`）。宿主自己组合 Radix 原语；NFX-UI 提供主题、语言、布局、模态框与偏好设置壳。
