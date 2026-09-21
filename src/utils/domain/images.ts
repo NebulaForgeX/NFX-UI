@@ -1,4 +1,4 @@
-import { appEnv } from "nfx-ui/config/env";
+import { API_ENDPOINTS, URL_PATHS } from "../../apis/ip";
 
 export const DEFAULT_AVATAR_SRC = "/default-avatar.png";
 
@@ -7,8 +7,7 @@ export const buildImageUrl = (imageId: Nilable<string>): string => {
   if (imageId.startsWith("http://") || imageId.startsWith("https://")) {
     return imageId;
   }
-  const apiBase = appEnv.apiUrl.replace(/\/$/, "");
-  return `${apiBase}/asset/images/${imageId}/file`;
+  return `${API_ENDPOINTS.IDENTITY}${URL_PATHS.ASSET.Images.fileById(imageId)}`;
 };
 
 export function buildAvatarImageSrc(avatarImageId: Nilable<string>): string {
