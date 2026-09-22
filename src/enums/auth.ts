@@ -58,7 +58,7 @@ export enum AuthSignupPlatformEnum {
   NFXIDENTITY = "nfxidentity",
   NFXNEWS = "nfxnews",
   NFXSTORAGES = "nfxstorages",
-  NFXVAULT = "nfxvault",
+  NFXEDGE = "nfxedge",
 }
 export const DEFAULT_AUTH_SIGNUP_PLATFORM = AuthSignupPlatformEnum.NFXIDENTITY;
 export const AUTH_SIGNUP_PLATFORM_VALUES = Object.values(AuthSignupPlatformEnum);
