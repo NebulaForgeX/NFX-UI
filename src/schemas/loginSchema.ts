@@ -2,10 +2,9 @@ import type { TFunction } from "i18next";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
-/** 登录表单；校验文案来自 host `pages.Account.Login` → `form.validation.*` */
+/** 登录表单；校验文案由 host 页面传入的 `t` 提供（`form.validation.*`）。 */
 export function createLoginSchema(t: TFunction) {
   return z.object({
     email: z.string().min(1, t("form.validation.emailRequired")).email(t("form.validation.emailInvalid")),
@@ -16,8 +15,7 @@ export function createLoginSchema(t: TFunction) {
 
 export type LoginFormData = z.infer<ReturnType<typeof createLoginSchema>>;
 
-export const useInitLoginForm = () => {
-  const { t } = useTranslation("pages.Account.Login");
+export const useInitLoginForm = (t: TFunction) => {
   const schema = createLoginSchema(t);
 
   return useForm<LoginFormData>({
@@ -41,8 +39,7 @@ export function createLoginWithPhoneSchema(t: TFunction) {
 
 export type LoginWithPhoneFormData = z.infer<ReturnType<typeof createLoginWithPhoneSchema>>;
 
-export const useInitLoginWithPhoneForm = () => {
-  const { t } = useTranslation("pages.Account.Login");
+export const useInitLoginWithPhoneForm = (t: TFunction) => {
   const schema = createLoginWithPhoneSchema(t);
 
   return useForm<LoginWithPhoneFormData>({

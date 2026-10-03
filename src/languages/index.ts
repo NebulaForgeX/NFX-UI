@@ -4,6 +4,5 @@
 export * from "./hooks";
 export * from "./languages";
 export { default as i18n } from "./languages/i18n";
-export * from "./resources";
 export * from "./types";
 export * from "./utils";

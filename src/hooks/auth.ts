@@ -25,11 +25,11 @@ import {
   useAuthStore,
 } from "nfx-ui/stores/auth";
 import { ensureDeviceIdStorage } from "nfx-ui/stores/system";
-import { getApiErrorMessage } from "nfx-ui/utils/apiError";
 import { pickProfile } from "nfx-ui/utils/domain/account";
 import { useUnifiedQuery } from "nfx-ui/utils/factory";
 import { safeOr, safeStringable } from "nfx-ui/utils/safe";
-import { useTranslation } from "react-i18next";
+
+import { emitHookError, emitHookSuccess, type HookToastMessages } from "./toast";
 
 export function useAuthQueryScope() {
   const aID = useAuthStore((s) => s.currentAccountId);
@@ -68,21 +68,20 @@ export function useCurrentProfile(): CurrentProfileResult {
   } as CurrentProfileResult;
 }
 
-export const useSendVerificationCode = () => {
+export const useSendVerificationCode = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (params: Signup.Request.SendVerificationCode) => auth.SendVerificationCode(params),
     onSuccess: () => {
-      systemEventEmitter.showSuccess(t("sendVerificationCodeSuccess", { defaultValue: "Code sent" }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSendVerificationCode] error"));
+      emitHookError(error, options, "[useSendVerificationCode] error");
     },
   });
 };
 
-export const useSignupWithEmail = () => {
+export const useSignupWithEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: async ({
@@ -117,12 +116,12 @@ export const useSignupWithEmail = () => {
       }
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSignup] error"));
+      emitHookError(error, options, "[useSignup] error");
     },
   });
 };
 
-export const useLoginWithEmail = () => {
+export const useLoginWithEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: async ({ rememberMe, ...params }: { email: string; password: string; rememberMe: boolean }) =>
@@ -144,12 +143,12 @@ export const useLoginWithEmail = () => {
       if (result.accountId) setCurrentAccountId(result.accountId);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useLogin] error"));
+      emitHookError(error, options, "[useLogin] error");
     },
   });
 };
 
-export const useLoginWithPhone = () => {
+export const useLoginWithPhone = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: async ({ rememberMe, ...params }: { phone: string; password: string; rememberMe: boolean }) =>
@@ -171,12 +170,12 @@ export const useLoginWithPhone = () => {
       if (result.accountId) setCurrentAccountId(result.accountId);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useLoginWithPhone] error"));
+      emitHookError(error, options, "[useLoginWithPhone] error");
     },
   });
 };
 
-export type SelectProfileOptions = {
+export type SelectProfileOptions = HookToastMessages & {
   /** 已翻译的加载文案。Host-translated loading copy. */
   switchingMsg?: string;
   /** 与 token、档案同一次提交里执行（例如跳到该档案的首页）。Runs in the same commit as the token and profile. */
@@ -216,53 +215,51 @@ export const useSelectProfile = (options?: SelectProfileOptions) => {
     },
     onError: (error: AxiosError) => {
       systemEventEmitter.hideLoading();
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSelectProfile] error"));
+      emitHookError(error, options, "[useSelectProfile] error");
     },
   });
 };
 
-export const usePatchProfile = (options?: { silent?: boolean }) => {
+export const usePatchProfile = (options?: { silent?: boolean } & HookToastMessages) => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
   const silent = safeOr(options?.silent, false);
-  const { t } = useTranslation("pages.User.Profile.Edit");
   return useMutation({
     mutationFn: (body: Profile.Request.PatchProfile) => auth.PatchProfile(kind, body),
     onSuccess: () => {
-      if (!silent) systemEventEmitter.showSuccess(t("saveSuccess", { defaultValue: "Saved" }));
+      if (!silent) emitHookSuccess(options);
       const aID = AuthStore.getState().currentAccountId;
       authEventEmitter.invalidateProfiles({ aID, kind });
     },
     onError: (error: AxiosError) => {
-      if (!silent) systemEventEmitter.showError(getApiErrorMessage(error, "[usePatchProfile] error"));
+      emitHookError(error, options, "[usePatchProfile] error", silent);
     },
   });
 };
 
-export const useUpdateProfileSettings = () => {
+export const useUpdateProfileSettings = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (body: Profile.Request.PatchProfileSettings) => auth.PatchProfileSettings(kind, body),
     onSuccess: () => {
       const aID = AuthStore.getState().currentAccountId;
       authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
-      systemEventEmitter.showSuccess(t("updateSettingsSuccess", { defaultValue: "Settings updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdateProfileSettings] error"));
+      emitHookError(error, options, "[useUpdateProfileSettings] error");
     },
   });
 };
 
-export const useUpdatePreference = () => {
+export const useUpdatePreference = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
   return useMutation({
     mutationFn: (preference: string) => auth.UpdatePreference(kind, preference),
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdatePreference] error"));
+      emitHookError(error, options, "[useUpdatePreference] error");
     },
   });
 };
@@ -278,7 +275,7 @@ export const useListProfiles = <K extends ProfileKindEnum>(kind: K) => {
   );
 };
 
-export const useCreateForgerProfile = () => {
+export const useCreateForgerProfile = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: (body: Login.Request.CreateForgerProfile) => auth.CreateForgerProfile(body),
@@ -287,12 +284,12 @@ export const useCreateForgerProfile = () => {
       authEventEmitter.invalidateProfiles({ aID, kind: ProfileKindEnum.COMMUNITY });
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useCreateForgerProfile] error"));
+      emitHookError(error, options, "[useCreateForgerProfile] error");
     },
   });
 };
 
-export const useCreateAuthorityProfile = () => {
+export const useCreateAuthorityProfile = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: (body: Login.Request.CreateAuthorityProfile) => auth.CreateAuthorityProfile(body),
@@ -301,12 +298,12 @@ export const useCreateAuthorityProfile = () => {
       authEventEmitter.invalidateProfiles({ aID, kind: ProfileKindEnum.AUTHORITY });
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useCreateAuthorityProfile] error"));
+      emitHookError(error, options, "[useCreateAuthorityProfile] error");
     },
   });
 };
 
-export const useDeleteProfile = () => {
+export const useDeleteProfile = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: ({ kind, profileId }: { kind: ProfileKindEnum; profileId: string }) => auth.DeleteProfile(kind, profileId),
@@ -315,12 +312,12 @@ export const useDeleteProfile = () => {
       authEventEmitter.invalidateProfiles({ aID, kind: variables.kind });
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useDeleteProfile] error"));
+      emitHookError(error, options, "[useDeleteProfile] error");
     },
   });
 };
 
-export const useConfirmProfileAvatar = () => {
+export const useConfirmProfileAvatar = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
   return useMutation({
@@ -330,24 +327,23 @@ export const useConfirmProfileAvatar = () => {
       authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useConfirmProfileAvatar] error"));
+      emitHookError(error, options, "[useConfirmProfileAvatar] error");
     },
   });
 };
 
-export const useClearProfileAvatar = () => {
+export const useClearProfileAvatar = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: () => auth.ClearProfileAvatar(kind),
     onSuccess: () => {
       const aID = AuthStore.getState().currentAccountId;
       authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
-      systemEventEmitter.showSuccess(t("clearAvatarSuccess", { defaultValue: "Avatar removed." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useClearProfileAvatar] error"));
+      emitHookError(error, options, "[useClearProfileAvatar] error");
     },
   });
 };
@@ -368,131 +364,123 @@ export const useListPhones = () => {
   });
 };
 
-export const useCreateEmail = () => {
+export const useCreateEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (body: Login.Request.CreateEmail) => auth.CreateEmail(body),
     onSuccess: () => {
       authEventEmitter.invalidateEmails(accountId);
-      systemEventEmitter.showSuccess(t("createEmailSuccess", { defaultValue: "Email added." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useCreateEmail] error"));
+      emitHookError(error, options, "[useCreateEmail] error");
     },
   });
 };
 
-export const useSendEmailVerificationCode = () => {
+export const useSendEmailVerificationCode = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: ({ emailId, lang }: { emailId: string; lang?: LanguageEnum }) => auth.SendEmailVerificationCode(emailId, { lang }),
     onSuccess: () => {
-      systemEventEmitter.showSuccess(t("sendVerificationCodeSuccess", { defaultValue: "Code sent" }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSendEmailVerificationCode] error"));
+      emitHookError(error, options, "[useSendEmailVerificationCode] error");
     },
   });
 };
 
-export const useVerifyEmail = () => {
+export const useVerifyEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: ({ emailId, verificationCode }: { emailId: string; verificationCode: string }) =>
       auth.VerifyEmail(emailId, { verificationCode }),
     onSuccess: () => {
       authEventEmitter.invalidateEmails(accountId);
-      systemEventEmitter.showSuccess(t("verifyEmailSuccess", { defaultValue: "Email verified." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useVerifyEmail] error"));
+      emitHookError(error, options, "[useVerifyEmail] error");
     },
   });
 };
 
-export const useUpdateEmail = () => {
+export const useUpdateEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: ({ emailId, email }: { emailId: string; email: string }) => auth.UpdateEmail(emailId, { email }),
     onSuccess: () => {
       authEventEmitter.invalidateEmails(accountId);
-      systemEventEmitter.showSuccess(t("updateEmailSuccess", { defaultValue: "Email updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdateEmail] error"));
+      emitHookError(error, options, "[useUpdateEmail] error");
     },
   });
 };
 
-export const useSetPrimaryEmail = () => {
+export const useSetPrimaryEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (emailId: string) => auth.SetPrimaryEmail(emailId),
     onSuccess: () => {
       authEventEmitter.invalidateEmails(accountId);
       authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, accountId);
-      systemEventEmitter.showSuccess(t("setPrimaryEmailSuccess", { defaultValue: "Primary email updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSetPrimaryEmail] error"));
+      emitHookError(error, options, "[useSetPrimaryEmail] error");
     },
   });
 };
 
-export const useDeleteEmail = () => {
+export const useDeleteEmail = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (emailId: string) => auth.DeleteEmail(emailId),
     onSuccess: () => {
       authEventEmitter.invalidateEmails(accountId);
-      systemEventEmitter.showSuccess(t("deleteEmailSuccess", { defaultValue: "Email removed." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useDeleteEmail] error"));
+      emitHookError(error, options, "[useDeleteEmail] error");
     },
   });
 };
 
-export const useSendChangePasswordVerificationCode = () => {
+export const useSendChangePasswordVerificationCode = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (body: Login.Request.SendChangePasswordVerificationCode = {}) => auth.SendChangePasswordVerificationCode(body),
     onSuccess: () => {
-      systemEventEmitter.showSuccess(t("sendVerificationCodeSuccess", { defaultValue: "Code sent" }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSendChangePasswordVerificationCode] error"));
+      emitHookError(error, options, "[useSendChangePasswordVerificationCode] error");
     },
   });
 };
 
-export const useChangePassword = () => {
+export const useChangePassword = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (body: Login.Request.ChangePassword) => auth.ChangePassword(body),
     onSuccess: () => {
-      systemEventEmitter.showSuccess(t("changePasswordSuccess", { defaultValue: "Password updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useChangePassword] error"));
+      emitHookError(error, options, "[useChangePassword] error");
     },
   });
 };
 
-export const useConfirmProfileBackgrounds = () => {
+export const useConfirmProfileBackgrounds = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const { kind } = useAuthQueryScope();
   return useMutation({
@@ -502,103 +490,97 @@ export const useConfirmProfileBackgrounds = () => {
       authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, aID);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useConfirmProfileBackgrounds] error"));
+      emitHookError(error, options, "[useConfirmProfileBackgrounds] error");
     },
   });
 };
 
-export const useCreatePhone = () => {
+export const useCreatePhone = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (body: Login.Request.CreatePhone) => auth.CreatePhone(body),
     onSuccess: () => {
       authEventEmitter.invalidatePhones(accountId);
-      systemEventEmitter.showSuccess(t("createPhoneSuccess", { defaultValue: "Phone added." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useCreatePhone] error"));
+      emitHookError(error, options, "[useCreatePhone] error");
     },
   });
 };
 
-export const useSendPhoneVerificationCode = () => {
+export const useSendPhoneVerificationCode = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (phoneId: string) => auth.SendPhoneVerificationCode(phoneId),
     onSuccess: () => {
-      systemEventEmitter.showSuccess(t("sendVerificationCodeSuccess", { defaultValue: "Code sent" }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSendPhoneVerificationCode] error"));
+      emitHookError(error, options, "[useSendPhoneVerificationCode] error");
     },
   });
 };
 
-export const useVerifyPhone = () => {
+export const useVerifyPhone = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: ({ phoneId, verificationCode }: { phoneId: string; verificationCode: string }) =>
       auth.VerifyPhone(phoneId, { verificationCode }),
     onSuccess: () => {
       authEventEmitter.invalidatePhones(accountId);
-      systemEventEmitter.showSuccess(t("verifyPhoneSuccess", { defaultValue: "Phone verified." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useVerifyPhone] error"));
+      emitHookError(error, options, "[useVerifyPhone] error");
     },
   });
 };
 
-export const useUpdatePhone = () => {
+export const useUpdatePhone = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: ({ phoneId, phone }: { phoneId: string; phone: string }) => auth.UpdatePhone(phoneId, { phone }),
     onSuccess: () => {
       authEventEmitter.invalidatePhones(accountId);
-      systemEventEmitter.showSuccess(t("updatePhoneSuccess", { defaultValue: "Phone updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdatePhone] error"));
+      emitHookError(error, options, "[useUpdatePhone] error");
     },
   });
 };
 
-export const useSetPrimaryPhone = () => {
+export const useSetPrimaryPhone = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (phoneId: string) => auth.SetPrimaryPhone(phoneId),
     onSuccess: () => {
       authEventEmitter.invalidatePhones(accountId);
       authEventEmitter.emit(authEvents.UPDATE_ACCOUNT_SUCCESS, accountId);
-      systemEventEmitter.showSuccess(t("setPrimaryPhoneSuccess", { defaultValue: "Primary phone updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useSetPrimaryPhone] error"));
+      emitHookError(error, options, "[useSetPrimaryPhone] error");
     },
   });
 };
 
-export const useDeletePhone = () => {
+export const useDeletePhone = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: (phoneId: string) => auth.DeletePhone(phoneId),
     onSuccess: () => {
       authEventEmitter.invalidatePhones(accountId);
-      systemEventEmitter.showSuccess(t("deletePhoneSuccess", { defaultValue: "Phone removed." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useDeletePhone] error"));
+      emitHookError(error, options, "[useDeletePhone] error");
     },
   });
 };
@@ -662,19 +644,18 @@ export const useListOwnerAuthorityProfiles = (query = "") => {
   );
 };
 
-export const useUpdateAuthorityProfileRoles = () => {
+export const useUpdateAuthorityProfileRoles = (options?: HookToastMessages) => {
   const auth = useAuthRepository();
   const accountId = AuthStore.getState().currentAccountId;
-  const { t } = useTranslation("hooks", { keyPrefix: "account" });
   return useMutation({
     mutationFn: ({ profileId, authorityRoles }: { profileId: string; authorityRoles: Profile.Request.UpdateAuthorityProfileRoles["authorityRoles"] }) =>
       auth.UpdateAuthorityProfileRoles(profileId, { authorityRoles }),
     onSuccess: () => {
       authEventEmitter.invalidateOwner(accountId);
-      systemEventEmitter.showSuccess(t("updateRolesSuccess", { defaultValue: "Roles updated." }));
+      emitHookSuccess(options);
     },
     onError: (error: AxiosError) => {
-      systemEventEmitter.showError(getApiErrorMessage(error, "[useUpdateAuthorityProfileRoles] error"));
+      emitHookError(error, options, "[useUpdateAuthorityProfileRoles] error");
     },
   });
 };

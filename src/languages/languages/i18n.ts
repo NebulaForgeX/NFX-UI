@@ -1,6 +1,6 @@
 /**
- * i18n 初始化与实例：initI18n 由 LanguageProvider 调用。
- * 默认合并 NFX-UI 自带的 theme / language / layout / preference 命名空间。
+ * Shared i18n init — host injects builtin bundles via `getBuiltinBundles`.
+ * Product JSON stays in each console's language folder.
  */
 import type { CreateI18nResourcesResult, ExtraBundleItem, InitI18nOptions } from "../types";
 
@@ -11,8 +11,6 @@ import { initReactI18next } from "react-i18next";
 import { LanguageEnum, LANGUAGE_VALUES } from "nfx-ui/enums/language";
 import { PreferenceStore, setPreference } from "nfx-ui/stores/preference";
 import { safeEnum, safeStringable } from "nfx-ui/utils/safe";
-
-import { getDefaultNfxBundles } from "../resources";
 
 export function toSupportedLanguage(lng: string, fallbackLng: LanguageEnum): LanguageEnum {
   const prefix = safeStringable(lng.split("-")[0]?.toLowerCase());
@@ -43,19 +41,7 @@ export function initI18n(options: InitI18nOptions): void {
     return;
   }
 
-  const nfx = getDefaultNfxBundles();
-  const user: CreateI18nResourcesResult = options.getBuiltinBundles();
-  const RESOURCES = ([LanguageEnum.EN, LanguageEnum.ZH, LanguageEnum.FR] as const).reduce(
-    (acc, lang) => ({
-      ...acc,
-      [lang]: {
-        ...(nfx.RESOURCES[lang] ?? {}),
-        ...(user.RESOURCES[lang] ?? {}),
-      },
-    }),
-    {} as typeof user.RESOURCES,
-  );
-  const NAME_SPACES = [...user.NAME_SPACES, ...nfx.NAME_SPACES.filter((n) => !user.NAME_SPACES.includes(n))];
+  const { RESOURCES, NAME_SPACES }: CreateI18nResourcesResult = options.getBuiltinBundles();
   const initialLng = PreferenceStore.getState().language;
 
   const persistLanguage = (lng: string) => {

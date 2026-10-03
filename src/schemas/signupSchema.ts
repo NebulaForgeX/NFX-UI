@@ -3,12 +3,11 @@ import type { TFunction } from "i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { normalizeVerificationCode, VERIFICATION_CODE_ALPHABET } from "nfx-ui/utils/domain/verificationCode";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 const VERIFICATION_CODE_PATTERN = new RegExp(`^[${VERIFICATION_CODE_ALPHABET}]{6}$`);
 
-/** 注册表单；校验文案来自 host `pages.Account.Signup` → `validation.*` */
+/** 注册表单；校验文案由 host 页面传入的 `t` 提供（`validation.*`）。 */
 export function createSignupSchema(t: TFunction) {
   return z
     .object({
@@ -30,8 +29,7 @@ export function createSignupSchema(t: TFunction) {
 
 export type SignupFormData = z.infer<ReturnType<typeof createSignupSchema>>;
 
-export const useInitSignupForm = () => {
-  const { t } = useTranslation("pages.Account.Signup");
+export const useInitSignupForm = (t: TFunction) => {
   const schema = createSignupSchema(t);
 
   return useForm<SignupFormData>({

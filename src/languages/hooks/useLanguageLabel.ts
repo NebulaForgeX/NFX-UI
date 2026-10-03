@@ -1,5 +1,4 @@
 import i18n from "i18next";
-import { useTranslation } from "react-i18next";
 
 import { BaseEnum } from "nfx-ui/enums/theme";
 import { LanguageEnum } from "../types";
@@ -16,9 +15,9 @@ function getLanguageI18nKey(lang: LanguageEnum): string {
 export function useLanguageLabel(): {
   getLanguageDisplayName: (lang: LanguageEnum) => string;
 } {
-  const { t } = useTranslation("language");
   const getLanguageDisplayName = (lang: LanguageEnum): string =>
-    t(getLanguageI18nKey(lang), {
+    i18n.t(getLanguageI18nKey(lang), {
+      ns: "language",
       defaultValue: lang,
     });
 

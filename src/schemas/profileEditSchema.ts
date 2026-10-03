@@ -6,7 +6,6 @@ import { Language, LanguageEnum } from "nfx-ui/enums";
 import { toDateInputValue } from "nfx-ui/utils/time";
 import { safeStringable } from "nfx-ui/utils/safe";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 export function buildUserProfileEditDefaults(profile: Profile.Response.ProfileBase): UserProfileEditFormData {
@@ -59,8 +58,7 @@ export function createUserProfileBackgroundsFieldSchema(t: TFunction, maxImages:
     .max(maxImages, t("backgroundUpload.limitReached", { max: maxImages }));
 }
 
-export function useInitUserProfileEditForm(profile: Profile.Response.ProfileBase) {
-  const { t } = useTranslation("pages.User.Profile.Edit");
+export function useInitUserProfileEditForm(t: TFunction, profile: Profile.Response.ProfileBase) {
   const schema = createUserProfileEditSchema(t);
   const defaultValues = buildUserProfileEditDefaults(profile);
 
