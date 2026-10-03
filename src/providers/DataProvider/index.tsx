@@ -3,10 +3,11 @@ import type { ReactNode } from "react";
 
 import { useEffect, useMemo } from "react";
 import { ApiAssetRepository, ApiAuthRepository, IdentityRepositoriesContext, setIdentityRepositories, useAuthRepository } from "nfx-ui/apis";
-import { scheduleAccessTokenRefresh } from "nfx-ui/apis/authRefresh";
+import { clearScheduledTokenRefresh, scheduleAccessTokenRefresh } from "nfx-ui/apis/authRefresh";
+import { authEventEmitter, authEvents } from "nfx-ui/events/auth";
 import { useAuthQueryScope, useCurrentProfile } from "nfx-ui/hooks/auth";
 import { configurePreferenceSync, useApplyPreferenceOnLoad } from "nfx-ui/hooks/preference";
-import { AuthStore, hasSelectedProfile, subscribeAuthStorageSync } from "nfx-ui/stores/auth";
+import { AuthStore, hasSelectedProfile, subscribeAuthStorageSync, useAuthStore } from "nfx-ui/stores/auth";
 import { parseServerPreference, toServerPreference } from "nfx-ui/stores/preference";
 
 const defaultIdentityRepositories: IdentityRepositories = {
@@ -22,14 +23,46 @@ export interface DataProviderProps {
 }
 
 function AuthSessionBootstrap() {
+  const { refetch } = useCurrentProfile();
+  const isAuthValid = useAuthStore((s) => s.isAuthValid);
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const profileId = useAuthStore((s) => s.currentProfileId);
+
   useEffect(() => {
-    const accessToken = AuthStore.getState().accessToken;
-    if (accessToken) scheduleAccessTokenRefresh(accessToken);
+    if (!isAuthValid || !accessToken) {
+      clearScheduledTokenRefresh();
+      return;
+    }
+    scheduleAccessTokenRefresh(accessToken);
+    return () => clearScheduledTokenRefresh();
+  }, [isAuthValid, accessToken]);
+
+  useEffect(() => {
     return subscribeAuthStorageSync(() => {
-      const next = AuthStore.getState().accessToken;
-      if (next) scheduleAccessTokenRefresh(next);
+      const { accessToken: nextAccessToken, isAuthValid: nextValid } = AuthStore.getState();
+      if (!nextValid || !nextAccessToken) {
+        clearScheduledTokenRefresh();
+        return;
+      }
+      scheduleAccessTokenRefresh(nextAccessToken);
     });
   }, []);
+
+  useEffect(() => {
+    if (!isAuthValid || !hasSelectedProfile(profileId)) return;
+    void refetch();
+  }, [isAuthValid, profileId, refetch]);
+
+  useEffect(() => {
+    const onLoginSuccess = async () => {
+      await refetch();
+    };
+    authEventEmitter.on(authEvents.LOGIN_SUCCESS, onLoginSuccess);
+    return () => {
+      authEventEmitter.off(authEvents.LOGIN_SUCCESS, onLoginSuccess);
+    };
+  }, [refetch]);
+
   return null;
 }
 

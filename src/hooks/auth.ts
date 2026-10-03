@@ -5,6 +5,7 @@ import type { AxiosError } from "axios";
 import type { CurrentProfileResult, Login, Profile, Signup } from "nfx-ui/types";
 
 import { useEffect } from "react";
+import { flushSync } from "react-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthRepository } from "nfx-ui/apis/repositories";
 import { AUTH_EMAILS, AUTH_ME, AUTH_OWNER_AUTHORITIES, AUTH_OWNER_FORGERS, AUTH_PHONES, AUTH_PROFILE_SEARCH, AUTH_PROFILES, AUTH_PUBLIC_CARD } from "nfx-ui/constants";
@@ -175,7 +176,13 @@ export const useLoginWithPhone = () => {
   });
 };
 
-export const useSelectProfile = () => {
+export type SelectProfileOptions = {
+  /** 与 token、档案同一次提交里执行（例如跳到该档案的首页）。Runs in the same commit as the token and profile. */
+  onCommit?: () => void;
+};
+
+/** 两步登录第二步：切换当前 profile，重新签发 token。kind 决定后端分派到社区/权限档。 */
+export const useSelectProfile = (options?: SelectProfileOptions) => {
   const auth = useAuthRepository();
   return useMutation({
     mutationFn: async ({ profileId, kind }: { profileId: string; kind: Login.ProfileKind }) =>
@@ -185,15 +192,18 @@ export const useSelectProfile = () => {
         deviceId: await ensureDeviceIdStorage(),
       }),
     onSuccess: (result, variables) => {
-      if (result?.accessToken) {
+      if (!result?.accessToken) return;
+      // 同一次提交写入新 token 和档案，旧角色的请求在重拉前先停用。
+      flushSync(() => {
         setTokens({
           accessToken: result.accessToken,
           refreshToken: safeStringable(result.refreshToken),
         });
         setCurrentProfileKind(variables.kind);
         if (result.profileId) setCurrentProfileId(result.profileId);
-        authEventEmitter.emit(authEvents.LOGIN_SUCCESS, result.accountId);
-      }
+        options?.onCommit?.();
+      });
+      authEventEmitter.emit(authEvents.LOGIN_SUCCESS, result.accountId);
     },
     onError: (error: AxiosError) => {
       systemEventEmitter.showError(getApiErrorMessage(error, "[useSelectProfile] error"));
