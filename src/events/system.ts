@@ -9,6 +9,8 @@ import { singleton } from "nfx-ui/utils/singleton";
 export const systemEvents = defineEvents({
   SHOW_ERROR: "SYSTEM:SHOW_ERROR",
   SHOW_SUCCESS: "SYSTEM:SHOW_SUCCESS",
+  SHOW_LOADING: "SYSTEM:SHOW_LOADING",
+  HIDE_LOADING: "SYSTEM:HIDE_LOADING",
 });
 
 type SystemEvent = EventNamesOf<typeof systemEvents>;
@@ -26,9 +28,15 @@ export type SystemShowSuccessPayload =
       onClick?: () => void;
     };
 
+export type SystemShowLoadingPayload = {
+  message?: string;
+};
+
 type SystemPayloadMap = {
   "SYSTEM:SHOW_ERROR": SystemShowErrorPayload;
   "SYSTEM:SHOW_SUCCESS": SystemShowSuccessPayload;
+  "SYSTEM:SHOW_LOADING": SystemShowLoadingPayload;
+  "SYSTEM:HIDE_LOADING": void;
 };
 
 class SystemEventEmitter extends EventEmitter<SystemEvent, SystemPayloadMap> {
@@ -42,6 +50,14 @@ class SystemEventEmitter extends EventEmitter<SystemEvent, SystemPayloadMap> {
 
   showSuccess(props: SystemShowSuccessPayload) {
     this.emit(systemEvents.SHOW_SUCCESS, props);
+  }
+
+  showLoading(message?: string) {
+    this.emit(systemEvents.SHOW_LOADING, { message });
+  }
+
+  hideLoading() {
+    this.emit(systemEvents.HIDE_LOADING);
   }
 }
 

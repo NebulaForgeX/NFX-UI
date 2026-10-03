@@ -177,6 +177,8 @@ export const useLoginWithPhone = () => {
 };
 
 export type SelectProfileOptions = {
+  /** 已翻译的加载文案。Host-translated loading copy. */
+  switchingMsg?: string;
   /** 与 token、档案同一次提交里执行（例如跳到该档案的首页）。Runs in the same commit as the token and profile. */
   onCommit?: () => void;
 };
@@ -191,21 +193,29 @@ export const useSelectProfile = (options?: SelectProfileOptions) => {
         kind,
         deviceId: await ensureDeviceIdStorage(),
       }),
+    onMutate: () => {
+      if (options?.switchingMsg) systemEventEmitter.showLoading(options.switchingMsg);
+    },
     onSuccess: (result, variables) => {
-      if (!result?.accessToken) return;
-      // 同一次提交写入新 token 和档案，旧角色的请求在重拉前先停用。
-      flushSync(() => {
-        setTokens({
-          accessToken: result.accessToken,
-          refreshToken: safeStringable(result.refreshToken),
+      try {
+        if (!result?.accessToken) return;
+        // 同一次提交写入新 token 和档案，旧角色的请求在重拉前先停用。
+        flushSync(() => {
+          setTokens({
+            accessToken: result.accessToken,
+            refreshToken: safeStringable(result.refreshToken),
+          });
+          setCurrentProfileKind(variables.kind);
+          if (result.profileId) setCurrentProfileId(result.profileId);
+          options?.onCommit?.();
         });
-        setCurrentProfileKind(variables.kind);
-        if (result.profileId) setCurrentProfileId(result.profileId);
-        options?.onCommit?.();
-      });
-      authEventEmitter.emit(authEvents.LOGIN_SUCCESS, result.accountId);
+        authEventEmitter.emit(authEvents.LOGIN_SUCCESS, result.accountId);
+      } finally {
+        systemEventEmitter.hideLoading();
+      }
     },
     onError: (error: AxiosError) => {
+      systemEventEmitter.hideLoading();
       systemEventEmitter.showError(getApiErrorMessage(error, "[useSelectProfile] error"));
     },
   });
